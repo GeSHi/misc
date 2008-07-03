@@ -35,10 +35,10 @@
 error_reporting(E_ALL | E_STRICT | E_NOTICE);
 
 /** path to the language snippets **/
-define('CODEREPO_PATH', dirname(__FILE__) . '/coderepo/');
+define('CODEREPO_PATH', dirname(__FILE__) . '/../coderepo/');
 
 /** path to geshi **/
-define('GESHI_PATH', dirname(__FILE__) . '/profiling/geshi-trunk/');
+define('GESHI_PATH', dirname(__FILE__) . '/geshi-trunk/');
 
 /** wether this file is accessed through CLI or not **/
 define('CLI_MODE', defined('STDIN'));
@@ -50,7 +50,7 @@ define('_TRACE_', (CLI_MODE && in_array('--trace', $_SERVER['argv'])));
 define('MAY_PROFILE', ! _TRACE_ && version_compare(PHP_VERSION, '5.0.0', '>'));
 
 if (MAY_PROFILE) {
-    include "profiling/profile.class.php";
+    include "profile.class.php";
 }
 
 // get all supported languages
