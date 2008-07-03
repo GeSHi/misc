@@ -71,7 +71,7 @@ if (_TRACE_) {
   xdebug_start_trace(__FILE__, XDEBUG_TRACE_COMPUTERIZED);
 }
 
-MAY_PROFILE && MAY_PROFILE && profile::start('overall');
+MAY_PROFILE && profile::start('overall');
 
 MAY_PROFILE && profile::start('include GeSHi');
 include GESHI_PATH . 'geshi.php';
