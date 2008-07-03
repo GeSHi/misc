@@ -46,11 +46,12 @@ define('CLI_MODE', defined('STDIN'));
 /** we might want to trace this file **/
 define('_TRACE_', (CLI_MODE && in_array('--trace', $_SERVER['argv'])));
 
-if (_TRACE_) {
-  xdebug_start_trace(__FILE__, XDEBUG_TRACE_COMPUTERIZED);
-}
+/** only profile when we have PHP5 and don't trace **/
+define('MAY_PROFILE', ! _TRACE_ && version_compare(PHP_VERSION, '5.0.0', '>'));
 
-include "profile.class.php";
+if (MAY_PROFILE) {
+    include "profile.class.php";
+}
 
 // get all supported languages
 $dir = opendir(GESHI_PATH . 'geshi/');
@@ -66,13 +67,17 @@ while (false !== $file = readdir($dir)) {
 closedir($dir);
 sort($languages);
 
-profile::start('overall');
+if (_TRACE_) {
+  xdebug_start_trace(__FILE__, XDEBUG_TRACE_COMPUTERIZED);
+}
 
-profile::start('include GeSHi');
+MAY_PROFILE && MAY_PROFILE && profile::start('overall');
+
+MAY_PROFILE && profile::start('include GeSHi');
 include GESHI_PATH . 'geshi.php';
-profile::stop();
+MAY_PROFILE && profile::stop();
 
-profile::start('setup GeSHi');
+MAY_PROFILE && profile::start('setup GeSHi');
 $GeSHi = new GeSHi("", "php");
 $GeSHi->enable_strict_mode(true);
 $GeSHi->set_header_type(GESHI_HEADER_DIV);
@@ -81,15 +86,15 @@ $GeSHi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 2);
 $GeSHi->set_line_style('background: #f0f0f0;', 'background: #fcfcfc;', true);
 $GeSHi->set_header_type(GESHI_HEADER_DIV);
 $GeSHi->set_highlight_lines_extra_style("background-color: #ccc;");
-profile::stop();
+MAY_PROFILE && profile::stop();
 
-profile::start('stylesheets');
+MAY_PROFILE && profile::start('stylesheets');
 $stylesheets = '';
 foreach ($languages as $lang) {
     $GeSHi->set_language($lang);
     $stylesheets .= '<style type="text/css">' . $GeSHi->get_stylesheet() . "</style>\n";
 }
-profile::stop();
+MAY_PROFILE && profile::stop();
 
 echo '<'.'?xml version="1.0" encoding="utf-8" ?'.'>'; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -118,22 +123,28 @@ while (false !== $file = readdir($samples)) {
     }
     $pkey = $file . '(file #'. $x .')';
     $lang = substr($file, 0, strrpos($file, '.'));
-    profile::start($pkey);
+    MAY_PROFILE && profile::start($pkey);
     $GeSHi->set_language($lang);
     $GeSHi->set_source(file_get_contents(CODEREPO_PATH . $file));
     $src = $GeSHi->parse_code();
-    profile::stop();
-    // speed calculation
-    $profile_results = profile::get_last_results();
-    $speeds[$pkey] = profile::format_size(filesize(CODEREPO_PATH . $file) / ($profile_results[1] - $profile_results[0])) . '/s';
-    // mem_peak
-    $mem_peaks[$pkey] = profile::format_size(memory_get_peak_usage());
-    echo "<hr /><p>" . $GeSHi->get_language_name() . " proccessed at ". $speeds[$pkey] ." | mem peak so far: ". $mem_peaks[$pkey] ."</p>";
+    MAY_PROFILE && profile::stop();
+
+    echo "<hr /><p>" . $GeSHi->get_language_name();
+
+    if (MAY_PROFILE) {
+        // speed calculation
+        $profile_results = profile::get_last_results();
+        $speeds[$pkey] = profile::format_size(filesize(CODEREPO_PATH . $file) / ($profile_results[1] - $profile_results[0])) . '/s';
+        // mem_peak
+        $mem_peaks[$pkey] = profile::format_size(memory_get_peak_usage());
+        echo " proccessed at ". $speeds[$pkey] ." | mem peak so far: ". $mem_peaks[$pkey];
+    }
+    echo '</p>';
     echo $src;
     ++$x;
 }
 unset($src, $profile_results);
-profile::stop();
+MAY_PROFILE && profile::stop();
 
 if (_TRACE_) {
   xdebug_stop_trace();
@@ -141,11 +152,16 @@ if (_TRACE_) {
 
 echo '<pre>';
 global $calls;
+
 if (!empty($__calls)) {
     echo 'calls: ' . $__calls . "\n";
 }
-echo profile::print_results(profile::flush(true), true, array('Speeds' => $speeds, 'Mem Peaks' => $mem_peaks)) . "\n";
-echo "\n\n" . round(memory_get_peak_usage() / 1024, 2).' KB Memory Peak';
+
+if (MAY_PROFILE) {
+    echo profile::print_results(profile::flush(true), true, array('Speeds' => $speeds, 'Mem Peaks' => $mem_peaks)) . "\n";
+    echo "\n\n" . round(memory_get_peak_usage() / 1024, 2).' KB Memory Peak';
+}
+
 echo '</pre>';
 ?>
 <p>
