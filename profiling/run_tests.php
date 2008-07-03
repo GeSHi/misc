@@ -32,7 +32,7 @@
  */
 
 // output as much as we can
-error_reporting(E_ALL | E_STRICT | E_NOTICE);
+error_reporting(E_ALL | E_NOTICE);
 
 /** path to the language snippets **/
 define('CODEREPO_PATH', dirname(__FILE__) . '/../coderepo/');
@@ -162,7 +162,8 @@ if (!empty($__calls)) {
 
 if (MAY_PROFILE) {
     echo profile::print_results(profile::flush(true), true, array('Speeds' => $speeds, 'Mem Peaks' => $mem_peaks)) . "\n";
-    echo "\n\n" . round(memory_get_peak_usage() / 1024, 2).' KB Memory Peak';
+    echo "\n\n" . profile::format_size(memory_get_peak_usage(), 2) . ' Memory Peak';
+    echo "\n" . profile::format_size(memory_get_usage(), 2) . ' Current Memory Consumption';
 }
 
 echo '</pre>';
