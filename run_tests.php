@@ -38,7 +38,7 @@ error_reporting(E_ALL | E_STRICT | E_NOTICE);
 define('CODEREPO_PATH', dirname(__FILE__) . '/coderepo/');
 
 /** path to geshi **/
-define('GESHI_PATH', dirname(__FILE__) . '/geshi-trunk/');
+define('GESHI_PATH', dirname(__FILE__) . '/profiling/geshi-trunk/');
 
 /** wether this file is accessed through CLI or not **/
 define('CLI_MODE', defined('STDIN'));
