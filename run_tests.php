@@ -50,7 +50,7 @@ define('_TRACE_', (CLI_MODE && in_array('--trace', $_SERVER['argv'])));
 define('MAY_PROFILE', ! _TRACE_ && version_compare(PHP_VERSION, '5.0.0', '>'));
 
 if (MAY_PROFILE) {
-    include "profile.class.php";
+    include "profiling/profile.class.php";
 }
 
 // get all supported languages
@@ -116,32 +116,35 @@ echo '<'.'?xml version="1.0" encoding="utf-8" ?'.'>'; ?>
 $samples = opendir(CODEREPO_PATH);
 $speeds = array();
 $mem_peaks = array();
-$x = 0;
-while (false !== $file = readdir($samples)) {
-    if ($file[0] == '.' || strpos($file, '.') === false) {
+while (false !== $lang = readdir($samples)) {
+    if (!in_array($lang, $languages)) {
         continue;
     }
-    $pkey = $file . '(file #'. $x .')';
-    $lang = substr($file, 0, strrpos($file, '.'));
-    MAY_PROFILE && profile::start($pkey);
     $GeSHi->set_language($lang);
-    $GeSHi->set_source(file_get_contents(CODEREPO_PATH . $file));
-    $src = $GeSHi->parse_code();
-    MAY_PROFILE && profile::stop();
+    $lang_files = opendir(CODEREPO_PATH . $lang);
 
-    echo "<hr /><p>" . $GeSHi->get_language_name();
+    echo "<h2>" . $GeSHi->get_language_name() . '</h2>';
+    while (false !== $file = readdir($lang_files)) {
+        if ($file[0] == '.') {
+            continue;
+        }
+        $path = CODEREPO_PATH . $lang . '/' . $file;
+        $pkey = $file . ' ('. $lang .')';
+        MAY_PROFILE && profile::start($pkey);
+        $GeSHi->set_source(file_get_contents($path));
+        $src = $GeSHi->parse_code();
+        MAY_PROFILE && profile::stop();
 
-    if (MAY_PROFILE) {
-        // speed calculation
-        $profile_results = profile::get_last_results();
-        $speeds[$pkey] = profile::format_size(filesize(CODEREPO_PATH . $file) / ($profile_results[1] - $profile_results[0])) . '/s';
-        // mem_peak
-        $mem_peaks[$pkey] = profile::format_size(memory_get_peak_usage());
-        echo " proccessed at ". $speeds[$pkey] ." | mem peak so far: ". $mem_peaks[$pkey];
+        if (MAY_PROFILE) {
+            // speed calculation
+            $profile_results = profile::get_last_results();
+            $speeds[$pkey] = profile::format_size(filesize($path) / ($profile_results[1] - $profile_results[0])) . '/s';
+            // mem_peak
+            $mem_peaks[$pkey] = profile::format_size(memory_get_peak_usage());
+            echo "<p>proccessed at ". $speeds[$pkey] ." | mem peak so far: ". $mem_peaks[$pkey] . '</p>';
+        }
+        echo $src . '<hr/>';
     }
-    echo '</p>';
-    echo $src;
-    ++$x;
 }
 unset($src, $profile_results);
 MAY_PROFILE && profile::stop();
