@@ -92,19 +92,20 @@ while (false !== $lang = readdir($samples)) {
         $pkey = $file . ' ('. $lang .')';
         MAY_PROFILE && profile::start($pkey);
         $GeSHi->set_source(file_get_contents($path));
+        $GeSHi->enable_strict_mode(true);
         $src = $GeSHi->parse_code();
+
+        MAY_PROFILE && profile::stop();
 
         if (MAY_PROFILE) {
             // speed calculation & memory peak so far
             $profile_results = profile::get_last_results();
             $mem_peak = profile::format_size(memory_get_peak_usage());
             $speed = profile::format_size(filesize($path) / ($profile_results[1] - $profile_results[0])) . '/s';
-            profile::add_measurement('speed', $speed);
-            profile::add_measurement('mem_peak', $mem_peak);
+            profile::add_measurement('speed', $speed, $pkey);
+            profile::add_measurement('mem_peak', $mem_peak, $pkey);
             echo "<p>proccessed at ". $speed ." | mem peak afterwards: ". $mem_peak . '</p>';
         }
-
-        MAY_PROFILE && profile::stop();
 
         echo $src . '<hr/>';
     }
