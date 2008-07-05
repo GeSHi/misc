@@ -229,7 +229,7 @@ class profile {
       $separator = str_repeat('-', strlen($header)) ."\n";
       $output .= $separator;
       foreach ($results as $profile) {
-        $output .= sprintf("    %-". $max_col_width ."s  |    %9Fs    |     %7.2F%%     |    %10s    |    %+10.2F%% ",
+        $output .= sprintf("    %-". $max_col_width ."s  |    %9Fs    |     %7.2F%%     |    %11s   |    %+10.2F%% ",
                       $profile['name'], $profile['diff'], $profile['deviation'],
                       self::format_size($profile['mem_diff']), $profile['mem_deviation']);
 
