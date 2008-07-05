@@ -51,11 +51,12 @@ $GeSHi->set_highlight_lines_extra_style("background-color: #ccc;");
 MAY_PROFILE && profile::stop();
 
 MAY_PROFILE && profile::start('stylesheets');
-$stylesheets = '';
+$stylesheets = '<style type="text/css">';
 foreach ($languages as $lang) {
     $GeSHi->set_language($lang);
-    $stylesheets .= '<style type="text/css">' . $GeSHi->get_stylesheet() . "</style>\n";
+    $stylesheets .= $GeSHi->get_stylesheet() . "\n\n";
 }
+$stylesheets .= "</style>\n";
 MAY_PROFILE && profile::stop();
 
 echo '<'.'?xml version="1.0" encoding="utf-8" ?'.'>'; ?>
