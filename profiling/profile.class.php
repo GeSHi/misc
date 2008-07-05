@@ -112,16 +112,12 @@ class profile {
         trigger_error('No timer was started yet.', E_USER_ERROR);
         return;
       }
-      $return = array(
+      return array(
         end(self::$start[self::$last_name]),
         end(self::$end[self::$last_name]),
         end(self::$mem_before[self::$last_name]),
         end(self::$mem_after[self::$last_name])
       );
-      if (isset($measurements[self::$last_name])) {
-          $return = array_merge($return, $measurements[self::$last_name]);
-      }
-      return $return;
   }
   /**
    * get the results and reset internal result cache
@@ -210,11 +206,14 @@ class profile {
    * @param $key   string
    * @param $value mixed
    */
-  function add_measurement($key, $value) {
-      if (is_null(self::$cur_name)) {
-          trigger_error('No timer is currently running.', E_USER_ERROR);
+  function add_measurement($key, $value, $name = null) {
+      if (is_null($name)) {
+          if (is_null(self::$cur_name)) {
+              trigger_error('No timer is currently running.', E_USER_ERROR);
+          }
+          $name = self::$cur_name;
       }
-      self::$measurements[self::$cur_name][$key] = $value;
+      self::$measurements[$name][$key] = $value;
       self::$measurement_keys[$key] = true;
   }
   /**
@@ -295,12 +294,12 @@ class profile {
       $separator = str_repeat('-', strlen($header)) ."\n";
       $output .= $separator;
       foreach ($results as $profile) {
-        $output .= sprintf("    %-". $max_col_width ."s  |    %9Fs    |     %7.2F%%     |    %11s   |    %+10.2F%% ",
+        $output .= sprintf("    %-". $max_col_width ."s  |    %9Fs    |     %8.2F%%    |    %11s   |    %+10.2F%% ",
                       $profile['name'], $profile['diff'], $profile['deviation'],
                       self::format_size($profile['mem_diff']), $profile['mem_deviation']);
 
         foreach ($merge_titles as $key => $title) {
-            $output .= sprintf("  |  %-". $columns[$title] . "s", $profile[$key]);
+            $output .= sprintf("  |  %". $columns[$title] . "s", $profile[$key]);
         }
         $output .= "\n";
       }
@@ -323,7 +322,7 @@ class profile {
     for ($i = 0; $size > 1024 && isset($sizes[$i+1]); ++$i) {
       $size /= 1024;
     }
-    return round($size, $round) . $sizes[$i];
+    return round($size, $round) . ' '. $sizes[$i];
   }
   /**
    * define code blocks and run them in random order, profiling each
