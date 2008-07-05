@@ -92,7 +92,6 @@ while (false !== $lang = readdir($samples)) {
         $pkey = $file . ' ('. $lang .')';
         MAY_PROFILE && profile::start($pkey);
         $GeSHi->set_source(file_get_contents($path));
-        $GeSHi->enable_strict_mode(true);
         $src = $GeSHi->parse_code();
 
         MAY_PROFILE && profile::stop();
