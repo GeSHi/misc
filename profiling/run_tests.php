@@ -76,8 +76,6 @@ echo '<'.'?xml version="1.0" encoding="utf-8" ?'.'>'; ?>
 
 // highlight samples
 $samples = opendir(CODEREPO_PATH);
-$speeds = array();
-$mem_peaks = array();
 while (false !== $lang = readdir($samples)) {
     if (!in_array($lang, $languages)) {
         continue;
@@ -95,16 +93,19 @@ while (false !== $lang = readdir($samples)) {
         MAY_PROFILE && profile::start($pkey);
         $GeSHi->set_source(file_get_contents($path));
         $src = $GeSHi->parse_code();
-        MAY_PROFILE && profile::stop();
 
         if (MAY_PROFILE) {
-            // speed calculation
+            // speed calculation & memory peak so far
             $profile_results = profile::get_last_results();
-            $speeds[$pkey] = profile::format_size(filesize($path) / ($profile_results[1] - $profile_results[0])) . '/s';
-            // mem_peak
-            $mem_peaks[$pkey] = profile::format_size(memory_get_peak_usage());
-            echo "<p>proccessed at ". $speeds[$pkey] ." | mem peak so far: ". $mem_peaks[$pkey] . '</p>';
+            $mem_peak = profile::format_size(memory_get_peak_usage());
+            $speed = profile::format_size(filesize($path) / ($profile_results[1] - $profile_results[0])) . '/s';
+            profile::add_measurement('speed', $speed);
+            profile::add_measurement('mem_peak', $mem_peak);
+            echo "<p>proccessed at ". $speed ." | mem peak afterwards: ". $mem_peak . '</p>';
         }
+
+        MAY_PROFILE && profile::stop();
+
         echo $src . '<hr/>';
     }
 }
@@ -123,7 +124,7 @@ if (!empty($__calls)) {
 }
 
 if (MAY_PROFILE) {
-    echo profile::print_results(profile::flush(true), true, array('Speeds' => $speeds, 'Mem Peaks' => $mem_peaks)) . "\n";
+    echo profile::print_results(profile::flush(true), true, array('speed' => 'Speed', 'mem_peak' => 'Mem Peak')) . "\n";
     echo "\n\n" . profile::format_size(memory_get_peak_usage(), 2) . ' Memory Peak';
     echo "\n" . profile::format_size(memory_get_usage(), 2) . ' Current Memory Consumption';
 }
