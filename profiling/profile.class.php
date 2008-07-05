@@ -299,7 +299,7 @@ class profile {
                       $profile['name'], $profile['diff'], $profile['deviation'],
                       self::format_size($profile['mem_diff']), $profile['mem_deviation']);
 
-        foreach (array_keys($merge_titles) as $key) {
+        foreach ($merge_titles as $key => $title) {
             $output .= sprintf("  |  %-". $columns[$title] . "s", $profile[$key]);
         }
         $output .= "\n";
