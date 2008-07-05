@@ -49,6 +49,11 @@ class profile {
   static private $running_profiles = array();
   static private $cur_name;
   static private $last_name;
+  // only used for sorting
+  static private $sort_by_key;
+  // custom measurements
+  static private $measurements = array();
+  static private $measurement_keys = array();
   /**
    * start the profile timer
    *
@@ -107,12 +112,16 @@ class profile {
         trigger_error('No timer was started yet.', E_USER_ERROR);
         return;
       }
-      return array(
+      $return = array(
         end(self::$start[self::$last_name]),
         end(self::$end[self::$last_name]),
         end(self::$mem_before[self::$last_name]),
         end(self::$mem_after[self::$last_name])
       );
+      if (isset($measurements[self::$last_name])) {
+          $return = array_merge($return, $measurements[self::$last_name]);
+      }
+      return $return;
   }
   /**
    * get the results and reset internal result cache
@@ -135,11 +144,15 @@ class profile {
     $end = self::$end;
     $mem_after = self::$mem_after;
     $mem_before = self::$mem_before;
+    $measurement_keys = self::$measurement_keys;
+    $measurements = self::$measurements;
     self::$start = array();
     self::$end = array();
     self::$mem_after = array();
     self::$mem_before = array();
     self::$cur_name = null;
+    self::$measurement_keys = array();
+    self::$measurements = array();
 
     $results = array();
     $diffs = array();
@@ -167,7 +180,7 @@ class profile {
 
     // calculate percental deviations and build up return array
     foreach ($diffs as $name => $diff) {
-      array_push($results, array(
+      $result = array(
         'name' => $name,
         'diff' => $diff,
         'start' => $start[$name],
@@ -177,28 +190,81 @@ class profile {
         'mem_before' => $mem_before[$name],
         'mem_after' => $mem_after[$name],
         'mem_deviation' => ($mem_diffs[$name] * count($mem_before[$name]) / array_sum($mem_before[$name])) * 100,
-      ));
+      );
+      // add custom measurements
+      foreach (array_keys($measurement_keys) as $key) {
+        if (isset($measurements[$name][$key])) {
+            $result[$key] = $measurements[$name][$key];
+        } else {
+            $result[$key] = false;
+        }
+      }
+      array_push($results, $result);
     }
 
     return $results;
   }
   /**
+   * add custom measurement to this profile entry
+   *
+   * @param $key   string
+   * @param $value mixed
+   */
+  function add_measurement($key, $value) {
+      if (is_null(self::$cur_name)) {
+          trigger_error('No timer is currently running.', E_USER_ERROR);
+      }
+      self::$measurements[self::$cur_name][$key] = $value;
+      self::$measurement_keys[$key] = true;
+  }
+  /**
+   * sort result set by entries in col $key
+   *
+   * @param &$results  the results
+   * @param $key       the assoc key by which the results will be sorted
+   * @return sorted results
+   */
+  function sort_results($results, $key, $revert = false) {
+      self::$sort_by_key = $key;
+      usort($results, array('profile', '_sort_callback'));
+      if ($revert) {
+          $results = array_reverse($results);
+      }
+      self::$sort_by_key = null;
+      return $results;
+  }
+  /**
+   * the usort callback for sort_results
+   *
+   * do not call manually!
+   */
+  function _sort_callback($a, $b) {
+      if (is_string($a)) {
+          return strcmp($a[self::$sort_by_key], $b[self::$sort_by_key]);
+      } elseif (is_array($a[self::$sort_by_key])) {
+          return ($a[self::$sort_by_key][0] < $b[self::$sort_by_key][0]) ? -1 : 1;
+      } else {
+          return ($a[self::$sort_by_key] < $b[self::$sort_by_key]) ? -1 : 1;
+      }
+      return 0;
+  }
+  /**
    * default implementation as to how one could present the results, optimized for CLI usage
    *
-   * @param $results    an array as returned by profile::flush()
-   * @param $dont_print optionally; only return the result and dont print it
-   * @param $merge      an array of arrays which shall be merged with the output. merging is key based
-   *                    outer keys are taken as titles. values are taken as strings
+   * @param $results       an array as returned by profile::flush()
+   * @param $dont_print    optionally; only return the result and dont print it
+   * @param $merge_titles  an array of measurement key => title
    * @return string
    */
-  static public function print_results($results, $dont_print = false, $merge = array()) {
+  static public function print_results($results, $dont_print = false, $merge_titles = array()) {
     $output = "\n=== profile results ===\n";
     if (empty($results)) {
       $output = "\tno code was profiled, empty resultset\n";
     } else {
       // get maximum col-width:
       $max_col_width = 0;
-      for ($key = 0, $n = count($results); $key < $n; ++$key) {
+      $n_results = count($results);
+      for ($key = 0, $n_results; $key < $n_results; ++$key) {
         $max_col_width = max($max_col_width, strlen($results[$key]['name']));
       }
       $columns = array(
@@ -208,13 +274,13 @@ class profile {
         'Mem Diff' => 14,
         'Mem Deviation' => 14
       );
-      if (!empty($merge)) {
+      if (!empty($merge_titles)) {
           // get merge titles
-          foreach($merge as $title => $values) {
+          foreach($merge_titles as $merge_key => $title) {
               // get max_width for this value
               $_max_width = strlen($title);
-              foreach ($values as $val) {
-                  $_max_width = max($_max_width, strlen($val));
+              for ($key = 0, $n_results; $key < $n_results; ++$key) {
+                  $_max_width = max($_max_width, strlen($results[$key][$merge_key]));
               }
               $columns[$title] = $_max_width;
           }
@@ -233,12 +299,8 @@ class profile {
                       $profile['name'], $profile['diff'], $profile['deviation'],
                       self::format_size($profile['mem_diff']), $profile['mem_deviation']);
 
-        foreach ($merge as $title => $values) {
-            $val = '';
-            if (isset($values[$profile['name']])) {
-                $val = $values[$profile['name']];
-            }
-            $output .= sprintf("  |  %-". $columns[$title] . "s", $val);
+        foreach (array_keys($merge_titles) as $key) {
+            $output .= sprintf("  |  %-". $columns[$title] . "s", $profile[$key]);
         }
         $output .= "\n";
       }
