@@ -24,57 +24,19 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * @package    geshi
- * @subpackage core
+ * @subpackage tests
  * @author     Milian Wolff <mail@milianw.de>
  * @copyright  (C) 2008 Milian Wolff
  * @license    http://gnu.org/copyleft/gpl.html GNU GPL
  *
  */
 
-// output as much as we can
-error_reporting(E_ALL | E_NOTICE);
-
-/** path to the language snippets **/
-define('CODEREPO_PATH', dirname(__FILE__) . '/../coderepo/');
-
-/** path to geshi **/
-define('GESHI_PATH', dirname(__FILE__) . '/geshi-trunk/');
-
-/** wether this file is accessed through CLI or not **/
-define('CLI_MODE', defined('STDIN'));
-
-/** we might want to trace this file **/
-define('_TRACE_', (CLI_MODE && in_array('--trace', $_SERVER['argv'])));
-
-/** only profile when we have PHP5 and don't trace **/
-define('MAY_PROFILE', ! _TRACE_ && version_compare(PHP_VERSION, '5.0.0', '>'));
-
-if (MAY_PROFILE) {
-    include "profile.class.php";
-}
-
-// get all supported languages
-$dir = opendir(GESHI_PATH . 'geshi/');
-
-$languages = array();
-while (false !== $file = readdir($dir)) {
-    if ( $file[0] == '.' || strpos($file, '.', 1) === false) {
-        continue;
-    }
-    $lang = substr($file, 0,  strpos($file, '.'));
-    $languages[] = $lang;
-}
-closedir($dir);
-sort($languages);
-
-if (_TRACE_) {
-  xdebug_start_trace(__FILE__, XDEBUG_TRACE_COMPUTERIZED);
-}
+require 'lib.php';
 
 MAY_PROFILE && profile::start('overall');
 
 MAY_PROFILE && profile::start('include GeSHi');
-include GESHI_PATH . 'geshi.php';
+require GESHI_PATH . 'geshi.php';
 MAY_PROFILE && profile::stop();
 
 MAY_PROFILE && profile::start('setup GeSHi');
