@@ -74,26 +74,42 @@ echo '<'.'?xml version="1.0" encoding="utf-8" ?'.'>'; ?>
 <body>
 <?php
 
-// highlight samples
-$samples = opendir(CODEREPO_PATH);
-while (false !== $lang = readdir($samples)) {
+// List directories and get the samples
+
+$samples = array();
+$samples_lang = opendir(CODEREPO_PATH);
+while (false !== $lang = readdir($samples_lang)) {
     if (!in_array($lang, $languages)) {
         continue;
     }
-    $GeSHi->set_language($lang);
-    $lang_files = opendir(CODEREPO_PATH . $lang);
 
-    echo "<h2>" . $GeSHi->get_language_name() . '</h2>';
+    $samples[$lang] = array();
+
+    $lang_files = opendir(CODEREPO_PATH . $lang);
     while (false !== $file = readdir($lang_files)) {
         if ($file[0] == '.') {
             continue;
         }
         $path = CODEREPO_PATH . $lang . '/' . $file;
-        $pkey = sprintf("%-12s - %s", $lang, $file);
-        MAY_PROFILE && profile::start($pkey);
-        $GeSHi->set_source(file_get_contents($path));
-        $src = $GeSHi->parse_code();
+        $samples[$lang][$file] = $path;
+    }
+    closedir($lang_files);
+    ksort($samples[$lang]);
+}
+closedir($samples_lang);
+ksort($samples);
 
+// highlight samples
+while (list($lang, $lang_files) = each($samples)) {
+    $GeSHi->set_language($lang);
+    echo "<h2>" . $GeSHi->get_language_name() . '</h2>';
+
+    while (list($sample_name, $sample_file) = each($lang_files)) {
+        $pkey = sprintf("%-12s - %s", $lang, $sample_name);
+
+        MAY_PROFILE && profile::start($pkey);
+        $GeSHi->set_source(file_get_contents($sample_file));
+        $src = $GeSHi->parse_code();
         MAY_PROFILE && profile::stop();
 
         if (MAY_PROFILE) {
