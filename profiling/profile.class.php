@@ -318,11 +318,11 @@ class profile {
    */
   static public function format_size($size, $round = 4) {
     //Size must be bytes!
-    $sizes = array('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
-    for ($i = 0; $size > 1024 && isset($sizes[$i+1]); ++$i) {
+    $sizes = array(' B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+    for ($i = 0; abs($size) > 1024 && isset($sizes[$i+1]); ++$i) {
       $size /= 1024;
     }
-    return round($size, $round) . ' '. $sizes[$i];
+    return sprintf("%9.${round}f %2s", $size, $sizes[$i]);
   }
   /**
    * define code blocks and run them in random order, profiling each
