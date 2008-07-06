@@ -89,7 +89,7 @@ while (false !== $lang = readdir($samples)) {
             continue;
         }
         $path = CODEREPO_PATH . $lang . '/' . $file;
-        $pkey = $file . ' ('. $lang .')';
+        $pkey = sprintf("%-12s - %s", $lang, $file);
         MAY_PROFILE && profile::start($pkey);
         $GeSHi->set_source(file_get_contents($path));
         $src = $GeSHi->parse_code();

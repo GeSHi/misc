@@ -268,10 +268,10 @@ class profile {
       }
       $columns = array(
         'Timer' => $max_col_width,
-        'Time Diff' => 14,
-        'Time Deviation' => 14,
-        'Mem Diff' => 14,
-        'Mem Deviation' => 14
+        'Time Diff' => 10,
+        'Time Part' => 9,
+        'Mem Diff' => 12,
+        'Mem Dev.' => 11
       );
       if (!empty($merge_titles)) {
           // get merge titles
@@ -294,7 +294,7 @@ class profile {
       $separator = str_repeat('-', strlen($header)) ."\n";
       $output .= $separator;
       foreach ($results as $profile) {
-        $output .= sprintf("    %-". $max_col_width ."s  |    %9Fs    |     %8.2F%%    |    %11s   |    %+10.2F%% ",
+        $output .= sprintf("    %-". $max_col_width ."s  |  %9Fs  |  %8.2f%%  |  %11s  | %+10.2F%% ",
                       $profile['name'], $profile['diff'], $profile['deviation'],
                       self::format_size($profile['mem_diff']), $profile['mem_deviation']);
 
