@@ -64,7 +64,7 @@ class profile {
       // nested timer
       // add old name to running profiles
       array_push(self::$running_profiles, self::$cur_name);
-      if (self::$cur_name === $name) {
+      while (isset(self::$running_profiles[$name])) {
         if (is_int($name)) {
           $name++;
         } else {
