@@ -239,7 +239,7 @@ class profile {
    */
   function _sort_callback($a, $b) {
       if (is_string($a)) {
-          return strcmp($a[self::$sort_by_key], $b[self::$sort_by_key]);
+          return strnatcmp($a[self::$sort_by_key], $b[self::$sort_by_key]);
       } elseif (is_array($a[self::$sort_by_key])) {
           return ($a[self::$sort_by_key][0] < $b[self::$sort_by_key][0]) ? -1 : 1;
       } else {
