@@ -41,12 +41,11 @@ MAY_PROFILE && profile::stop();
 
 MAY_PROFILE && profile::start('setup GeSHi');
 $GeSHi = new GeSHi("", "php");
-$GeSHi->enable_strict_mode(true);
 $GeSHi->set_header_type(GESHI_HEADER_DIV);
+$GeSHi->enable_strict_mode(true);
 $GeSHi->enable_classes();
 $GeSHi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 2);
 $GeSHi->set_line_style('background: #f0f0f0;', 'background: #fcfcfc;', true);
-$GeSHi->set_header_type(GESHI_HEADER_DIV);
 $GeSHi->set_highlight_lines_extra_style("background-color: #ccc;");
 MAY_PROFILE && profile::stop();
 
@@ -104,7 +103,7 @@ while (false !== $lang = readdir($samples)) {
             $speed = profile::format_size(filesize($path) / ($profile_results[1] - $profile_results[0])) . '/s';
             profile::add_measurement('speed', $speed, $pkey);
             profile::add_measurement('mem_peak', $mem_peak, $pkey);
-            echo "<p>proccessed at ". $speed ." | mem peak afterwards: ". $mem_peak . '</p>';
+            echo "<p>proccessed ". $file ." at ". $speed ." | mem peak afterwards: ". $mem_peak . '</p>';
         }
 
         echo $src . '<hr/>';
