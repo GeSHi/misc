@@ -83,7 +83,7 @@ $lines = '';
 $start_stack = array();
 
 while ($line = fscanf($input, '%d %d %d %f %d %s %d %s %s %d')) {
-    if (is_null($line[0])) {
+    if (is_null($line[1])) {
         // this seems to be junk
         continue;
     }
@@ -101,13 +101,25 @@ while ($line = fscanf($input, '%d %d %d %f %d %s %d %s %s %d')) {
      9 => line number
      */
     if (!$line[2]) { // enter function
-        if (is_null($line[9])) {
+        // lambda functions (anonymous functions) need special handling
+        // their syntax is: file.php(LINE) in key 7
+        if ($line[5] == '__lambda_func') {
+            $pos = strrpos($line[7], '(');
+            $line[9] = (int) substr($line[7], $pos + 1, -1);
+            $line[8] = substr($line[7], 0, $pos);
+            $line[7] = '';
+        } elseif (is_null($line[9])) {
             // bullshit format... require/include functions use column 7 for the included file
             // all other functions will have an _nothing_ there, that's why fscanf()
             // cannot set the keys appropriatly...
             $line[9] = (int) $line[8];
             $line[8] = $line[7];
             $line[7] = null;
+            if ($line[9] == 0 && ($pos = strrpos($line[8], '(')) !== false) {
+                // dunno why, but _sometimes_ this has a different syntax
+                $line[9] = (int) substr($line[8], $pos + 1, -1);
+                $line[8] = substr($line[8], 0, $pos);
+            }
         }
         if (in_array(basename($line[8]), $remove_paths)) {
             // we don't like this path, skip it
@@ -118,6 +130,13 @@ while ($line = fscanf($input, '%d %d %d %f %d %s %d %s %s %d')) {
             $lines_touched[$line[9]] = 1;
         } else {
             ++$lines_touched[$line[9]];
+        }
+        if (!$line[9]) {
+            fclose($input);
+            fclose($output);
+            unlink($tmp);
+            trigger_error("Bad line number given, that should not happen:\n". print_r($line, true), E_USER_ERROR);
+            die();
         }
         // now add it this to the stack
         $start_stack[$line[0]] = $line;
