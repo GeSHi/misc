@@ -45,7 +45,7 @@ define('_TRACE_', (CLI_MODE && in_array('--trace', $_SERVER['argv'])));
 /** only profile when we have PHP5 and don't trace **/
 define('MAY_PROFILE', ! _TRACE_ && version_compare(PHP_VERSION, '5.0.0', '>'));
 
-if (MAY_PROFILE) {
+if (version_compare(PHP_VERSION, '5.0.0', '>')) {
     require 'profile.class.php';
 }
 // get all supported languages
@@ -62,6 +62,6 @@ while (false !== $file = readdir($dir)) {
 closedir($dir);
 sort($languages);
 
-if (_TRACE_) {
-  xdebug_start_trace(__FILE__, XDEBUG_TRACE_COMPUTERIZED);
+if (_TRACE_ && empty($GLOBALS['dont_auto_trace'])) {
+  xdebug_start_trace($_SERVER['argv'][0], XDEBUG_TRACE_COMPUTERIZED);
 }
