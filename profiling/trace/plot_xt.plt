@@ -4,19 +4,6 @@ set term png interlace enhanced tiny font "/usr/share/fonts/truetype/ttf-dejavu/
 set grid xtics mxtics ytics mytics lt 49 lw 1, lt 0 lw 1
 set key outside right top
 
-# code coverage
-set output imgbase.'_coverage_vs_loc.png'
-set title customtitle.' Coverage of linenumbers (i.e. how often got function X get called in line Y)'
-set xlabel 'line number'
-set ylabel 'coverage (number of calls)'
-set xtics 100 out rotate by 90
-set mxtics 4
-set mytics 10
-set logscale y
-plot coveragedata using 1:2 notitle with impulses
-
-unset logscale y
-
 # memory diff ordinate
 set output imgbase.'_memdiff_vs_loc.png'
 set title customtitle.' Memory differences over linenumber - memory before: '.membefore.' after: '.memafter.' diff: '.memdiff.' peak: '.peakmem
@@ -63,3 +50,12 @@ set mytics 10
 set format y "%.1e"
 set ylabel 'timediff in sec'
 plot data using 7:3 notitle with points
+
+# code coverage
+set output imgbase.'_coverage_vs_loc.png'
+set title customtitle.' Coverage of linenumbers (i.e. how often got function X get called in line Y)'
+set xlabel 'line number'
+set ylabel 'coverage (number of calls)'
+set xtics 100 out rotate by 90
+set mxtics 4
+plot coveragedata using 1:2 notitle with impulses
