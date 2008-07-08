@@ -47,6 +47,7 @@ $GeSHi->enable_classes();
 $GeSHi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 2);
 $GeSHi->set_line_style('background: #f0f0f0;', 'background: #fcfcfc;', true);
 $GeSHi->set_highlight_lines_extra_style("background-color: #ccc;");
+$GeSHi->set_header_content('<SPEED> <TIME>');
 MAY_PROFILE && profile::stop();
 
 MAY_PROFILE && profile::start('stylesheets');
