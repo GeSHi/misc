@@ -81,6 +81,8 @@ for ($i = 1; $i <= $iterations; ++$i) {
   unset($G, $src, $style);
 }
 
+echo "Memory usage after:  " . profile::format_size(memory_get_usage(), 2) . "\n";
+
 profile::stop();
 
 $results = profile::flush(true);
@@ -98,5 +100,4 @@ array_push($results, array(
 
 profile::print_results($results);
 echo "Peak memory usage:   " . profile::format_size(memory_get_peak_usage(), 2) . "\n";
-echo "Average speed:       " . profile::format_size(filesize(GESHI_FILE) / ($results[0]['diff'] / $iterations), 2) ."/s\n";
-echo "Memory usage after:  " . profile::format_size(memory_get_usage(), 2) . "\n";
+echo "Average speed:       " . profile::format_size(strlen(file_get_contents(GESHI_FILE)) / ($results[0]['diff'] / $iterations), 2) ."/s\n";
