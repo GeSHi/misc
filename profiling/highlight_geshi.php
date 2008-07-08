@@ -81,7 +81,7 @@ for ($i = 1; $i <= $iterations; ++$i) {
   unset($G, $src, $style);
 }
 
-echo "Memory usage after:  " . profile::format_size(memory_get_usage(), 2) . "\n";
+echo "Memory usage after :  " . profile::format_size(memory_get_usage(), 2) . "\n";
 
 profile::stop();
 
