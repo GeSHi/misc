@@ -4,6 +4,18 @@ set term png interlace enhanced tiny font "/usr/share/fonts/truetype/ttf-dejavu/
 set grid xtics mxtics ytics mytics lt 49 lw 1, lt 0 lw 1
 set key outside right top
 
+# time vs loc
+set output imgbase.'_loc_vs_time.png'
+set title customtitle.'  time over linenumbers'
+set ylabel 'time in s'
+set xlabel 'linenumber'
+set xtics 100 out rotate by 90
+set mxtics 4
+#set ytics 100
+#set mytics 4
+set mytics 10
+plot data using 7:1 notitle with points
+
 # memory diff ordinate
 set output imgbase.'_memdiff_vs_loc.png'
 set title customtitle.' Memory differences over linenumber - memory before: '.membefore.' after: '.memafter.' diff: '.memdiff.' peak: '.peakmem
