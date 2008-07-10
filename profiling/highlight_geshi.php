@@ -34,9 +34,12 @@ if (isset($_SERVER['argv'])) {
 
 /**
  * path to the geshi file we include & highlight
- * TODO: make it settable via CLI to make tracing of older releases possible
  */
-define('GESHI_FILE', 'geshi-trunk/geshi.php');
+if (isset($_SERVER['argv']) && $key = array_search('--geshifile', $_SERVER['argv'])) {
+    define('GESHI_FILE', $_SERVER['argv'][$key + 1]);
+} else {
+    define('GESHI_FILE', 'geshi-trunk/geshi.php');
+}
 
 if (isset($_SERVER['argv']) && $key = array_search('--iterations', $_SERVER['argv'])) {
   $iterations = intval($_SERVER['argv'][$key + 1]);
@@ -52,7 +55,7 @@ if (_TRACE_) {
   $iterations = 1;
 }
 
-include 'geshi-trunk/geshi.php';
+include GESHI_FILE;
 
 profile::start('overall');
 
@@ -68,9 +71,9 @@ for ($i = 1; $i <= $iterations; ++$i) {
   $G->enable_strict_mode(false);
   $G->enable_classes();
   $G->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 2);
-  $G->set_header_type(GESHI_HEADER_PRE_VALID);
+  $G->set_header_type(GESHI_HEADER_PRE);
   $style = $G->get_stylesheet(true);
-  $G->load_from_file(GESHI_FILE);
+  $G->load_from_file('geshi-trunk/geshi.php');
   $src = $G->parse_code();
 
   if (_TRACE_) {
