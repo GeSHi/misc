@@ -28,7 +28,7 @@ set mxtics 4
 set mytics 10
 set logscale y
 #plot data using 7:($6/1024) notitle with points
-plot data using 7:($6 > 0 ? $6/1024 : 1/0 ) "alloc" with points lt 1, data using 7:($6 < 0 ? -$6 / 1024 : 1/0) "dealloc" with points lt 2
+plot data using 7:($6 > 0 ? $6/1024 : 1/0 ) title "alloc" with points lt 1, data using 7:($6 < 0 ? -$6 / 1024 : 1/0) title "dealloc" with points lt 2
 unset logscale y
 
 # memory ordinate
