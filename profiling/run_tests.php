@@ -33,6 +33,12 @@
 
 require 'lib.php';
 
+$limit_languages = false;
+if (!empty($_REQUEST['show'])) {
+    $allowed_languages = explode(',', $_REQUEST['show']);
+    $limit_languages = true;
+}
+
 MAY_PROFILE && profile::start('overall');
 
 MAY_PROFILE && profile::start('include GeSHi');
@@ -53,6 +59,9 @@ MAY_PROFILE && profile::stop();
 MAY_PROFILE && profile::start('stylesheets');
 $stylesheets = '<style type="text/css">';
 foreach ($languages as $lang) {
+    if ($limit_languages && !in_array($lang, $allowed_languages)) {
+        continue;
+    }
     $GeSHi->set_language($lang);
     $stylesheets .= $GeSHi->get_stylesheet() . "\n\n";
 }
@@ -80,6 +89,9 @@ echo '<'.'?xml version="1.0" encoding="utf-8" ?'.'>'; ?>
 $samples = array();
 $samples_lang = opendir(CODEREPO_PATH);
 while (false !== $lang = readdir($samples_lang)) {
+    if ($limit_languages && !in_array($lang, $allowed_languages)) {
+        continue;
+    }
     if (!in_array($lang, $languages)) {
         continue;
     }
