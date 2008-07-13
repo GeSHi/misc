@@ -144,12 +144,15 @@ class Markov {
         }
 
         //Create a flat array with the probabilities
-        $diffs = $this->p;
+        $diffs = array();
+        foreach($this->p as $key => $value) {
+            $diffs[$key]= $value / $this->cp;
+        }
         foreach($markov->p as $key => $value) {
             if(isset($diffs[$key])) {
-                $diffs[$key]-=$value;
+                $diffs[$key]-=$value / $markov->cp;
             } else {
-                $diffs[$key]=-$value;
+                $diffs[$key]=-$value / $markov->cp;
             }
         }
 

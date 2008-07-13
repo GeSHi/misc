@@ -44,11 +44,12 @@ foreach($lang_models as $lang => $tmp) {
 
         $ld_res = $m->detect_lang($lang_models);
 
-        echo ($was_error = ($ld_res['lang'] != $lang) ? "fail" : "ok").
+        $was_error |= $this_error = $ld_res['lang'] != $lang;
+        echo ($this_error ? "fail" : "ok").
             "(".$ld_res['lang']."@ ".$ld_res['err'].")\n";
     }
     closedir($dir_toc);
-    echo "==> Completed training ".($was_error ? "with errors" : "successfully")."!\n\n";
+    echo "==> Completed detection ".($was_error ? "with errors" : "successfully")."!\n\n";
 }
 
 ?>
