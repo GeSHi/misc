@@ -95,14 +95,10 @@ class Markov {
     }
 
     function update_sp($prev, $curr, $chg=1) {
-        if(!isset($this->p[$prev])) {
-            $this->p[$prev] = array();
-        }
-
-        if(!isset($this->p[$prev][$curr])) {
-            $this->p[$prev][$curr] = $chg;
+        if(!isset($this->p[$prev.$curr])) {
+            $this->p[$prev.$curr] = $chg;
         } else {
-            $this->p[$prev][$curr] += $chg;
+            $this->p[$prev.$curr] += $chg;
         }
 
         $this->cp++;
@@ -125,55 +121,45 @@ class Markov {
 
     function mean_square_error($markov) {
         $mse = 0;
+        $valcnt = 0;
 
+        //Calculate Order 0 probability errors
         for($a = 0; $a < 128; $a++) {
-            //Calculate Order 0 probability errors
+            $isval = false;
             if(isset($this->i[chr($a)])) {
                 $t_i_a = $this->i[chr($a)] / $this->ci;
+                $isval = true;
             } else {
                 $t_i_a = 0;
             }
             if(isset($markov->i[chr($a)])) {
                 $m_i_a = $markov->i[chr($a)] / $markov->ci;
+                $isval = true;
             } else {
                 $m_i_a = 0;
             }
             $err_a = $t_i_a - $m_i_a;
             $mse += $err_a * $err_a;
+            if($isval) $valcnt++;
+        }
 
-            for($b = 0; $b < 128; $b++) {
-                $__ab = chr($a).chr($b);
-
-                //Noone has something for this probability --> so no error!
-                if(!isset($this->p[$__ab]) && !isset($markov->p[$__ab])) {
-                    continue;
-                }
-
-                for($c = 0; $c < 128; $c++) {
-                    for($d = 0; $d < 128; $d++) {
-                        $__cd = chr($c).chr($d);
-
-                        //Calculate Order 2 probability errors
-                        if(isset($this->p[$__ab]) &&
-                            isset($this->p[$__ab][$__cd])) {
-                            $t_p_ab_cd = $this->p[$__ab][$__cd] / $this->cp;
-                        } else {
-                            $t_p_ab_cd = 0;
-                        }
-                        if(isset($markov->p[$__ab]) &&
-                            isset($markov->p[$__ab][$__cd])) {
-                            $m_p_ab_cd = $markov->p[$__ab][$__cd] / $markov->cp;
-                        } else {
-                            $m_p_ab_cd = 0;
-                        }
-                        $err_ab_cd = ($t_p_ab_cd - $m_p_ab_cd);
-                        $mse += $err_ab_cd * $err_ab_cd;
-                    }
-                }
+        //Create a flat array with the probabilities
+        $diffs = $this->p;
+        foreach($markov->p as $key => $value) {
+            if(isset($diffs[$key])) {
+                $diffs[$key]-=$value;
+            } else {
+                $diffs[$key]=-$value;
             }
         }
 
-        return $mse;
+        //Calculate sum over differences
+        foreach($diffs as $diff) {
+            $mse += $diff * $diff;
+            $valcnt++;
+        }
+
+        return $mse / $valcnt;
     }
 
     function detect_lang($lang_arr) {

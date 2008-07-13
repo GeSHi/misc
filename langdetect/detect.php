@@ -3,7 +3,7 @@ require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'profiling' . DIRECTO
 require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'markov.php';
 
 header("Content-Type: text/plain; charset=utf-8");
-set_time_limit(0);
+set_time_limit(300);
 
 $lang_models = array();
 
