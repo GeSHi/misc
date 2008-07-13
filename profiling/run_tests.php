@@ -35,8 +35,8 @@ require 'lib.php';
 
 $limit_languages = false;
 if (!empty($_REQUEST['show'])) {
-    $allowed_languages = explode(',', $_REQUEST['show']);
-    $limit_languages = true;
+    $allowed_languages = array_intersect(explode(',', $_REQUEST['show']), $languages);
+    $limit_languages = !empty($allowed_languages);
 }
 
 MAY_PROFILE && profile::start('overall');
