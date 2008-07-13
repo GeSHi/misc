@@ -125,22 +125,21 @@ class Markov {
 
         //Calculate Order 0 probability errors
         for($a = 0; $a < 128; $a++) {
-            $isval = false;
-            if(isset($this->i[chr($a)])) {
-                $t_i_a = $this->i[chr($a)] / $this->ci;
-                $isval = true;
+            $char_a = chr($a);
+            if(isset($this->i[$char_a])) {
+                $t_i_a = $this->i[$char_a] / $this->ci;
+                $valcnt++;
             } else {
                 $t_i_a = 0;
             }
-            if(isset($markov->i[chr($a)])) {
-                $m_i_a = $markov->i[chr($a)] / $markov->ci;
-                $isval = true;
+            if(isset($markov->i[$char_a])) {
+                $m_i_a = $markov->i[$char_a] / $markov->ci;
+                $valcnt++;
             } else {
                 $m_i_a = 0;
             }
             $err_a = $t_i_a - $m_i_a;
             $mse += $err_a * $err_a;
-            if($isval) $valcnt++;
         }
 
         //Create a flat array with the probabilities
