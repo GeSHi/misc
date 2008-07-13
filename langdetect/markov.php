@@ -115,7 +115,7 @@ class Markov {
         }
 
         for($c = 0; $c < $len - 3; $c++) {
-            $this->update_sp($text[$c].$text[$c+1], $text[$c+3].$text[$c+3]);
+            $this->update_sp($text[$c].$text[$c+1], $text[$c+2].$text[$c+3]);
         }
     }
 
