@@ -131,7 +131,7 @@ while ($line = fscanf($input, '%d %d %d %f %d %s %d %s %s %d')) {
         } else {
             ++$lines_touched[$line[9]];
         }
-        if (!$line[9]) {
+        if (!$line[9] && $line[9] !== 0) {
             fclose($input);
             fclose($output);
             unlink($tmp);
