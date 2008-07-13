@@ -126,19 +126,20 @@ class Markov {
         //Calculate Order 0 probability errors
         for($a = 0; $a < 128; $a++) {
             $char_a = chr($a);
+
+            //Reduce memory usage and remove temp variables ...
+            $err_a = 0;
             if(isset($this->i[$char_a])) {
-                $t_i_a = $this->i[$char_a] / $this->ci;
-                $valcnt++;
-            } else {
-                $t_i_a = 0;
+                $err_a = $this->i[$char_a] / $this->ci;
             }
             if(isset($markov->i[$char_a])) {
-                $m_i_a = $markov->i[$char_a] / $markov->ci;
-                $valcnt++;
-            } else {
-                $m_i_a = 0;
+                $err_a -= $markov->i[$char_a] / $markov->ci;
             }
-            $err_a = $t_i_a - $m_i_a;
+
+            //Wird für die Normierung am Ende benötigt!!!
+            if($err_a) $valcnt++;
+
+            //Add this error value
             $mse += $err_a * $err_a;
         }
 
@@ -158,8 +159,9 @@ class Markov {
         //Calculate sum over differences
         foreach($diffs as $diff) {
             $mse += $diff * $diff;
-            $valcnt++;
         }
+
+        $valcnt+=count($diffs);
 
         return $mse / $valcnt;
     }

@@ -3,7 +3,6 @@ require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'profiling' . DIRECTO
 require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'markov.php';
 
 header("Content-Type: text/plain; charset=utf-8");
-set_time_limit(300);
 
 $lang_models = array();
 
@@ -46,7 +45,7 @@ foreach($lang_models as $lang => $tmp) {
 
         $was_error |= $this_error = $ld_res['lang'] != $lang;
         echo ($this_error ? "fail" : "ok").
-            "(".$ld_res['lang']."@ ".$ld_res['err'].")\n";
+            "(".$ld_res['lang']." @ ".$ld_res['err'].")\n";
     }
     closedir($dir_toc);
     echo "==> Completed detection ".($was_error ? "with errors" : "successfully")."!\n\n";
