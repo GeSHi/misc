@@ -48,7 +48,6 @@ MAY_PROFILE && profile::stop();
 MAY_PROFILE && profile::start('setup GeSHi');
 $GeSHi = new GeSHi("", "php");
 $GeSHi->set_header_type(GESHI_HEADER_DIV);
-$GeSHi->enable_strict_mode(true);
 $GeSHi->enable_classes();
 $GeSHi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 2);
 $GeSHi->set_line_style('background: #f0f0f0;', 'background: #fcfcfc;', true);
@@ -115,6 +114,7 @@ ksort($samples);
 // highlight samples
 while (list($lang, $lang_files) = each($samples)) {
     $GeSHi->set_language($lang);
+
     echo "<h2>" . $GeSHi->get_language_name() . '</h2>';
 
     while (list($sample_name, $sample_file) = each($lang_files)) {
