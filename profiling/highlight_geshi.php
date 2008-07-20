@@ -33,7 +33,16 @@ if (isset($_SERVER['argv'][0])) {
 }
 
 /**
- * path to the geshi file we include & highlight
+ * path to the file we are going to highlight
+ */
+if (isset($_SERVER['argv']) && $key = array_search('--highlight', $_SERVER['argv'])) {
+    define('HIGHLIGHT_FILE', $_SERVER['argv'][$key + 1]);
+} else {
+    define('HIGHLIGHT_FILE', 'geshi-trunk/geshi.php');
+}
+
+/**
+ * path to the geshi file we include and use for highlighting
  */
 if (isset($_SERVER['argv']) && $key = array_search('--geshifile', $_SERVER['argv'])) {
     define('GESHI_FILE', $_SERVER['argv'][$key + 1]);
@@ -73,7 +82,7 @@ for ($i = 1; $i <= $iterations; ++$i) {
   $G->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 2);
   $G->set_header_type(GESHI_HEADER_PRE);
   $style = $G->get_stylesheet(true);
-  $G->load_from_file('geshi-trunk/geshi.php');
+  $G->load_from_file(HIGHLIGHT_FILE);
   $src = $G->parse_code();
 
   if (_TRACE_) {
