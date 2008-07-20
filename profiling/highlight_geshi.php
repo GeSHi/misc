@@ -27,7 +27,7 @@
  */
 error_reporting(E_ALL | E_NOTICE);
 
-if (isset($_SERVER['argv'])) {
+if (isset($_SERVER['argv'][0])) {
   // all paths are relative to this file
   chdir(dirname($_SERVER['argv'][0]));
 }
@@ -59,7 +59,7 @@ include GESHI_FILE;
 
 profile::start('overall');
 
-echo 'Memory usage before:  '. profile::format_size(xdebug_memory_usage(), 2) . "\n";
+echo 'Memory usage before:  '. profile::format_size(memory_get_usage(), 2) . "\n";
 
 for ($i = 1; $i <= $iterations; ++$i) {
   profile::start('run #'.$i);
