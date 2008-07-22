@@ -47,7 +47,7 @@ MAY_PROFILE && profile::stop();
 
 MAY_PROFILE && profile::start('setup GeSHi');
 $GeSHi = new GeSHi("", "php");
-$GeSHi->set_header_type(GESHI_HEADER_DIV);
+$GeSHi->set_header_type(isset($_REQUEST['header_type']) && is_numeric($_REQUEST['header_type']) ? intval($_REQUEST['header_type']) : GESHI_HEADER_DIV);
 $GeSHi->enable_classes();
 $GeSHi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 2);
 $GeSHi->set_line_style('background: #f0f0f0;', 'background: #fcfcfc;', true);
@@ -75,7 +75,9 @@ echo '<'.'?xml version="1.0" encoding="utf-8" ?'.'>'; ?>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <style type="text/css">
   .de1, .de2 {border-left: 1px #888 solid; }
-  * > ol {border: 1px black solid; background-color: #ddd; }
+  * > ol, table {border: 1px black solid; background-color: #ddd; }
+  table .de1, table .de2 {border-left:none;}
+  table { min-width:100%; }
   li { margin-left: 10px; }
   </style>
   <?php echo $stylesheets; ?>
