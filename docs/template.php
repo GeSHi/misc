@@ -145,7 +145,20 @@
                 text-decoration: none;
             }
 
+            #header p {
+                text-align: center;
+                border-bottom: 1px dotted #d0d0d0;
+            }
+
+            #header dl {
+                background-color: #e0e8ef;
+                color: #002;
+                padding: 5px;
+            }
+
             <?php echo $styles; ?>
+
+
         -->
         </style>
     </head>

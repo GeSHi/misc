@@ -1,14 +1,17 @@
 # GeSHi Documentation {#top}
 
-<version />
+<div id="header" markdown="1">
+Version <version />
 
 Authors:
-:   &copy; 2004 - 2007 [Nigel McNie]
-:   &copy; 2007 - 2008 [Benny Baumann]
-:   &copy; 2008 [Milian Wolff]
+:   &copy; 2004 - 2007 [Nigel McNie][]
+:   &copy; 2007 - 2008 [Benny Baumann][]
+:   &copy; 2008 [Milian Wolff][]
 
 GeSHi Website:
 :   <http://qbnz.com/highlighter>
+
+</div>
 
 This is the documentation for GeSHi - Generic Syntax Highlighter.
 
