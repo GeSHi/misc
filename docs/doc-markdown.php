@@ -29,7 +29,30 @@
 require 'php-markdown-extra/markdown.php';
 
 class DocMarkdown extends MarkdownExtra_Parser {
-  function __construct() {
-    parent::Markdown_Parser();
-  }
+    public function __construct() {
+        parent::MarkdownExtra_Parser();
+    }
+    public function transform($text) {
+        // various replacements before
+        $text = preg_replace('#<note>(.+)</note>#Us',
+                          '<div class="note" markdown="1"><div class="note-header">Note:</div>\1</div>', $text);
+        $text = preg_replace('#<caution>(.+)</caution>#Us',
+                          '<div class="caution" markdown="1"><div class="caution-header">Caution:</div>\1</div>', $text);
+
+        // actual markdown parser
+        $text = parent::transform($text);
+
+        // replacements after
+        $text = str_replace('<toc />', $this->get_toc($text), $text);
+
+        return $text;
+    }
+    /**
+     *
+     * @param string $text HTML markup
+     * @return string the table of contents in HTML markup
+     */
+    public function get_toc($text) {
+        return '<strong style="color:red;">TOC TODO</strong>';
+    }
 }
