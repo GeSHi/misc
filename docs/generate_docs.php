@@ -39,9 +39,13 @@ $documentation = file_get_contents('geshi-doc.text')."\n"
 
 $documentation = $parser->transform($documentation);
 
+$styles =& $parser->styles;
+
 ob_start();
 require 'template.php';
 $documentation = ob_get_contents();
 ob_end_clean();
+
+$documentation = str_replace('<version />', GESHI_VERSION, $documentation);
 
 file_put_contents('geshi-doc.html', $documentation);

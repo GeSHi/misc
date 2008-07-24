@@ -2,7 +2,7 @@
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en" xml:lang="en">
     <head>
-        <title>GeSHi Documentation</title>
+        <title>GeSHi Documentation <version /></title>
         <style type="text/css">
         <!--
             html {
@@ -144,6 +144,8 @@
             sup a {
                 text-decoration: none;
             }
+
+            <?php echo $styles; ?>
         -->
         </style>
     </head>
