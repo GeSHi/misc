@@ -28,7 +28,7 @@
 
 require 'php-markdown-extra/markdown.php';
 
-class DocMarkdown extends Markdown_Parser {
+class DocMarkdown extends MarkdownExtra_Parser {
   function __construct() {
     parent::Markdown_Parser();
   }
