@@ -36,6 +36,8 @@ $parser = new DocMarkdown;
 $documentation = file_get_contents('geshi-doc.text');
 
 $documentation = $parser->transform($documentation);
+var_dump($documentation);
+die();
 
 ob_start();
 require 'template.php';
