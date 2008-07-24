@@ -148,178 +148,170 @@
         </style>
     </head>
     <body>
-    <h1>GeSHi Documentation {#top}</h1>
+    <h1 id="top"><abbr title="Generic Syntax Highlighter">GeSHi</abbr> Documentation</h1>
 
 <p><version /></p>
 
-<p>Authors:
-:   * &copy; 2004 - 2007 [Nigel McNie]
-    * &copy; 2007 - 2008 [Benny Baumann]
-    * &copy; 2008 [Milian Wolff]</p>
+<dl>
+<dt>Authors:</dt>
+<dd>&copy; 2004 - 2007 [Nigel McNie]</dd>
 
-<p>GeSHi Website:
-:   <a href="http://qbnz.com/highlighter">http://qbnz.com/highlighter</a></p>
+<dd>&copy; 2007 - 2008 [Benny Baumann]</dd>
 
-<p>This is the documentation for GeSHi - Generic Syntax Highlighter.</p>
+<dd>&copy; 2008 [Milian Wolff]</dd>
+
+<dt><abbr title="Generic Syntax Highlighter">GeSHi</abbr> Website:</dt>
+<dd><a href="http://qbnz.com/highlighter">http://qbnz.com/highlighter</a></dd>
+</dl>
+
+<p>This is the documentation for <abbr title="Generic Syntax Highlighter">GeSHi</abbr> - Generic Syntax Highlighter.</p>
 
 <p>The most modern version of this document is available on the web -
 go to <a href="http://qbnz.com/highlighter/documentation.php">http://qbnz.com/highlighter/documentation.php</a> to view it.</p>
 
 <p>Any comments, questions, confusing points? Please <a href="#feedback">get in contact</a> with the developers! We
-need all the information we can get to make the use of GeSHi and everything related to it (including this documentation)
+need all the information we can get to make the use of <abbr title="Generic Syntax Highlighter">GeSHi</abbr> and everything related to it (including this documentation)
 a breeze.</p>
 
-<h2>Contents {#contents}</h2>
+<h2 id="contents">Contents</h2>
 
-<p><toc /></p>
+<p><strong style="color:red;">TOC TODO</strong></p>
 
-<h2>Introduction {#introduction}</h2>
+<h2 id="introduction">Introduction</h2>
 
-<p>GeSHi is exactly what the acronym stands for: a <strong>Generic Syntax Highlighter</strong>. As long
+<p><abbr title="Generic Syntax Highlighter">GeSHi</abbr> is exactly what the acronym stands for: a <strong>Generic Syntax Highlighter</strong>. As long
 as you have a language file for almost any computer language - whether it be a
-scripting language, object orientated, markup or anything in between - GeSHi can
-highlight it! GeSHi is extremely customisable - the same source can be highlighted
+scripting language, object orientated, markup or anything in between - <abbr title="Generic Syntax Highlighter">GeSHi</abbr> can
+highlight it! <abbr title="Generic Syntax Highlighter">GeSHi</abbr> is extremely customisable - the same source can be highlighted
 multiple times in multiple ways - the same source even with a different language.
-GeSHi outputs XHTML strict compliant code[^xhtml-strict], and can
-make use of CSS to save on the amount of output. And what is the cost for all of this? You need
-[PHP]. That's all!</p>
+<abbr title="Generic Syntax Highlighter">GeSHi</abbr> outputs XHTML strict compliant code<sup id="fnref:xhtml-strict"><a href="#fn:xhtml-strict" rel="footnote">1</a></sup>, and can
+make use of <abbr title="Cascading Style Sheets">CSS</abbr> to save on the amount of output. And what is the cost for all of this? You need
+<a href="http://php.net"><abbr title="PHP the HTML Preprocessor">PHP</abbr></a>. That's all!</p>
 
-<p>[^xhtml-strict]: The PRE header (see <a href="#the-code-container">The Code Container</a>) is not valid HTML, you might want
-to use one of the other header types instead.</p>
+<h2 id="features">Features</h2>
 
-<h2>Features {#features}</h2>
+<p>Here are some of the standout features of <abbr title="Generic Syntax Highlighter">GeSHi</abbr>:</p>
 
-<p>Here are some of the standout features of GeSHi:</p>
+<dl>
+<dt>Programmed in <abbr title="PHP the HTML Preprocessor">PHP</abbr>:</dt>
+<dd><abbr title="Generic Syntax Highlighter">GeSHi</abbr> is coded entirely in <abbr title="PHP the HTML Preprocessor">PHP</abbr>. This means that where ever you have <abbr title="PHP the HTML Preprocessor">PHP</abbr>, you
+can have <abbr title="Generic Syntax Highlighter">GeSHi</abbr>! Almost any free webhost supports <abbr title="PHP the HTML Preprocessor">PHP</abbr>, and <abbr title="Generic Syntax Highlighter">GeSHi</abbr> works fine with <abbr title="PHP the HTML Preprocessor">PHP</abbr> > 4.3.0<sup id="fnref:php-version-note"><a href="#fn:php-version-note" rel="footnote">2</a></sup>.</dd>
 
-<p>Programmed in PHP:
-:   GeSHi is coded entirely in PHP. This means that where ever you have PHP, you
-    can have GeSHi! Almost any free webhost supports PHP, and GeSHi works fine with PHP > 4.3.0[^php-version-note].</p>
+<dt>Support for many languages:</dt>
+<dd><abbr title="Generic Syntax Highlighter">GeSHi</abbr> comes with more than <em>100</em> languages, including <abbr title="PHP the HTML Preprocessor">PHP</abbr>, <abbr title="Hypertext Markup Language">HTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr>, Java, C, Lisp, <abbr title="Extensible Markup Language">XML</abbr>, Perl, Python,
+<abbr title="Assembly language">ASM</abbr> and many more!</dd>
 
-<p>Support for many languages:
-:   GeSHi comes with more than <em>100</em> languages, including PHP, HTML, CSS, Java, C, Lisp, XML, Perl, Python,
-    ASM and many more!</p>
+<dt>XHTML compliant output:</dt>
+<dd><abbr title="Generic Syntax Highlighter">GeSHi</abbr> produces XHTML compliant output, using stylesheets, so you need not worry about
+<abbr title="Generic Syntax Highlighter">GeSHi</abbr> ruining your claims to perfection in the standards department ;)</dd>
 
-<p>XHTML compliant output:
-:   GeSHi produces XHTML compliant output, using stylesheets, so you need not worry about
-    GeSHi ruining your claims to perfection in the standards department ;)</p>
+<dt>Highly customisable:</dt>
+<dd><abbr title="Generic Syntax Highlighter">GeSHi</abbr> allows you to change the style of the output on the fly, use <abbr title="Cascading Style Sheets">CSS</abbr> classes or not, use an external
+stylesheet or not, use line numbering, change the case of output keywords... the list goes on and on!</dd>
 
-<p>Highly customisable:
-:   GeSHi allows you to change the style of the output on the fly, use CSS classes or not, use an external
-    stylesheet or not, use line numbering, change the case of output keywords... the list goes on and on!</p>
+<dt>Flexible:</dt>
+<dd>Unfortunately, <abbr title="Generic Syntax Highlighter">GeSHi</abbr> is quite load/time intensive for large blocks of code. However, you want speed?
+Turn off any features you don't like, pre-make a stylesheet and use <abbr title="Cascading Style Sheets">CSS</abbr> classes to reduce the amount of output and more -
+it's easy to strike a balance that suits you.</dd>
+</dl>
 
-<p>Flexible:
-:   Unfortunately, GeSHi is quite load/time intensive for large blocks of code. However, you want speed?
-    Turn off any features you don't like, pre-make a stylesheet and use CSS classes to reduce the amount of output and more -
-    it's easy to strike a balance that suits you.</p>
+<p>This is just a taste of what you get with <abbr title="Generic Syntax Highlighter">GeSHi</abbr> - the best syntax highlighter for the web in the world!</p>
 
-<p>This is just a taste of what you get with GeSHi - the best syntax highlighter for the web in the world!</p>
+<h3 id="about-geshi">About <abbr title="Generic Syntax Highlighter">GeSHi</abbr></h3>
 
-<p>[^php-version-note]: Support is granted for PHP 4.3.0 and above, but especially 4.3.x cannot be guaranteed to
-work due to a lack of test systems. If you are forced to use such old PHP versions complain at your hoster or
-contact us if you find compatibility issues so we can try to resolve them. It's only PHP 4.4.X and above that
-is verified to work.</p>
-
-<h3>About GeSHi {#about-geshi}</h3>
-
-<p>GeSHi started as a mod for the [phpBB] forum system, to enable highlighting of more
+<p><abbr title="Generic Syntax Highlighter">GeSHi</abbr> started as a mod for the <a href="http://phpbb.net"><abbr title="PHP Burning Board">phpBB</abbr></a> forum system, to enable highlighting of more
 languages than the available (which can be roughly estimated to exactly 0 ;)). However, it quickly spawned into an
 entire project on its own. But now it has been released, work continues on a mod
-for phpBB[^phpbb-note] - and hopefully for many forum systems, blogs and other web-based systems.</p></p>
+for phpBB<sup id="fnref:phpbb-note"><a href="#fn:phpbb-note" rel="footnote">3</a></sup> - and hopefully for many forum systems, blogs and other web-based systems.</p></p>
 
-<p>[^phpbb-note]: I am no longer working on this MOD, however if someone else wants to they can contact me for more
-information.</p>
-
-<p>Several systems are using GeSHi now, including:</p>
+<p>Several systems are using <abbr title="Generic Syntax Highlighter">GeSHi</abbr> now, including:</p>
 
 <ul>
-<li>[Dokuwiki] - An advanced wiki engine</li>
-<li>[gtk.php.net] - Their manual uses GeSHi for syntax highlighting</li>
-<li>[WordPress] - A powerful blogging system[^plugin-only]</li>
-<li>[PHP-Fusion] - A constantly evolving CMS</li>
-<li>[SQL Manager] - A Postgres DBAL</li>
-<li>[Mambo] - A popular open source CMS</li>
-<li>[MediaWiki] - A leader in Wikis[^plugin-only]</li>
-<li>[TikiWiki] - A megapowerful Wiki/CMS</li>
-<li>[TikiPro] - Another powerful Wiki based on Tikiwiki</li>
-<li>[RWeb] - A site-building tool</li>
+<li><a href="http://www.splitbrain.org/docuwiki/">Dokuwiki</a> - An advanced wiki engine</li>
+<li><a href="http://gtk.php.net/">gtk.php.net</a> - Their manual uses <abbr title="Generic Syntax Highlighter">GeSHi</abbr> for syntax highlighting</li>
+<li><a href="http://www.wordpress.org/">WordPress</a> - A powerful blogging system<sup id="fnref:plugin-only"><a href="#fn:plugin-only" rel="footnote">4</a></sup></li>
+<li><a href="http://www.php-fusion.co.uk/"><abbr title="PHP the HTML Preprocessor">PHP</abbr>-Fusion</a> - A constantly evolving CMS</li>
+<li><a href="http://cypreess.dione.cc/sqlm">SQL Manager</a> - A Postgres DBAL</li>
+<li><a href="http://www.mamboserver.com/">Mambo</a> - A popular open source CMS</li>
+<li><a href="http://www.mediawiki.org/">MediaWiki</a> - A leader in Wikis[^plugin-only]</li>
+<li><a href="http://www.tikiwiki.org/">TikiWiki</a> - A megapowerful Wiki/CMS</li>
+<li><a href="http://www.tikipro.org/">TikiPro</a> - Another powerful Wiki based on Tikiwiki</li>
+<li><a href="http://robloach.net/projects/phpscripts/rweb/">RWeb</a> - A site-building tool</li>
 </ul>
 
-<p>[^plugin-only]: Available as plugin only. In addition, some of the other entries mentioned
-here may only have GeSHi available as a plugin.</p>
+<p><abbr title="Generic Syntax Highlighter">GeSHi</abbr> is the original work of <a href="mailto:nigel@geshi.org">Nigel McNie</a>. The project was later handed over to <a href="mailto:BenBE@omorphia.de">Benny Baumann</a>.
+Others have helped with aspects of <abbr title="Generic Syntax Highlighter">GeSHi</abbr> also, they're mentioned in the <a href="THANKS"><code>THANKS</code></a> file.</p>
 
-<p>GeSHi is the original work of [Nigel McNie]. The project was later handed over to [Benny Baumann].
-Others have helped with aspects of GeSHi also, they're mentioned in the <a href="THANKS"><code>THANKS</code></a> file.</p>
+<h3 id="credits">Credits</h3>
 
-<h3>Credits {#credits}</h3>
-
-<p>Many people have helped out with GeSHi, whether by creating language files, submitting bug
+<p>Many people have helped out with <abbr title="Generic Syntax Highlighter">GeSHi</abbr>, whether by creating language files, submitting bug
 reports, suggesting new ideas or simply pointing out a new idea or something I'd missed. All
-of these people have helped to build a better GeSHi, you can see them in the <a href="THANKS"><code>THANKS</code></a>
+of these people have helped to build a better <abbr title="Generic Syntax Highlighter">GeSHi</abbr>, you can see them in the <a href="THANKS"><code>THANKS</code></a>
 file.</p>
 
 <p>Do you want your name on this list? Why not make a language file, or submit a valid bug? Or perhaps help me with an
 added feature I can't get my head around, or suggest a new feature, or even port
-GeSHi to anothe language? There's lots you can do to help out, and I need it all :)</p>
+<abbr title="Generic Syntax Highlighter">GeSHi</abbr> to anothe language? There's lots you can do to help out, and I need it all :)</p>
 
-<h3>Feedback {#feedback}</h3>
+<h3 id="feedback">Feedback</h3>
 
 <p>I need your feedback! <em>ANY</em>thing you have to say is fine, whether it be a query,
 congratulations, a bug report or complaint, I don't care! I want to make this software
 the best it can be, and I need your help! You can contact me in the following ways:</p>
 
 <ul>
-<li><strong>E-mail:</strong>  [Nigel McNie], [Benny Baumann] or better yet: use the [geshi-users] mailinglist</li>
-<li><strong>Forums:</strong>  [Sourceforge.net Forums][geshi-forums]</li>
+<li><strong>E-mail:</strong>  <a href="mailto:nigel@geshi.org">Nigel McNie</a>, <a href="mailto:BenBE@omorphia.de">Benny Baumann</a> or better yet: use the <a href="http://lists.sourceforge.net/mailman/listinfo/geshi-users">geshi-users</a> mailinglist</li>
+<li><strong>Forums:</strong>  [Sourceforge.net Forums][][geshi-forums]</li>
 <li><strong>IRC:</strong> #geshi on [Freenode]</li>
 </ul>
 
 <p>Remember, any help I am grateful for :)</p>
 
-<h2>The Basics {#the-basics}</h2>
+<h2 id="the-basics">The Basics</h2>
 
-<p>In this section, you'll learn a bit about GeSHi, how it works and what it uses, how to install it and how to use
+<p>In this section, you'll learn a bit about <abbr title="Generic Syntax Highlighter">GeSHi</abbr>, how it works and what it uses, how to install it and how to use
 it to perform basic highlighting.</p>
 
-<h3>Getting GeSHi {#getting-geshi}</h3>
+<h3 id="getting-geshi">Getting <abbr title="Generic Syntax Highlighter">GeSHi</abbr></h3>
 
-<p>If you're reading this and don't have GeSHi, that's a problem ;). So, how do you get your hands on it?
+<p>If you're reading this and don't have <abbr title="Generic Syntax Highlighter">GeSHi</abbr>, that's a problem ;). So, how do you get your hands on it?
 Visit <a href="http://qbnz.com/highlighter/downloads.php">http://qbnz.com/highlighter/downloads.php</a> to obtain the latest version.</p>
 
-<h4>Installing GeSHi {#installing-geshi}</h4>
+<h4 id="installing-geshi">Installing <abbr title="Generic Syntax Highlighter">GeSHi</abbr></h4>
 
-<p>Installing GeSHi is a snap, even for those most new to PHP. There's no tricks involved. Honest!</p>
+<p>Installing <abbr title="Generic Syntax Highlighter">GeSHi</abbr> is a snap, even for those most new to <abbr title="PHP the HTML Preprocessor">PHP</abbr>. There's no tricks involved. Honest!</p>
 
-<h5>Requirements {#requirements}</h5>
+<h5 id="requirements">Requirements</h5>
 
-<p>GeSHi requires the following to be installable:</p>
+<p><abbr title="Generic Syntax Highlighter">GeSHi</abbr> requires the following to be installable:</p>
 
 <ul>
-<li><strong>[PHP]</strong>. It's untested with anything other below 4.4.X. I hope to extend this range soon. I see no reason why
-it won't work with any version of PHP above 4.3.0.</li>
+<li><strong><a href="http://php.net"><abbr title="PHP the HTML Preprocessor">PHP</abbr></a></strong>. It's untested with anything other below 4.4.X. I hope to extend this range soon. I see no reason why
+it won't work with any version of <abbr title="PHP the HTML Preprocessor">PHP</abbr> above 4.3.0.</li>
 <li><strong>Approximately 2 megabytes of space</strong>. The actual script is small - around 150K - but most of the size comes
 from the large number of language files (over 100!). If you're pushed for space, make sure you don't upload to
 your server the <code>docs/</code> or <code>contrib/</code> directory, and you may want to leave out any language files that don't
 take your fancy either.</li>
 </ul>
 
-<p>As you can see, the requirements are very small. If GeSHi does NOT work for you in a particular version of PHP, let
+<p>As you can see, the requirements are very small. If <abbr title="Generic Syntax Highlighter">GeSHi</abbr> does NOT work for you in a particular version of <abbr title="PHP the HTML Preprocessor">PHP</abbr>, let
 me know why and I'll fix it.</p>
 
 <p>Packages come in <code>.zip</code>, <code>.tar.gz</code> and <code>.tar.bz2</code> format, so there's no complaining about whether it's available for
 you. *nix users probably want <code>.tar.gz</code> or <code>.tar.bz2</code> and windows users probably want <code>.zip</code>.</p>
 
-<h5>Extracting GeSHi {#extracting-geshi}</h5>
+<h5 id="extracting-geshi">Extracting <abbr title="Generic Syntax Highlighter">GeSHi</abbr></h5>
 
-<p>To extract GeSHi in Linux (<code>.tar.gz</code>):</p>
+<p>To extract <abbr title="Generic Syntax Highlighter">GeSHi</abbr> in Linux (<code>.tar.gz</code>):</p>
 
 <ol>
 <li>Open a shell</li>
 <li><bash>cd</bash> to the directory where the archive lies</li>
-<li>Type <bash>tar -xzvf [filename]</bash> where <code>[filename]</code> is the name of the archive (typically <code>GeSHi-1.X.X.tar.gz</code>)</li>
-<li>GeSHi will be extracted to its own directory</li>
+<li>Type <bash>tar -xzvf [filename][]</bash> where <code>[filename][]</code> is the name of the archive (typically <code>GeSHi-1.X.X.tar.gz</code>)</li>
+<li><abbr title="Generic Syntax Highlighter">GeSHi</abbr> will be extracted to its own directory</li>
 </ol>
 
-<p>To extract GeSHi in Windows (<code>.zip</code>):</p>
+<p>To extract <abbr title="Generic Syntax Highlighter">GeSHi</abbr> in Windows (<code>.zip</code>):</p>
 
 <ol>
 <li>Open Explorer</li>
@@ -330,15 +322,15 @@ the archive and select "Extract" from there, others may have to drag the archive
 
 <p>To extract from <code>.zip</code> you'll need an unzipping program - unzip in Linux, or Winzip, Winrar or similar for Windows.</p>
 
-<h5>Installation {#installation}</h5>
+<h5 id="installation">Installation</h5>
 
-<p>GeSHi is nothing more than a PHP class with related language support files. Those of you familiar with PHP can then
+<p><abbr title="Generic Syntax Highlighter">GeSHi</abbr> is nothing more than a <abbr title="PHP the HTML Preprocessor">PHP</abbr> class with related language support files. Those of you familiar with <abbr title="PHP the HTML Preprocessor">PHP</abbr> can then
 guess how easy the installation will be: simply copy it into your include path somewhere. You can put it wherever you
 like in this include path. I recommend that you put the language files in a subdirectory of your include path too -
 perhaps the same subdirectory that geshi.php is in. <strong>Remember this path</strong> for later.</p>
 
-<p>If you don't know what an include path is, don't worry. Simply copy GeSHi to your webserver. So for example, say your
-site is at <code>http://mysite.com/myfolder</code>, you can copy GeSHi to your site so the directory structure is like this:</p>
+<p>If you don't know what an include path is, don't worry. Simply copy <abbr title="Generic Syntax Highlighter">GeSHi</abbr> to your webserver. So for example, say your
+site is at <code>http://mysite.com/myfolder</code>, you can copy <abbr title="Generic Syntax Highlighter">GeSHi</abbr> to your site so the directory structure is like this:</p>
 
 <pre><code>http://mysite.com/myfolder/geshi/[language files]
 http://mysite.com/myfolder/geshi.php
@@ -350,19 +342,23 @@ http://mysite.com/myfolder/geshi.php
 http://mysite.com/myfolder/includes/geshi.php
 </code></pre>
 
-<p><caution>
-When using GeSHi on a live site, the only directory required is the <code>geshi/</code> subdirectory. Both <code>contrib/</code> and <code>docs/</code> are
+<div class="caution">
+
+<div class="caution-header">Caution:</div>
+
+<p>When using <abbr title="Generic Syntax Highlighter">GeSHi</abbr> on a live site, the only directory required is the <code>geshi/</code> subdirectory. Both <code>contrib/</code> and <code>docs/</code> are
 worthless, and furthermore, as some people discovered, one of the files in contrib had a security hole (fixed as of 1.0.7.3).
-I suggest you delete these directories from any live site they are on.
-</caution></p>
+I suggest you delete these directories from any live site they are on.</p>
 
-<h3>Basic Usage {#basic-usage}</h3>
+</div>
 
-<p>Use of GeSHi is very easy. Here's a simple example:</p>
+<h3 id="basic-usage">Basic Usage</h3>
+
+<p>Use of <abbr title="Generic Syntax Highlighter">GeSHi</abbr> is very easy. Here's a simple example:</p>
 
 <p><blockphp>
 //
-// Include the GeSHi library
+// Include the <abbr title="Generic Syntax Highlighter">GeSHi</abbr> library
 //
 include_once 'geshi.php';</p>
 
@@ -380,10 +376,10 @@ for ( $i = 1; $i
 $language = 'php';</p>
 
 <p>//
-// Create a GeSHi object
+// Create a <abbr title="Generic Syntax Highlighter">GeSHi</abbr> object
 //</p>
 
-<p>$geshi = new GeSHi($source, $language);</p>
+<p>$geshi = new <abbr title="Generic Syntax Highlighter">GeSHi</abbr>($source, $language);</p>
 
 <p>//
 // And echo the result!
@@ -395,19 +391,19 @@ echo $geshi->parse_code();
 
 <p><php>include_once('geshi.php')</php></p>
 
-<p>This line includes the GeSHi class for use</p>
+<p>This line includes the <abbr title="Generic Syntax Highlighter">GeSHi</abbr> class for use</p>
 
-<p><php>$geshi = new GeSHi($source, $language);</php></p>
+<p><php>$geshi = new <abbr title="Generic Syntax Highlighter">GeSHi</abbr>($source, $language);</php></p>
 
-<p>This line creates a new GeSHi object, holding the source and the language you want to use for highlighting.</p>
+<p>This line creates a new <abbr title="Generic Syntax Highlighter">GeSHi</abbr> object, holding the source and the language you want to use for highlighting.</p>
 
 <p><php>echo $geshi->parse_code();</php></p>
 
 <p>This line spits out the result :)</p>
 
-<p>So as you can see, simple usage of GeSHi is really easy. Just create a new GeSHi object and get the code!</p>
+<p>So as you can see, simple usage of <abbr title="Generic Syntax Highlighter">GeSHi</abbr> is really easy. Just create a new <abbr title="Generic Syntax Highlighter">GeSHi</abbr> object and get the code!</p>
 
-<p>Since version 1.0.2, there is a function included with GeSHi called <code>geshi_highlight</code>. This behaves exactly as the php
+<p>Since version 1.0.2, there is a function included with <abbr title="Generic Syntax Highlighter">GeSHi</abbr> called <code>geshi_highlight</code>. This behaves exactly as the php
 function <php>highlight_string()</php> behaves - all you do is pass it the language you want to use to highlight and the
 path to the language files as well as the source. Here are some examples:</p>
 
@@ -420,11 +416,11 @@ $code = geshi_highlight($source, 'java', $path, true);</p>
 
 <p>// Check if there is an error with parsing this code</p>
 
-<p>ob<em>start();
-$result = geshi</em>highlight($source, 'perl', $path);
-$code = ob<em>get</em>contents();</p>
+<p>ob_start();
+$result = geshi_highlight($source, 'perl', $path);
+$code = ob_get_contents();</p>
 
-<p>ob<em>end</em>clean();
+<p>ob_end_clean();
 if ( !$result )
 {
     // There was an error with highlighting...
@@ -435,114 +431,178 @@ else
 }
 </blockphp></p>
 
-<p>However, these are really simple examples and doesn't even begin to cover all the advanced features of GeSHi.
+<p>However, these are really simple examples and doesn't even begin to cover all the advanced features of <abbr title="Generic Syntax Highlighter">GeSHi</abbr>.
 If you want to learn more, continue on to section 3: Advanced Features.</p>
 
-<h2>Advanced Features {#advanced-features}</h2>
+<h2 id="advanced-features">Advanced Features</h2>
 
-<p>This section documents the advanced features of GeSHi - strict mode, using CSS classes, changing styles on the fly,
+<p>This section documents the advanced features of <abbr title="Generic Syntax Highlighter">GeSHi</abbr> - strict mode, using <abbr title="Cascading Style Sheets">CSS</abbr> classes, changing styles on the fly,
 disabling highlighting of some things and more.</p>
 
-<p>In this section there are many code snippets. For all of these, you should assume that the GeSHi library has been
-included, and a GeSHi object has been created and is referenced by the variable <php>$geshi</php>. Normally, the
+<p>In this section there are many code snippets. For all of these, you should assume that the <abbr title="Generic Syntax Highlighter">GeSHi</abbr> library has been
+included, and a <abbr title="Generic Syntax Highlighter">GeSHi</abbr> object has been created and is referenced by the variable <php>$geshi</php>. Normally, the
 source, language and path used are arbitary.</p>
 
-<h3>The Code Container {#the-code-container}</h3>
+<h3 id="the-code-container">The Code Container</h3>
 
 <p>The <strong>Code Container</strong> has a fundamental effect on the layout of your code before you even begin to style. What is the
 Code Container? It's the bit of markup that goes around your code to contain it. By default your code is surrounded
-by a <html><pre></html>, but you can also specify a <html><div></html>.</p>
+by a <html><pre></html>, but you can also specify a <html></p>
 
-<p>The <html><pre></html> header is the default. If you're familiar with HTML you'll know that whitespace is rendered
+<p>&lt;</p>
+
+<p>div></html>.</p>
+
+<p>The <html><pre></html> header is the default. If you're familiar with <abbr title="Hypertext Markup Language">HTML</abbr> you'll know that whitespace is rendered
 "as is" by a <html><pre></html> element. The advantage for you is that if you use <html><pre></html> the whitespace
-you use will appear pretty much exactly how it is in the source, and what's more GeSHi won't have to add a whole
+you use will appear pretty much exactly how it is in the source, and what's more <abbr title="Generic Syntax Highlighter">GeSHi</abbr> won't have to add a whole
 lot of <html><br /></html>'s and non-breaking spaces (<html>&nbsp;</html>) to your code to indent it. This saves
 you source code (and your valuable visitors waiting time and your bandwidth).</p>
 
 <p>But if you don't like <html><pre></html> or it looks stupid in your browser no matter what styles you try to
-apply to it or something similar, you might want to use a <html><div></html> instead. A <html><div></html> will
-result in more source - GeSHi will have to insert whitespace markup - but in return you can wrap long lines of code
-that would otherwise have your browser's horizontal scrollbar appear. Of course with <html><div></html> you can
-<em>not</em> wrap lines if you please. The highlighter demo at the [GeSHi home page][geshi-home] uses the <html><div></html>
+apply to it or something similar, you might want to use a <html></p>
+
+<p>&lt;</p>
+
+<p>div></html> instead. A <html></p>
+
+<p>&lt;</p>
+
+<p>div></html> will
+result in more source - <abbr title="Generic Syntax Highlighter">GeSHi</abbr> will have to insert whitespace markup - but in return you can wrap long lines of code
+that would otherwise have your browser's horizontal scrollbar appear. Of course with <html></p>
+
+<p>&lt;</p>
+
+<p>div></html> you can
+<em>not</em> wrap lines if you please. The highlighter demo at the [<abbr title="Generic Syntax Highlighter">GeSHi</abbr> home page][][geshi-home] uses the <html></p>
+
+<p>&lt;</p>
+
+<p>div></html>
 approach for this reason.</p>
 
 <p>At this stage there isn't an option to wrap the code in <html><code></html> tags (unless you use the function
 <code>geshi_highlight</code>), partly because of the inconsistent and unexpected ways stuff in <html><code></html> tags is
 highlighted. Besides, <html><code></html> is an inline element. But this may become an option in future versions.</p>
 
-<p>As of GeSHi 1.0.7.2 there is a new header type, that specifies that the code should not be wrapped in anything at all.</p>
+<p>As of <abbr title="Generic Syntax Highlighter">GeSHi</abbr> 1.0.7.2 there is a new header type, that specifies that the code should not be wrapped in anything at all.</p>
 
-<p>Another requested addition has been made in GeSHi 1.0.7.20 to force GeSHi to create a block around the highlighted
-source even if this wasn't necessary, thus styles that are applied to the output of GeSHi can directly influence
+<p>Another requested addition has been made in <abbr title="Generic Syntax Highlighter">GeSHi</abbr> 1.0.7.20 to force <abbr title="Generic Syntax Highlighter">GeSHi</abbr> to create a block around the highlighted
+source even if this wasn't necessary, thus styles that are applied to the output of <abbr title="Generic Syntax Highlighter">GeSHi</abbr> can directly influence
 the code only even if headers and footers are present.</p>
 
-<p>To change/set the header to use, you call the <strong><php>set<em>header</em>type()</php></strong> method. It has one required argument which
+<p>To change/set the header to use, you call the <strong><php>set_header_type()</php></strong> method. It has one required argument which
 defines the container type. Available are:</p>
 
-<p><php>$geshi->set<em>header</em>type(GESHI<em>HEADER</em>DIV);</php></p>
+<dl>
+<dt><php>$geshi->set_header_type(GESHI_HEADER_DIV);</php></dt>
+<dd>
+<p>Puts a <html></p>
+</dd>
+</dl>
 
-<p>:   Puts a <html><div></html> around both, code and linenumbers. Whitespace is converted to <html> &nbsp;</html>
+<p>&lt;</p>
+
+<p>div></html> around both, code and linenumbers. Whitespace is converted to <html> &nbsp;</html>
     sequences (i.e. one whitespace and the html entity of a non-breaking whitespace) to keep your indendation level
-    in tact. Tabs are converted as well and you can manually [define the tab-width]. Lines are automatically wrapped.
+    in tact. Tabs are converted as well and you can manually [define the tab-width][]. Lines are automatically wrapped.
     Linenumbers are created using an ordered list.</p>
 
-<p><php>$geshi->set<em>header</em>type(GESHI<em>HEADER</em>PRE);</php></p>
+<dl>
+<dt><php>$geshi->set_header_type(GESHI_HEADER_PRE);</php></dt>
+<dd>
+<p>Wraps code and linenumbers in a <html><pre></html> container. This way whitespace is kept as-is and thus
+this header produces less overhead then the <code>GESHI_HEADER_DIV</code> header type. Since linenumbers are still
+created using an ordered list this header type produces <strong>invalid <abbr title="Hypertext Markup Language">HTML</abbr></strong>.</p>
+</dd>
 
-<p>:   Wraps code and linenumbers in a <html><pre></html> container. This way whitespace is kept as-is and thus
-    this header produces less overhead then the <code>GESHI_HEADER_DIV</code> header type. Since linenumbers are still
-    created using an ordered list this header type produces <strong>invalid HTML</strong>.</p>
+<dt><php>$geshi->set_header_type(GESHI_HEADER_PRE_VALID);</php></dt>
+<dd><em>Available since 1.0.8</em></dd>
 
-<p><php>$geshi->set<em>header</em>type(GESHI<em>HEADER</em>PRE<em>VALID);</php>
-:  _Available since 1.0.8</em></p>
+<dd>
+<p>When linenumbers are disabled, this behaves just like <code>GESHI_HEADER_PRE</code>. In the other case though, a
+<html></p>
+</dd>
+</dl>
 
-<p>:   When linenumbers are disabled, this behaves just like <code>GESHI_HEADER_PRE</code>. In the other case though, a
-    <html><div></html> is used to wrap the code and linenumbers and the <html><pre></html> is put inside the list
-    items (<html><li></html>). This means slightly larger HTML output compared to <code>GESHI_HEADER_PRE</code>, but the
-    produced HTML code is <strong>valid</strong>.</p>
+<p>&lt;</p>
 
-<p><php>$geshi->set<em>header</em>type(GESHI<em>HEADER</em>PRE<em>TABLE);</php>
-:   _Available since 1.0.8</em></p>
+<p>div></html> is used to wrap the code and linenumbers and the <html><pre></html> is put inside the list
+    items (<html><li></html>). This means slightly larger <abbr title="Hypertext Markup Language">HTML</abbr> output compared to <code>GESHI_HEADER_PRE</code>, but the
+    produced <abbr title="Hypertext Markup Language">HTML</abbr> code is <strong>valid</strong>.</p>
 
-<p>:   Once again a <html><div></html> tag wraps the output. This time though no ordered list is used to create an ordered list,
+<dl>
+<dt><php>$geshi->set_header_type(GESHI_HEADER_PRE_TABLE);</php></dt>
+<dd><em>Available since 1.0.8</em></dd>
+
+<dd>
+<p>Once again a <html></p>
+</dd>
+</dl>
+
+<p>&lt;</p>
+
+<dl>
+div></html> tag wraps the output. This time though no ordered list is used to create an ordered list,
     but instead we use a table with two cells in a single row. The left cell contains a <html><pre></html> tag which holds all
     linenumbers. The second cell holds the highlighted code, also wrapped in a <html><pre></html> tag, just like with
-    <code>GESHI_HEADER_PRE</code>.</p>
+    `GESHI_HEADER_PRE`.
+<dd>
+<p>This produces <strong>valid <abbr title="Hypertext Markup Language">HTML</abbr></strong> and works around the nasty selection behaviour of Firefox and other Gecko based
+browsers, see <a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1651996&amp;group_id=114997&amp;atid=670231">SF#1651996</a> for more information.</p>
+</dd>
 
-<p>:   This produces <strong>valid HTML</strong> and works around the nasty selection behaviour of Firefox and other Gecko based
-    browsers, see [SF#1651996] for more information.</p>
+<dt><php>$geshi->set_header_type(GESHI_HEADER_NONE);</php></dt>
+<dd><em>Available since 1.0.7.2</em></dd>
 
-<p><php>$geshi->set<em>header</em>type(GESHI<em>HEADER</em>NONE);</php>
-: <em>Available since 1.0.7.2</em></p>
-
-<p>:   No wrapper is added.</p>
+<dd>
+<p>No wrapper is added.</p>
+</dd>
+</dl>
 
 <p>Those are the only arguments you should pass to <strong><code>set_header_type</code></strong>. Passing anything else may cause inconsistencies
 in what is used as the Code Container (although it <em>should</em> simply use a <html><pre></html>). Better not to risk it.</p>
 
-<p><note>
-  GESHI<em>HEADER</em>DIV, GESHI<em>HEADER</em>PRE, etc. are <em>constants</em>, so don't put them in strings!
-</note></p>
+<div class="note">
 
-<p><caution>
-  The default styles for the <html><pre></html> and <html><div></html> <em>will be different</em>, especially if you use
+<div class="note-header">Note:</div>
+
+<p>GESHI_HEADER_DIV, GESHI_HEADER_PRE, etc. are <em>constants</em>, so don't put them in strings!</p>
+
+</div>
+
+<p>&lt;</p>
+
+<p>div class="caution" markdown="1"></p>
+
+<div class="caution-header">Caution:</div>
+
+<p>The default styles for the <html><pre></html> and <html></p>
+
+<p>&lt;</p>
+
+<p>div></html> <em>will be different</em>, especially if you use
   line numbers!</p>
 
-<p>I have found that a <html><pre></html> results in code that is smaller than for that of a <html><div></html>, you
-  should rectify this difference by using <strong><php>set<em>overall</em>style()</php></strong> if you need to. But be aware of this
+<p>I have found that a <html><pre></html> results in code that is smaller than for that of a <html></p>
+
+<div></html>, you
+  should rectify this difference by using **<php>set_overall_style()</php>** if you need to. But be aware of this
   difference for if you are changing the header type!
-</caution></p>
+</div>
 
-<h3>Line Numbers {#line-numbers}</h3>
+<h3 id="line-numbers">Line Numbers</h3>
 
-<p>GeSHi has the ability to add line numbers to your code (see the demo available at <a href="http://qbnz.com/highlighter/demo.php">http://qbnz.com/highlighter/demo.php</a>
+<p><abbr title="Generic Syntax Highlighter">GeSHi</abbr> has the ability to add line numbers to your code (see the demo available at <a href="http://qbnz.com/highlighter/demo.php">http://qbnz.com/highlighter/demo.php</a>
 to see what can be achieved). Line numbers are a great way to make your code look professional, especially if you use the
 fancy line numbers feature.</p>
 
-<h4>Enabling Line Numbers {#enabling-line-numbers}</h4>
+<h4 id="enabling-line-numbers">Enabling Line Numbers</h4>
 
 <p>To highlight a source with line numbers, you call the <strong><code>enable_line_numbers()</code></strong> method:</p>
 
-<p><php>$geshi->enable<em>line</em>numbers($flag);</php>
+<p><php>$geshi->enable_line_numbers($flag);</php>
 Where <php>$flag</php> is one of the following:</p>
 
 <ul>
@@ -554,13 +614,46 @@ Where <php>$flag</php> is one of the following:</p>
 <p>Normal line numbers means you specify a style for them, and that style gets applied to all of them. Fancy line numbers
 means that you can specify a different style for each n<sup>th</sup> line number. You change the value of n (default 5):</p>
 
-<p><php>$geshi->enable<em>line</em>numbers(GESHI<em>FANCY</em>LINE_NUMBERS, 37);</php></p>
+<p><php>$geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 37);</php></p>
 
 <p>The second parameter is not used in any other mode. Setting it to <code>0</code> is the same as simply using normal line numbers.
 Setting it to <code>1</code> applies the fancy style to every line number.</p>
 
-<p><note>
-  The values above are CONSTANTS - so don't put them in strings!
-</note></p>
+<div class="note">
+
+<div class="note-header">Note:</div>
+
+<p>The values above are CONSTANTS - so don't put them in strings!</p>
+
+</div>
+
+<div class="footnotes">
+<hr />
+<ol>
+
+<li id="fn:xhtml-strict">
+<p>The PRE header (see <a href="#the-code-container">The Code Container</a>) is not valid <abbr title="Hypertext Markup Language">HTML</abbr>, you might want
+to use one of the other header types instead.&#160;<a href="#fnref:xhtml-strict" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn:php-version-note">
+<p>Support is granted for <abbr title="PHP the HTML Preprocessor">PHP</abbr> 4.3.0 and above, but especially 4.3.x cannot be guaranteed to
+work due to a lack of test systems. If you are forced to use such old <abbr title="PHP the HTML Preprocessor">PHP</abbr> versions complain at your hoster or
+contact us if you find compatibility issues so we can try to resolve them. It's only <abbr title="PHP the HTML Preprocessor">PHP</abbr> 4.4.X and above that
+is verified to work.&#160;<a href="#fnref:php-version-note" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn:phpbb-note">
+<p>I am no longer working on this MOD, however if someone else wants to they can contact me for more
+information.&#160;<a href="#fnref:phpbb-note" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn:plugin-only">
+<p>Available as plugin only. In addition, some of the other entries mentioned
+here may only have <abbr title="Generic Syntax Highlighter">GeSHi</abbr> available as a plugin.&#160;<a href="#fnref:plugin-only" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
     </body>
 </html>

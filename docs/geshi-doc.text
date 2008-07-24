@@ -3,9 +3,9 @@
 <version />
 
 Authors:
-:   * &copy; 2004 - 2007 [Nigel McNie]
-    * &copy; 2007 - 2008 [Benny Baumann]
-    * &copy; 2008 [Milian Wolff]
+:   &copy; 2004 - 2007 [Nigel McNie]
+:   &copy; 2007 - 2008 [Benny Baumann]
+:   &copy; 2008 [Milian Wolff]
 
 GeSHi Website:
 :   <http://qbnz.com/highlighter>
@@ -32,7 +32,7 @@ highlight it! GeSHi is extremely customisable - the same source can be highlight
 multiple times in multiple ways - the same source even with a different language.
 GeSHi outputs XHTML strict compliant code[^xhtml-strict], and can
 make use of CSS to save on the amount of output. And what is the cost for all of this? You need
-[PHP]. That's all!
+[PHP][]. That's all!
 
 [^xhtml-strict]: The PRE header (see [The Code Container](#the-code-container)) is not valid HTML, you might want
 to use one of the other header types instead.
@@ -71,7 +71,7 @@ is verified to work.
 
 ### About GeSHi {#about-geshi}
 
-GeSHi started as a mod for the [phpBB] forum system, to enable highlighting of more
+GeSHi started as a mod for the [phpBB][] forum system, to enable highlighting of more
 languages than the available (which can be roughly estimated to exactly 0 ;)). However, it quickly spawned into an
 entire project on its own. But now it has been released, work continues on a mod
 for phpBB[^phpbb-note] - and hopefully for many forum systems, blogs and other web-based systems.</p>
@@ -81,21 +81,21 @@ information.
 
 Several systems are using GeSHi now, including:
 
-* [Dokuwiki] - An advanced wiki engine
-* [gtk.php.net] - Their manual uses GeSHi for syntax highlighting
-* [WordPress] - A powerful blogging system[^plugin-only]
-* [PHP-Fusion] - A constantly evolving CMS
-* [SQL Manager] - A Postgres DBAL
-* [Mambo] - A popular open source CMS
-* [MediaWiki] - A leader in Wikis[^plugin-only]
-* [TikiWiki] - A megapowerful Wiki/CMS
-* [TikiPro] - Another powerful Wiki based on Tikiwiki
-* [RWeb] - A site-building tool
+* [Dokuwiki][] - An advanced wiki engine
+* [gtk.php.net][] - Their manual uses GeSHi for syntax highlighting
+* [WordPress][] - A powerful blogging system[^plugin-only]
+* [PHP-Fusion][] - A constantly evolving CMS
+* [SQL Manager][] - A Postgres DBAL
+* [Mambo][] - A popular open source CMS
+* [MediaWiki][] - A leader in Wikis[^plugin-only]
+* [TikiWiki][] - A megapowerful Wiki/CMS
+* [TikiPro][] - Another powerful Wiki based on Tikiwiki
+* [RWeb][] - A site-building tool
 
 [^plugin-only]: Available as plugin only. In addition, some of the other entries mentioned
 here may only have GeSHi available as a plugin.
 
-GeSHi is the original work of [Nigel McNie]. The project was later handed over to [Benny Baumann].
+GeSHi is the original work of [Nigel McNie][]. The project was later handed over to [Benny Baumann][].
 Others have helped with aspects of GeSHi also, they're mentioned in the [`THANKS`](THANKS) file.
 
 ### Credits {#credits}
@@ -115,8 +115,8 @@ I need your feedback! *ANY*thing you have to say is fine, whether it be a query,
 congratulations, a bug report or complaint, I don't care! I want to make this software
 the best it can be, and I need your help! You can contact me in the following ways:
 
-- **E-mail:**  [Nigel McNie], [Benny Baumann] or better yet: use the [geshi-users] mailinglist
-- **Forums:**  [Sourceforge.net Forums][geshi-forums]
+- **E-mail:**  [Nigel McNie][], [Benny Baumann][] or better yet: use the [geshi-users][] mailinglist
+- **Forums:**  [Sourceforge.net Forums][][geshi-forums]
 - **IRC:** #geshi on [Freenode]
 
 Remember, any help I am grateful for :)
@@ -139,7 +139,7 @@ Installing GeSHi is a snap, even for those most new to PHP. There's no tricks in
 
 GeSHi requires the following to be installable:
 
-*   **[PHP]**. It's untested with anything other below 4.4.X. I hope to extend this range soon. I see no reason why
+*   **[PHP][]**. It's untested with anything other below 4.4.X. I hope to extend this range soon. I see no reason why
     it won't work with any version of PHP above 4.3.0.
 *   **Approximately 2 megabytes of space**. The actual script is small - around 150K - but most of the size comes
     from the large number of language files (over 100!). If you're pushed for space, make sure you don't upload to
@@ -158,7 +158,7 @@ To extract GeSHi in Linux (`.tar.gz`):
 
 1.  Open a shell
 2.  <bash>cd</bash> to the directory where the archive lies
-3.  Type <bash>tar -xzvf [filename]</bash> where `[filename]` is the name of the archive (typically `GeSHi-1.X.X.tar.gz`)
+3.  Type <bash>tar -xzvf [filename][]</bash> where `[filename][]` is the name of the archive (typically `GeSHi-1.X.X.tar.gz`)
 4.  GeSHi will be extracted to its own directory
 
 To extract GeSHi in Windows (`.zip`):
@@ -302,7 +302,7 @@ But if you don't like <html><pre></html> or it looks stupid in your browser no m
 apply to it or something similar, you might want to use a <html><div></html> instead. A <html><div></html> will
 result in more source - GeSHi will have to insert whitespace markup - but in return you can wrap long lines of code
 that would otherwise have your browser's horizontal scrollbar appear. Of course with <html><div></html> you can
-*not* wrap lines if you please. The highlighter demo at the [GeSHi home page][geshi-home] uses the <html><div></html>
+*not* wrap lines if you please. The highlighter demo at the [GeSHi home page][][geshi-home] uses the <html><div></html>
 approach for this reason.
 
 At this stage there isn't an option to wrap the code in <html><code></html> tags (unless you use the function
@@ -322,7 +322,7 @@ defines the container type. Available are:
 
 :   Puts a <html><div></html> around both, code and linenumbers. Whitespace is converted to <html> &nbsp;</html>
     sequences (i.e. one whitespace and the html entity of a non-breaking whitespace) to keep your indendation level
-    in tact. Tabs are converted as well and you can manually [define the tab-width]. Lines are automatically wrapped.
+    in tact. Tabs are converted as well and you can manually [define the tab-width][]. Lines are automatically wrapped.
     Linenumbers are created using an ordered list.
 
 <php>$geshi->set_header_type(GESHI_HEADER_PRE);</php>
@@ -348,7 +348,7 @@ defines the container type. Available are:
     `GESHI_HEADER_PRE`.
 
 :   This produces **valid HTML** and works around the nasty selection behaviour of Firefox and other Gecko based
-    browsers, see [SF#1651996] for more information.
+    browsers, see [SF#1651996][] for more information.
 
 <php>$geshi->set_header_type(GESHI_HEADER_NONE);</php>
 : _Available since 1.0.7.2_

@@ -33,11 +33,11 @@ require '../profiling/geshi-trunk/geshi.php'; // for version...
 
 $parser = new DocMarkdown;
 
-$documentation = file_get_contents('geshi-doc.text');
+$documentation = file_get_contents('geshi-doc.text')."\n"
+                  .file_get_contents('links.text')."\n"
+                  .file_get_contents('abbrevations.text');
 
 $documentation = $parser->transform($documentation);
-var_dump($documentation);
-die();
 
 ob_start();
 require 'template.php';
