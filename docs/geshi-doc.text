@@ -1,0 +1,380 @@
+# Introduction {#introduction}
+
+GeSHi is exactly what the acronym stands for: a **Generic Syntax Highlighter**. As long
+as you have a language file for almost any computer language - whether it be a
+scripting language, object orientated, markup or anything in between - GeSHi can
+highlight it! GeSHi is extremely customisable - the same source can be highlighted
+multiple times in multiple ways - the same source even with a different language.
+GeSHi outputs XHTML strict compliant code[^xhtml-strict], and can
+make use of CSS to save on the amount of output. And what is the cost for all of this? You need
+[PHP]. That's all!
+
+[^xhtml-strict]: The PRE header (see [The Code Container](#the-code-container)) is not valid HTML, you might want to use one of the other header types instead.
+
+## Features {#features}
+
+Here are some of the standout features of GeSHi:
+
+Programmed in PHP:
+:   GeSHi is coded entirely in PHP. This means that where ever you have PHP, you
+    can have GeSHi! Almost any free webhost supports PHP, and GeSHi works fine with PHP > 4.3.0[^php-version-note].
+
+Support for many languages:
+:   GeSHi comes with more than _100_ languages, including PHP, HTML, CSS, Java, C, Lisp, XML, Perl, Python,
+    ASM and many more!
+
+XHTML compliant output:
+:   GeSHi produces XHTML compliant output, using stylesheets, so you need not worry about
+	GeSHi ruining your claims to perfection in the standards department ;)
+
+Highly customisable:
+:   GeSHi allows you to change the style of the output on the fly, use CSS classes or not, use an external
+	stylesheet or not, use line numbering, change the case of output keywords... the list goes on and on!
+
+Flexible:
+:   Unfortunately, GeSHi is quite load/time intensive for large blocks of code. However, you want speed?
+	Turn off any features you don't like, pre-make a stylesheet and use CSS classes to reduce the amount of output and more -
+	it's easy to strike a balance that suits you.
+
+This is just a taste of what you get with GeSHi - the best syntax highlighter for the web in the world!
+
+[^php-version-note]: Support is granted for PHP 4.3.0 and above, but especially 4.3.x cannot be guaranteed to
+work due to a lack of test systems. If you are forced to use such old PHP versions complain at your hoster or
+contact us if you find compatibility issues so we can try to resolve them. It's only PHP 4.4.X and above that
+is verified to work.
+
+## About GeSHi {#about-geshi}
+
+GeSHi started as a mod for the [phpBB] forum system, to enable highlighting of more
+languages than the available (which can be roughly estimated to exactly 0 ;)). However, it quickly spawned into an
+entire project on its own. But now it has been released, work continues on a mod
+for phpBB[^phpbb-note] - and hopefully for many forum systems, blogs and other web-based systems.</p>
+
+[^phpbb-note]: I am no longer working on this MOD, however if someone else wants to they can contact me for more
+information.
+
+Several systems are using GeSHi now, including:
+
+* [Dokuwiki] - An advanced wiki engine
+* [gtk.php.net] - Their manual uses GeSHi for syntax highlighting
+* [WordPress] - A powerful blogging system[^plugin-only]
+* [PHP-Fusion] - A constantly evolving CMS
+* [SQL Manager] - A Postgres DBAL
+* [Mambo] - A popular open source CMS
+* [MediaWiki] - A leader in Wikis[^plugin-only]
+* [TikiWiki] - A megapowerful Wiki/CMS
+* [TikiPro] - Another powerful Wiki based on Tikiwiki
+* [RWeb] - A site-building tool
+
+[^plugin-only]: Available as plugin only. In addition, some of the other entries mentioned
+here may only have GeSHi available as a plugin.
+
+GeSHi is the original work of [Nigel McNie]. The project was later handed over to [Benny Baumann].
+Others have helped with aspects of GeSHi also, they're mentioned in the [`THANKS`](THANKS) file.
+
+## Credits {#credits}
+
+Many people have helped out with GeSHi, whether by creating language files, submitting bug
+reports, suggesting new ideas or simply pointing out a new idea or something I'd missed. All
+of these people have helped to build a better GeSHi, you can see them in the [`THANKS`](THANKS)
+file.
+
+Do you want your name on this list? Why not make a language file, or submit a valid bug? Or perhaps help me with an
+added feature I can't get my head around, or suggest a new feature, or even port
+GeSHi to anothe language? There's lots you can do to help out, and I need it all :)
+
+## Feedback {#feedback}
+
+I need your feedback! *ANY*thing you have to say is fine, whether it be a query,
+congratulations, a bug report or complaint, I don't care! I want to make this software
+the best it can be, and I need your help! You can contact me in the following ways:
+
+- **E-mail:**  [Nigel McNie], [Benny Baumann] or better yet: use the [geshi-users] mailinglist
+- **Forums:**  [Sourceforge.net Forums][geshi-forums]
+- **IRC:** #geshi on [Freenode]
+
+Remember, any help I am grateful for :)
+
+# 2: The Basics {#the-basics}
+
+In this section, you'll learn a bit about GeSHi, how it works and what it uses, how to install it and how to use it to perform basic highlighting.
+
+#### 2.1: Getting GeSHi {#getting-geshi}
+
+If you're reading this and don't have GeSHi, that's a problem ;). So, how do you get your hands on it? Visit <http://qbnz.com/highlighter/downloads.php> to obtain the latest version.
+
+#### 2.2: Installing GeSHi {#installing-geshi}
+
+Installing GeSHi is a snap, even for those most new to PHP. There's no tricks involved. Honest!
+
+##### 2.2.1: Requirements {#requirements}
+
+GeSHi requires the following to be installable:
+
+*   **[PHP]**. It's untested with anything other below 4.4.X. I hope to extend this range soon. I see no reason why it won't work with any version of PHP above 4.3.0.
+*   **Approximately 2 megabytes of space**. The actual script is small - around 150K - but most of the size comes from the large number of language files (over 100!). If you're pushed for space, make sure you don't upload to your server the `docs/` or `contrib/` directory, and you may want to leave out any language files that don't take your fancy either.
+
+As you can see, the requirements are very small. If GeSHi does NOT work for you in a particular version of PHP, let me know why and I'll fix it.
+
+Packages come in `.zip`, `.tar.gz` and `.tar.bz2` format, so there's no complaining about whether it's available for you. *nix users probably want `.tar.gz` or `.tar.bz2` and windows users probably want `.zip`.
+
+##### 2.2.2: Extracting GeSHi {#extracting-geshi}
+
+<div class="nav">
+  <a href="#top">Top</a> | <a href="#contents">Contents</a> | <a href="#installation">Next</a> | <a href="#requirements">Previous</a>
+</div>
+
+To extract GeSHi in Linux (`.tar.gz`):
+
+1.  Open a shell
+2.  <kbd>cd</kbd> to the directory where the archive lies
+3.  Type <kbd>tar -xzvf [filename]</kbd> where `[filename]` is the name of the archive (typically `GeSHi-1.X.X.tar.gz`)
+4.  GeSHi will be extracted to its own directory
+
+To extract GeSHi in Windows (`.zip`):
+
+1.  Open Explorer
+2.  Navigate to the directory where the archive lies
+3.  Extract the archive. The method you use will depend on your configuration. Some people can right-click upon the archive and select "Extract" from there, others may have to drag the archive and drop it upon an extraction program.
+
+To extract from `.zip` you'll need an unzipping program - unzip in Linux, or Winzip, Winrar or similar for Windows.
+
+##### 2.2.3: Installation {#installation}
+
+<div class="nav">
+  <a href="#top">Top</a> | <a href="#contents">Contents</a> | <a href="#basic-usage">Next</a> | <a href="#extracting-geshi">Previous</a>
+</div>
+
+GeSHi is nothing more than a PHP class with related language support files. Those of you familiar with PHP can then guess how easy the installation will be: simply copy it into your include path somewhere. You can put it wherever you like in this include path. I recommend that you put the language files in a subdirectory of your include path too - perhaps the same subdirectory that geshi.php is in. **Remember this path** for later.
+
+If you don't know what an include path is, don't worry. Simply copy GeSHi to your webserver. So for example, say your site is at `http://mysite.com/myfolder`, you can copy GeSHi to your site so the directory structure is like this:
+
+<pre>http://mysite.com/myfolder/geshi/[language files]
+http://mysite.com/myfolder/geshi.php</pre>
+
+Or you can put it in any subdirectory you like:
+
+<pre>http://mysite.com/myfolder/includes/geshi/[language files]
+http://mysite.com/myfolder/includes/geshi.php</pre>
+
+<div class="caution">
+  <div class="caution-header">
+    Caution:
+  </div>
+
+  <p>
+    When using GeSHi on a live site, the only directory required is the `geshi/` subdirectory. Both `contrib/` and `docs/` are worthless, and furthermore, as some people discovered, one of the files in contrib had a security hole (fixed as of 1.0.7.3). I suggest you delete these directories from any live site they are on.
+  </p>
+</div>
+
+#### 2.3: Basic Usage {#basic-usage}
+
+<div class="nav">
+  <a href="#top">Top</a> | <a href="#contents">Contents</a> | <a href="#advanced-features">Next</a> | <a href="#installation">Previous</a>
+</div>
+
+Use of GeSHi is very easy. Here's a simple example:
+
+`<span style="color: #808080; font-style: italic;">//</span><br />
+<span style="color: #808080; font-style: italic;">// Include the GeSHi library</span><br />
+
+<span style="color: #808080; font-style: italic;">//</span><br />
+<span style="color: #b1b100;">include_once</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'geshi.php'</span><span style="color: #66cc66;">&#41;</span>;<br />
+<br />
+<span style="color: #808080; font-style: italic;">//</span><br />
+<span style="color: #808080; font-style: italic;">// Define some source to highlight, a language to use</span><br />
+<span style="color: #808080; font-style: italic;">// and the path to the language files</span><br />
+
+<span style="color: #808080; font-style: italic;">//</span><br />
+<span style="color: #0000ff;">$source</span> = <span style="color: #ff0000;">'$foo = 45;<br />
+for ( $i = 1; $i < $foo; $i++ )<br />
+{<br />
+
+&nbsp; echo "$foo<br /><span style="color: #000099; font-weight: bold;">\n</span>";<br />
+&nbsp; --$foo;<br />
+}'</span>;<br />
+<span style="color: #0000ff;">$language</span> = <span style="color: #ff0000;">'php'</span>;<br />
+
+<span style="color: #808080; font-style: italic;">//</span><br />
+<span style="color: #808080; font-style: italic;">// Create a GeSHi object</span><br />
+<span style="color: #808080; font-style: italic;">//</span><br />
+
+<span style="color: #0000ff;">$geshi</span> =& <span style="color: #000000; font-weight: bold;">new</span> GeSHi<span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$source</span>, <span style="color: #0000ff;">$language</span><span style="color: #66cc66;">&#41;</span>;<br />
+<br />
+<span style="color: #808080; font-style: italic;">//</span><br />
+
+<span style="color: #808080; font-style: italic;">// And echo the result!</span><br />
+<span style="color: #808080; font-style: italic;">//</span><br />
+<a href="http://www.php.net/echo"><span style="color: #000066;">echo</span></a> <span style="color: #0000ff;">$geshi</span>-><span style="color: #006600;">parse_code</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;
+`
+As you can see, there's only three really important lines:
+
+`<span style="color: #b1b100;">include_once</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'geshi.php'</span><span style="color: #66cc66;">&#41;</span>;`
+This line includes the GeSHi class for use
+
+`<span style="color: #0000ff;">$geshi</span> = <span style="color: #000000; font-weight: bold;">new</span> GeSHi<span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$source</span>, <span style="color: #0000ff;">$language</span><span style="color: #66cc66;">&#41;</span>;`
+This line creates a new GeSHi object, holding the source and the language you want to use for highlighting.
+
+`<a href="http://www.php.net/echo"><span style="color: #000066;">echo</span></a> <span style="color: #0000ff;">$geshi</span>-><span style="color: #006600;">parse_code</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;`
+This line spits out the result :)
+
+So as you can see, simple usage of GeSHi is really easy. Just create a new GeSHi object and get the code!
+
+Since version 1.0.2, there is a function included with GeSHi called `geshi_highlight`. This behaves exactly as the php function `highlight_string` behaves - all you do is pass it the language you want to use to highlight and the path to the language files as well as the source. Here are some examples:
+
+`<span style="color: #808080; font-style: italic;">// Simply echo the highlighted code</span><br />
+geshi_highlight<span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$source</span>, <span style="color: #ff0000;">'php'</span>, <span style="color: #0000ff;">$path</span><span style="color: #66cc66;">&#41;</span>;<br />
+
+<br />
+<span style="color: #808080; font-style: italic;">// Get the code back, for use later</span><br />
+<span style="color: #0000ff;">$code</span> = geshi_highlight<span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$source</span>, <span style="color: #ff0000;">'java'</span>, <span style="color: #0000ff;">$path</span>, <span style="color: #000000; font-weight: bold;">true</span><span style="color: #66cc66;">&#41;</span><br />
+<br />
+<span style="color: #808080; font-style: italic;">// Check if there is an error with parsing this code</span><br />
+
+<a href="http://www.php.net/ob_start"><span style="color: #000066;">ob_start</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;<br />
+<span style="color: #0000ff;">$result</span> = geshi_highlight<span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$source</span>, <span style="color: #ff0000;">'perl'</span>, <span style="color: #0000ff;">$path</span><span style="color: #66cc66;">&#41;</span>;<br />
+<span style="color: #0000ff;">$code</span> = <a href="http://www.php.net/ob_get_contents"><span style="color: #000066;">ob_get_contents</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;<br />
+
+<a href="http://www.php.net/ob_end_clean"><span style="color: #000066;">ob_end_clean</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;<br />
+<span style="color: #b1b100;">if</span> <span style="color: #66cc66;">&#40;</span> !<span style="color: #0000ff;">$result</span> <span style="color: #66cc66;">&#41;</span><br />
+<span style="color: #66cc66;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #808080; font-style: italic;">// There was an error with highlighting...</span><br />
+
+<span style="color: #66cc66;">&#125;</span><br />
+<span style="color: #b1b100;">else</span><br />
+<span style="color: #66cc66;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #808080; font-style: italic;">// All OK :)</span><br />
+<span style="color: #66cc66;">&#125;</span>
+`
+However, these are really simple examples and doesn't even begin to cover all the advanced features of GeSHi. If you want to learn more, continue on to section 3: Advanced Features.
+
+### 3: Advanced Features {#advanced-features}
+
+<div class="nav">
+  <a href="#top">Top</a> | <a href="#contents">Contents</a> | <a href="#the-code-container">Next</a> | <a href="#basic-usage">Previous</a>
+</div>
+
+This section documents the advanced features of GeSHi - strict mode, using CSS classes, changing styles on the fly, disabling highlighting of some things and more.
+
+In this section there are many code snippets. For all of these, you should assume that the GeSHi library has been included, and a GeSHi object has been created and is referenced by the variable <var>$geshi</var>. Normally, the source, language and path used are arbitary.
+
+#### 3.1 The Code Container {#the-code-container}
+
+<div class="nav">
+  <a href="#top">Top</a> | <a href="#contents">Contents</a> | <a href="#line-numbers">Next</a> | <a href="#advanced-features">Previous</a>
+</div>
+
+The **Code Container** has a fundamental effect on the layout of your code before you even begin to style. What is the Code Container? It's the bit of markup that goes around your code to contain it. By default your code is surrounded by a `<pre>`, but you can also specify a `<div>`.
+
+The `<pre>` header is the default. If you're familiar with HTML you'll know that whitespace is rendered "as is" by a `<pre>` element. The advantage for you is that if you use `<pre>` the whitespace you use will appear pretty much exactly how it is in the source, and what's more GeSHi won't have to add a whole lot of `<br />`'s and non-breaking spaces (`&nbsp;`) to your code to indent it. This saves you source code (and your valuable visitors waiting time and your bandwidth).
+
+But if you don't like `<pre>` or it looks stupid in your browser no matter what styles you try to apply to it or something similar, you might want to use a `<div>` instead. A `<div>` will result in more source - GeSHi will have to insert whitespace markup - but in return you can wrap long lines of code that would otherwise have your browser's horizontal scrollbar appear. Of course with `<div>` you can \*not\* wrap lines if you please. The highlighter demo at the [GeSHi home page][17] uses the `<div>` approach for this reason.
+
+At this stage there isn't an option to wrap the code in `<code>` tags (unless you use the function `geshi_highlight`), partly because of the inconsistent and unexpected ways stuff in `<code>` tags is highlighted. Besides, `<code>` is an inline element. But this may become an option in future versions.
+
+As of GeSHi 1.0.7.2 there is a new header type, that specifies that the code should not be wrapped in anything at all.
+
+Another requested addition has been made in GeSHi 1.0.7.20 to force GeSHi to create a block around the highlighted source even if this wasn't necessary, thus styles that are applied to the output of GeSHi can directly influence the code only even if headers and footers are present.
+
+To change/set the header to use, you call the **`set_header_type()`** method. It has one required argument which defines the container type. Available are:
+
+`<span style="color: #0000ff;">$geshi</span>-><span style="color: #006600;">set_header_type</span><span style="color: #66cc66;">&#40;</span>GESHI_HEADER_DIV<span style="color: #66cc66;">&#41;</span>;`
+
+:   Puts a `<div>` around both, code and linenumbers. Whitespace is converted to `  ` sequences (i.e. one whitespace and the html entity of a non-breaking whitespace) to keep your indendation level in tact. Tabs are converted as well and you can manually [define the tab-width][18]. Lines are automatically wrapped. Linenumbers are created using an ordered list.
+
+`<span style="color: #0000ff;">$geshi</span>-><span style="color: #006600;">set_header_type</span><span style="color: #66cc66;">&#40;</span>GESHI_HEADER_PRE<span style="color: #66cc66;">&#41;</span>;`
+
+:   Wraps code and linenumbers in a `<pre>` container. This way whitespace is kept as-is and thus this header produces less overhead then the `GESHI_HEADER_DIV` header type. Since linenumbers are still created using an ordered list this header type produces **invalid HTML**.
+
+`<span style="color: #0000ff;">$geshi</span>-><span style="color: #006600;">set_header_type</span><span style="color: #66cc66;">&#40;</span>GESHI_HEADER_PRE_VALID<span style="color: #66cc66;">&#41;</span>;` <small><em>Available since 1.0.8</em></small>
+
+:   When linenumbers are disabled, this behaves just like `GESHI_HEADER_PRE`. In the other case though, a `<div>` is used to wrap the code and linenumbers and the `<pre>` is put inside the list items (`<li>`). This means slightly larger HTML output compared to `GESHI_HEADER_PRE`, but the produced HTML code is **valid**.
+
+`<span style="color: #0000ff;">$geshi</span>-><span style="color: #006600;">set_header_type</span><span style="color: #66cc66;">&#40;</span>GESHI_HEADER_PRE_TABLE<span style="color: #66cc66;">&#41;</span>;` <small><em>Available since 1.0.8</em></small>
+
+:   Once again a `<div>` tag wraps the output. This time though no ordered list is used to create an ordered list, but instead we use a table with two cells in a single row. The left cell contains a `<pre>` tag which holds all linenumbers. The second cell holds the highlighted code, also wrapped in a `<pre>` tag, just like with `GESHI_HEADER_PRE`.
+    This produces **valid HTML** and works around the nasty selection behaviour of Firefox and other Gecko based browsers, see [SF#1651996][19] for more information.</dt>
+
+    `<span style="color: #0000ff;">$geshi</span>-><span style="color: #006600;">set_header_type</span><span style="color: #66cc66;">&#40;</span>GESHI_HEADER_NONE<span style="color: #66cc66;">&#41;</span>;` <small><em>Available since 1.0.7.2</em></small>
+
+    :   No wrapper is added.</dt> </dl>
+
+        Those are the only arguments you should pass to **`set_header_type`**. Passing anything else may cause inconsistencies in what is used as the Code Container (although it \*should\* simply use a `<pre>`). Better not to risk it.
+
+        <div class="note">
+          <div class="note-header">
+            Note:
+          </div>
+
+          <p>
+            GESHI_HEADER_DIV, GESHI_HEADER_PRE, etc. are <em>constants</em>, so don't put them in strings!
+          </p>
+        </div>
+
+        <div class="caution">
+          <div class="caution-header">
+            Caution:
+          </div>
+
+          <p>
+            The default styles for the `<pre>` and `<div>` <em>will be different, especially if you use line numbers!</em>. I have found that a `<pre>` results in code that is smaller than for that of a `<div>`, you should rectify this difference by using <strong>`set_overall_style()`</strong> if you need to. But be aware of this difference for if you are changing the header type!
+          </p>
+        </div>
+
+        #### 3.2: Line Numbers {#line-numbers}
+
+        <div class="nav">
+          <a href="#top">Top</a> | <a href="#contents">Contents</a> | <a href="#enabling-line-numbers">Next</a> | <a href="#the-code-container">Previous</a>
+        </div>
+
+        GeSHi has the ability to add line numbers to your code (see the demo available at <http://qbnz.com/highlighter/demo.php> to see what can be achieved). Line numbers are a great way to make your code look professional, especially if you use the fancy line numbers feature.
+
+        ##### 3.2.1: Enabling Line Numbers {#enabling-line-numbers}
+
+        <div class="nav">
+          <a href="#top">Top</a> | <a href="#contents">Contents</a> | <a href="#styling-line-numbers">Next</a> | <a href="#line-numbers">Previous</a>
+        </div>
+
+        To highlight a source with line numbers, you call the **`enable_line_numbers()`** method:
+
+        `<span style="color: #0000ff;">$geshi</span>-><span style="color: #006600;">enable_line_numbers</span><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$flag</span><span style="color: #66cc66;">&#41;</span>;`
+        Where <var>$flag</var> is one of the following:
+
+        *   `GESHI_NORMAL_LINE_NUMBERS` - Use normal line numbering
+        *   `GESHI_FANCY_LINE_NUMBERS` - Use fancy line numbering
+        *   `GESHI_NO_LINE_NUMBERS` - Disable line numbers (default)
+
+        Normal line numbers means you specify a style for them, and that style gets applied to all of them. Fancy line numbers means that you can specify a different style for each n<sup>th</sup> line number. You change the value of n (default 5):
+
+        `<span style="color: #0000ff;">$geshi</span>-><span style="color: #006600;">enable_line_numbers</span><span style="color: #66cc66;">&#40;</span>GESHI_FANCY_LINE_NUMBERS, <span style="color: #cc66cc;">37</span><span style="color: #66cc66;">&#41;</span>;`
+        The second parameter is not used in any other mode. Setting it to 0 is the same as simply using normal line numbers. Setting it to 1 applies the fancy style to every line number.
+
+        <div class="note">
+          <div class="note-header">
+            Note:
+          </div>
+
+          <p>
+            The values above are CONSTANTS - so don't put them in strings!
+          </p>
+        </div>
+
+ [1]: http://www.php.net/
+ [2]: http://www.phpbb.com/
+ [3]: http://www.splitbrain.org/docuwiki/
+ [4]: http://gtk.php.net/
+ [5]: http://www.wordpress.org/
+ [6]: http://www.php-fusion.co.uk/
+ [7]: http://cypreess.dione.cc/sqlm
+ [8]: http://www.mamboserver.com/
+ [9]: http://www.mediawiki.org/
+ [10]: http://www.tikiwiki.org/
+ [11]: http://www.tikipro.org/
+ [12]: http://robloach.net/projects/phpscripts/rweb/
+ [13]: mailto:nigel@geshi.org
+ [14]: mailto:BenBE@omorphia.de
+ [15]: http://sourceforge.net/forum?group_id=114997
+ [16]: http://qbnz.com/highlighter/
+ [17]: http://qbnz.com/highlighter/demo.php
+ [18]: #setting-tab-width
+ [19]: http://sourceforge.net/tracker/index.php?func=detail&aid=1651996&group_id=114997&atid=670231
