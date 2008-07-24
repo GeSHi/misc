@@ -112,6 +112,11 @@ class DocMarkdown extends MarkdownExtra_Parser {
 
         $geshi->set_source($matches[4]);
 
-        return $geshi->parse_code();
+        $code = $geshi->parse_code();
+
+        if (!$is_block) {
+            $code = '<code class="'.$lang.'">'.$code.'</code>';
+        }
+        return $code;
     }
 }
