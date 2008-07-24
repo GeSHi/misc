@@ -1,4 +1,29 @@
-# Introduction {#introduction}
+# GeSHi Documentation {#top}
+
+<version />
+
+Authors:
+:   * &copy; 2004 - 2007 [Nigel McNie]
+    * &copy; 2007 - 2008 [Benny Baumann]
+    * &copy; 2008 [Milian Wolff]
+
+GeSHi Website:
+:   <http://qbnz.com/highlighter>
+
+This is the documentation for GeSHi - Generic Syntax Highlighter.
+
+The most modern version of this document is available on the web -
+go to <http://qbnz.com/highlighter/documentation.php> to view it.
+
+Any comments, questions, confusing points? Please [get in contact](#feedback) with the developers! We
+need all the information we can get to make the use of GeSHi and everything related to it (including this documentation)
+a breeze.
+
+## Contents {#contents}
+
+<toc />
+
+## Introduction {#introduction}
 
 GeSHi is exactly what the acronym stands for: a **Generic Syntax Highlighter**. As long
 as you have a language file for almost any computer language - whether it be a
@@ -12,7 +37,7 @@ make use of CSS to save on the amount of output. And what is the cost for all of
 [^xhtml-strict]: The PRE header (see [The Code Container](#the-code-container)) is not valid HTML, you might want
 to use one of the other header types instead.
 
-# Features {#features}
+## Features {#features}
 
 Here are some of the standout features of GeSHi:
 
@@ -44,7 +69,7 @@ work due to a lack of test systems. If you are forced to use such old PHP versio
 contact us if you find compatibility issues so we can try to resolve them. It's only PHP 4.4.X and above that
 is verified to work.
 
-## About GeSHi {#about-geshi}
+### About GeSHi {#about-geshi}
 
 GeSHi started as a mod for the [phpBB] forum system, to enable highlighting of more
 languages than the available (which can be roughly estimated to exactly 0 ;)). However, it quickly spawned into an
@@ -73,7 +98,7 @@ here may only have GeSHi available as a plugin.
 GeSHi is the original work of [Nigel McNie]. The project was later handed over to [Benny Baumann].
 Others have helped with aspects of GeSHi also, they're mentioned in the [`THANKS`](THANKS) file.
 
-## Credits {#credits}
+### Credits {#credits}
 
 Many people have helped out with GeSHi, whether by creating language files, submitting bug
 reports, suggesting new ideas or simply pointing out a new idea or something I'd missed. All
@@ -84,7 +109,7 @@ Do you want your name on this list? Why not make a language file, or submit a va
 added feature I can't get my head around, or suggest a new feature, or even port
 GeSHi to anothe language? There's lots you can do to help out, and I need it all :)
 
-## Feedback {#feedback}
+### Feedback {#feedback}
 
 I need your feedback! *ANY*thing you have to say is fine, whether it be a query,
 congratulations, a bug report or complaint, I don't care! I want to make this software
@@ -96,21 +121,21 @@ the best it can be, and I need your help! You can contact me in the following wa
 
 Remember, any help I am grateful for :)
 
-#  The Basics {#the-basics}
+##  The Basics {#the-basics}
 
 In this section, you'll learn a bit about GeSHi, how it works and what it uses, how to install it and how to use
 it to perform basic highlighting.
 
-##  Getting GeSHi {#getting-geshi}
+###  Getting GeSHi {#getting-geshi}
 
 If you're reading this and don't have GeSHi, that's a problem ;). So, how do you get your hands on it?
 Visit <http://qbnz.com/highlighter/downloads.php> to obtain the latest version.
 
-###  Installing GeSHi {#installing-geshi}
+####  Installing GeSHi {#installing-geshi}
 
 Installing GeSHi is a snap, even for those most new to PHP. There's no tricks involved. Honest!
 
-####  Requirements {#requirements}
+#####  Requirements {#requirements}
 
 GeSHi requires the following to be installable:
 
@@ -127,7 +152,7 @@ me know why and I'll fix it.
 Packages come in `.zip`, `.tar.gz` and `.tar.bz2` format, so there's no complaining about whether it's available for
 you. *nix users probably want `.tar.gz` or `.tar.bz2` and windows users probably want `.zip`.
 
-####  Extracting GeSHi {#extracting-geshi}
+#####  Extracting GeSHi {#extracting-geshi}
 
 To extract GeSHi in Linux (`.tar.gz`):
 
@@ -145,7 +170,7 @@ To extract GeSHi in Windows (`.zip`):
 
 To extract from `.zip` you'll need an unzipping program - unzip in Linux, or Winzip, Winrar or similar for Windows.
 
-####  Installation {#installation}
+#####  Installation {#installation}
 
 
 GeSHi is nothing more than a PHP class with related language support files. Those of you familiar with PHP can then
@@ -170,7 +195,7 @@ worthless, and furthermore, as some people discovered, one of the files in contr
 I suggest you delete these directories from any live site they are on.
 </caution>
 
-##  Basic Usage {#basic-usage}
+###  Basic Usage {#basic-usage}
 
 Use of GeSHi is very easy. Here's a simple example:
 
@@ -252,7 +277,7 @@ else
 However, these are really simple examples and doesn't even begin to cover all the advanced features of GeSHi.
 If you want to learn more, continue on to section 3: Advanced Features.
 
-#  Advanced Features {#advanced-features}
+##  Advanced Features {#advanced-features}
 
 This section documents the advanced features of GeSHi - strict mode, using CSS classes, changing styles on the fly,
 disabling highlighting of some things and more.
@@ -261,7 +286,7 @@ In this section there are many code snippets. For all of these, you should assum
 included, and a GeSHi object has been created and is referenced by the variable <php>$geshi</php>. Normally, the
 source, language and path used are arbitary.
 
-## The Code Container {#the-code-container}
+### The Code Container {#the-code-container}
 
 The **Code Container** has a fundamental effect on the layout of your code before you even begin to style. What is the
 Code Container? It's the bit of markup that goes around your code to contain it. By default your code is surrounded
@@ -346,13 +371,13 @@ in what is used as the Code Container (although it *should* simply use a <html><
   difference for if you are changing the header type!
 </caution>
 
-##  Line Numbers {#line-numbers}
+###  Line Numbers {#line-numbers}
 
 GeSHi has the ability to add line numbers to your code (see the demo available at <http://qbnz.com/highlighter/demo.php>
 to see what can be achieved). Line numbers are a great way to make your code look professional, especially if you use the
 fancy line numbers feature.
 
-###  Enabling Line Numbers {#enabling-line-numbers}
+####  Enabling Line Numbers {#enabling-line-numbers}
 
 To highlight a source with line numbers, you call the **`enable_line_numbers()`** method:
 
