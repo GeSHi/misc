@@ -47,6 +47,7 @@ MAY_PROFILE && profile::stop();
 
 MAY_PROFILE && profile::start('setup GeSHi');
 $GeSHi = new GeSHi("", "php");
+$GeSHi->enable_strict_mode(true);
 $GeSHi->set_header_type(isset($_REQUEST['header_type']) && is_numeric($_REQUEST['header_type']) ? intval($_REQUEST['header_type']) : GESHI_HEADER_DIV);
 $GeSHi->enable_classes();
 $GeSHi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 2);
