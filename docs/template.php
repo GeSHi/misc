@@ -40,6 +40,7 @@
             }
             .geshicode pre {
                 border:none;
+                font-weight:bold;
             }
             .geshicode .li2 {
                 background-color: #f5f5f5;
@@ -53,8 +54,8 @@
                 background:#fff;
             }
             .geshicode .head {
-              text-align:center;
-              font-weight:bold;
+                text-align:center;
+                font-weight:bold;
             }
             code, tt, kbd {
                 font-size: 125%;
