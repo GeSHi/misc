@@ -141,7 +141,7 @@ class DocMarkdown extends MarkdownExtra_Parser {
         if (!isset($this->geshi_parsers[$lang])) {
             $this->geshi_parsers[$lang] = new GeSHi('', $lang);
             $geshi =& $this->geshi_parsers[$lang];
-            $geshi->set_overall_class($geshi->overall_class . ' geshicode');
+            $geshi->set_overall_class('geshicode');
             $geshi->enable_classes();
             $this->styles .= $geshi->get_stylesheet(false) . "\n";;
         } else {
