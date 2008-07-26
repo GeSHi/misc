@@ -40,7 +40,7 @@ make use of CSS to save on the amount of output. And what is the cost for all of
 [^xhtml-strict]: The PRE header (see [The Code Container](#the-code-container)) is not valid HTML, you might want
 to use one of the other header types instead.
 
-## Features {#features}
+### Features {#features}
 
 Here are some of the standout features of GeSHi:
 
