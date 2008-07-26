@@ -37,6 +37,7 @@ $documentation = file_get_contents('geshi-doc.text')."\n"
 
 $parser = new DocMarkdown;
 $parser->toc_offset = 2;
+$parser->toc_only_after = true;
 $documentation = $parser->transform($documentation);
 
 $styles =& $parser->styles;
