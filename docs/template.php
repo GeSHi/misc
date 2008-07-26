@@ -30,13 +30,30 @@
             blockquote {
                 font-weight: bold;
             }
-            pre {
+            pre, .geshicode {
                 border: 1px solid #c0e6ff;
                 background-color: #e0e8ef;
                 color: #002;
+                margin:0;
+                font-size: 12px;
+            }
+            .geshicode pre {
+                border:none;
+            }
+            .geshicode .li2 {
+                background-color: #f5f5f5;
+            }
+            .geshicode ol {
+                background-color:#fff;
+                margin:0 5px 5px 5px;
+                border:1px solid #fff;
+            }
+            .geshicode .head {
+              text-align:center;
+              font-weight:bold;
             }
             code, tt, kbd {
-                font-size: 11px;
+                font-size: 12px;
             }
             hr {
                 height: 0;
