@@ -49,4 +49,13 @@ ob_end_clean();
 
 $documentation = str_replace('<version />', GESHI_VERSION, $documentation);
 
+//Convert everything to Unix linebreaks
+$documentation = str_replace("\r\n", "\n", $documentation);
+$documentation = str_replace("\r", "\n", $documentation);
+
+//Check if we are on Windows:
+if('\\' == DIRECTORY_SEPARATOR) {
+    $documentation = str_replace("\n", "\r\n", $documentation);
+}
+
 file_put_contents('geshi-doc.html', $documentation);
