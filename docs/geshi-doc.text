@@ -340,7 +340,7 @@ defines the container type. Available are:
 :   When linenumbers are disabled, this behaves just like `GESHI_HEADER_PRE`. In the other case though, a
     <html><div></html> is used to wrap the code and linenumbers and the <html><pre></html> is put inside the list
     items (<html><li></html>). This means slightly larger HTML output compared to `GESHI_HEADER_PRE`, but the
-    produced HTML code is **valid**.
+    output is **valid HTML**.
 
 <php>$geshi->set_header_type(GESHI_HEADER_PRE_TABLE);</php>
 :   _Available since 1.0.8_
@@ -362,7 +362,7 @@ Those are the only arguments you should pass to **`set_header_type`**. Passing a
 in what is used as the Code Container (although it *should* simply use a <html><pre></html>). Better not to risk it.
 
 <note>
-  GESHI_HEADER_DIV, GESHI_HEADER_PRE, etc. are <em>constants</em>, so don't put them in strings!
+  GESHI_HEADER_DIV, GESHI_HEADER_PRE, etc. are _constants_, so don't put them in strings!
 </note>
 
 <caution>

@@ -48,14 +48,8 @@
             li {
                 padding-top: 2px;
             }
-            ul li {
-                font-size: 12px;
-            }
-            ul ul li {
-                font-size: 12px;
-            }
-            ul ul ul li {
-                font-size: 12px;
+            ul ul, ol ol {
+                font-size:100%;
             }
             .note {
                 border: 1px solid yellow;

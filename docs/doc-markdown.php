@@ -51,6 +51,7 @@ class DocMarkdown extends MarkdownExtra_Parser {
             $languages[] = $lang;
         }
         closedir($dir);
+        $languages[] = 'html';
         $temp = new GeSHi('', '');
         $this->geshi_language_rx = implode('|', $temp->optimize_regexp_list($languages, '#'));
     }
@@ -65,21 +66,41 @@ class DocMarkdown extends MarkdownExtra_Parser {
         // language highlighting
         $text = preg_replace_callback('#<((block)?('.$this->geshi_language_rx.'))>(.+)</\1>#Us', array($this, 'highlight'), $text);
 
+        // don't let markdown put <toc /> inside <p> tags
+        $text = str_replace('<toc />', '<div id="toc"></div>', $text);
+
         /** actual markdown parser */
         $text = parent::transform($text);
 
         /** replacements after */
-        $text = str_replace('<toc />', $this->get_toc($text), $text);
+        // get headers and produce table of contents (toc) and "prev up next" navigation
+        preg_match_all('#(<h([0-6])[^>]*>)(.+)</h\2>#Us', $text, $headers, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
+
+        $toc = '<div id="toc">';
+        $old_level = 0;
+        foreach ($headers as $header) {
+            $tag = $header[1][0];
+            $level = $header[2][0];
+            $content = $header[3][0];
+            // get ID
+            if (preg_match('#id=("|\')([^>]+)\1#U', $tag, $id)) {
+                $content = '<a href="#'.$id[2].'">'.$content.'</a>';
+            }
+            if ($level < $old_level) {
+                $toc .= str_repeat("</li>\n</ol>", $old_level - $level) . "</li>\n";
+            } elseif ($level > $old_level) {
+                $toc .= "<ol>\n";
+            } else {
+                $toc .= "</li>\n";
+            }
+            $toc .= '<li>'.$content;
+            $old_level = $level;
+        }
+        $toc .= str_repeat("</li>\n</ol>", $level) . "\n</div>";
+
+        $text = str_replace('<div id="toc"></div>', $toc, $text);
 
         return $text;
-    }
-    /**
-     *
-     * @param string $text HTML markup
-     * @return string the table of contents in HTML markup
-     */
-    public function get_toc($text) {
-        return '<strong style="color:red;">TOC TODO</strong>';
     }
     /**
      * highlight <html>...</html> or <php>...</php> stuff.
@@ -91,6 +112,9 @@ class DocMarkdown extends MarkdownExtra_Parser {
      */
     private function highlight($matches) {
         $lang = $matches[3];
+        if ($lang == 'html') {
+            $lang = 'html4strict';
+        }
         $is_block = $matches[2] == 'block';
 
         if (!isset($this->geshi_parsers[$lang])) {
@@ -108,6 +132,7 @@ class DocMarkdown extends MarkdownExtra_Parser {
         } else {
             $geshi->set_header_type(GESHI_HEADER_NONE);
             $geshi->enable_line_numbers(GESHI_NO_LINE_NUMBERS);
+            $geshi->set_header_content('');
         }
 
         $geshi->set_source($matches[4]);
