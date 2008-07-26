@@ -15,7 +15,7 @@
                 padding: 10px;
             }
             p, ul, ol, div, blockquote, dt, dd {
-                font-size: 80%;
+                font-size: 10pt;
                 line-height: 140%;
                 letter-spacing: 1px;
                 color: #002;
