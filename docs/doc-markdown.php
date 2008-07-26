@@ -33,6 +33,7 @@ class DocMarkdown extends MarkdownExtra_Parser {
     private $geshi_language_rx = false;
     public $styles = '';
     public $toc_offset = 1;
+    public $toc_only_after = false;
     /**
      * simple constructor which calls the old MarkdownExtra_Parser
      * and sets some GeSHi related stuff up
@@ -68,7 +69,10 @@ class DocMarkdown extends MarkdownExtra_Parser {
         $text = preg_replace_callback('#<((block)?('.$this->geshi_language_rx.'))>(.+)</\1>#Us', array($this, 'highlight'), $text);
 
         // don't let markdown put <toc /> inside <p> tags
-        $text = str_replace('<toc />', '<div id="toc"></div>', $text);
+        $toc_pos = strpos($text, '<toc />');
+        if ($toc_pos !== false) {
+            $text = substr_replace($text, '<div id="toc"></div>', $toc_pos, 7);
+        }
 
         /** actual markdown parser */
         $text = parent::transform($text);
@@ -77,41 +81,45 @@ class DocMarkdown extends MarkdownExtra_Parser {
         // get headers and produce table of contents (toc) and "prev up next" navigation
         preg_match_all('#(<h([0-6])[^>]*>)(.+)</h\2>#Us', $text, $headers, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
 
-        $toc = '<div id="toc">';
-        $old_level = $this->toc_offset - 1;
-        $counter = array();
-        foreach ($headers as $header) {
-            $level = $header[2][0];
-            if ($this->toc_offset > $level) {
-                continue;
-            }
-            $tag = $header[1][0];
-            $content = $header[3][0];
-            if ($level < $old_level) {
-                $toc .= str_repeat("</li>\n</ul>", $old_level - $level) . "</li>\n";
-                $counter = array_slice($counter, 0, $level);
-            } elseif ($level > $old_level) {
-                if ($level != $old_level + 1) {
-                    trigger_error('incorrect header: '.$content, E_USER_ERROR);
+        if ($toc_pos !== false) {
+            $toc_pos = strpos($text, '<div id="toc"></div>');
+            $toc = '<div id="toc">';
+            $old_level = $this->toc_offset - 1;
+            $counter = array();
+            foreach ($headers as $header) {
+                $level = $header[2][0];
+                if ($this->toc_offset > $level || ($this->toc_only_after && $header[0][1] < $toc_pos)) {
+                    continue;
                 }
-                $toc .= "<ul>\n";
-                $counter[$level] = 1;
-            } else {
-                $toc .= "</li>\n";
-                $counter[$level]++;
-            }
-            // counter
-            $content = implode('.', $counter).' '.$content;
-            // get ID
-            if (preg_match('#id=("|\')([^>]+)\1#U', $tag, $id)) {
-                $content = '<a href="#'.$id[2].'">'.$content.'</a>';
-            }
-            $toc .= '<li>'.$content;
-            $old_level = $level;
-        }
-        $toc .= str_repeat("</li>\n</ul>", $level) . "\n</div>";
+                $tag = $header[1][0];
+                $content = $header[3][0];
 
-        $text = str_replace('<div id="toc"></div>', $toc, $text);
+                if ($level < $old_level) {
+                    $toc .= str_repeat("</li>\n</ul>", $old_level - $level) . "</li>\n";
+                    $counter = array_slice($counter, 0, $level);
+                } elseif ($level > $old_level) {
+                    if ($level != $old_level + 1) {
+                        trigger_error('incorrect header: '.$content, E_USER_ERROR);
+                    }
+                    $toc .= "<ul>\n";
+                    $counter[$level] = 1;
+                } else {
+                    $toc .= "</li>\n";
+                    $counter[$level]++;
+                }
+                // counter
+                $content = implode('.', $counter).' '.$content;
+                // get ID
+                if (preg_match('#id=("|\')([^>]+)\1#U', $tag, $id)) {
+                    $content = '<a href="#'.$id[2].'">'.$content.'</a>';
+                }
+                $toc .= '<li>'.$content;
+                $old_level = $level;
+            }
+            $toc .= str_repeat("</li>\n</ul>", $level - $this->toc_offset + 1) . "\n</div>";
+
+            $text = str_replace('<div id="toc"></div>', $toc, $text);
+        }
 
         return $text;
     }
