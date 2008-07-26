@@ -86,7 +86,10 @@ class DocMarkdown extends MarkdownExtra_Parser {
             $toc = '<div id="toc">';
             $old_level = $this->toc_offset - 1;
             $counter = array();
-            foreach ($headers as $header) {
+            $offset = 0;
+            $last_k = -1;
+            $top_ks = array();
+            foreach ($headers as $k => $header) {
                 $level = $header[2][0];
                 if ($this->toc_offset > $level || ($this->toc_only_after && $header[0][1] < $toc_pos)) {
                     continue;
@@ -97,12 +100,14 @@ class DocMarkdown extends MarkdownExtra_Parser {
                 if ($level < $old_level) {
                     $toc .= str_repeat("</li>\n</ul>", $old_level - $level) . "</li>\n";
                     $counter = array_slice($counter, 0, $level);
+                    array_pop($top_ks);
                 } elseif ($level > $old_level) {
                     if ($level != $old_level + 1) {
                         trigger_error('incorrect header: '.$content, E_USER_ERROR);
                     }
                     $toc .= "<ul>\n";
                     $counter[$level] = 1;
+                    $top_ks[] = $last_k;
                 } else {
                     $toc .= "</li>\n";
                     $counter[$level]++;
@@ -115,6 +120,45 @@ class DocMarkdown extends MarkdownExtra_Parser {
                 }
                 $toc .= '<li>'.$content;
                 $old_level = $level;
+
+                // prev top next navigation
+                // this is quick'n'dirty code, speed should not be a concern for this script...
+                $nav = array();
+                // prev
+                if (isset($headers[$last_k])) {
+                    $prev = $headers[$last_k];
+                    $tag = $prev[1][0];
+                    $content = $prev[3][0];
+                    if (preg_match('#id=("|\')([^>]+)\1#U', $tag, $id)) {
+                        $nav[] = '<a href="#'.$id[2].'">Previous</a>';
+                    }
+                }
+                // top
+                $top_k = end($top_ks);
+                if ($top_k !== false) {
+                    if (preg_match('#id=("|\')([^>]+)\1#U', $headers[$top_k][1][0], $id)) {
+                        $nav[] = '<a href="#'.$id[2].'">Top</a>';
+                    }
+                }
+                // next
+                $next_k = $k + 1;
+                while (isset($headers[$next_k])) {
+                    if ($this->toc_offset > $headers[$next_k][2][0] ||
+                        ($this->toc_only_after && $headers[$next_k][0][1] < $toc_pos)) {
+                        ++$next_k;
+                        continue;
+                    }
+                    if (preg_match('#id=("|\')([^>]+)\1#U', $headers[$next_k][1][0], $id)) {
+                        $nav[] = '<a href="#'.$id[2].'">Next</a>';
+                    }
+                    break;
+                }
+                if (!empty($nav)) {
+                    $nav = '<div class="nav">'.implode(' | ', $nav).'</div>';
+                    $text = substr_replace($text, $nav, $offset + $header[0][1] + strlen($header[0][0]), 0);
+                    $offset += strlen($nav);
+                }
+                $last_k = $k;
             }
             $toc .= str_repeat("</li>\n</ul>", $level - $this->toc_offset + 1) . "\n</div>";
 
