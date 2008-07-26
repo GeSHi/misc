@@ -107,19 +107,26 @@ class DocMarkdown extends MarkdownExtra_Parser {
                     }
                     $toc .= "<ul>\n";
                     $counter[$level] = 1;
-                    $top_ks[] = $last_k;
+                    if ($last_k != -1) {
+                        $top_ks[] = $last_k;
+                    }
                 } else {
                     $toc .= "</li>\n";
                     $counter[$level]++;
                 }
                 // counter
-                $content = implode('.', $counter).' '.$content;
+                $number = implode('.', $counter);
+                $content = $number.' '.$content;
                 // get ID
                 if (preg_match('#id=("|\')([^>]+)\1#U', $tag, $id)) {
                     $content = '<a href="#'.$id[2].'">'.$content.'</a>';
                 }
                 $toc .= '<li>'.$content;
                 $old_level = $level;
+
+                // add number to header
+                $text = substr_replace($text, $number.' ', $header[3][1] + $offset, 0);
+                $offset += strlen($number) + 1;
 
                 // prev top next navigation
                 // this is quick'n'dirty code, speed should not be a concern for this script...
