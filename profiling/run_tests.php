@@ -47,10 +47,11 @@ MAY_PROFILE && profile::stop();
 
 MAY_PROFILE && profile::start('setup GeSHi');
 $GeSHi = new GeSHi("", "php");
-$GeSHi->enable_strict_mode(true);
 $GeSHi->set_header_type(isset($_REQUEST['header_type']) && is_numeric($_REQUEST['header_type']) ? intval($_REQUEST['header_type']) : GESHI_HEADER_DIV);
 $GeSHi->enable_classes();
-$GeSHi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 2);
+if (!isset($_REQUEST['linenumbers']) || $_REQUEST['linenumbers']) {
+    $GeSHi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 2);
+}
 $GeSHi->set_line_style('background: #f0f0f0;', 'background: #fcfcfc;', true);
 $GeSHi->set_highlight_lines_extra_style("background-color: #ccc;");
 $GeSHi->set_header_content('<SPEED> <TIME>');
