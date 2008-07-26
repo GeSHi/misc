@@ -213,7 +213,7 @@ class DocMarkdown extends MarkdownExtra_Parser {
             $geshi->set_header_content('');
         }
 
-        $geshi->set_source($matches[4]);
+        $geshi->set_source(trim($matches[4]));
 
         $code = $geshi->parse_code();
 
