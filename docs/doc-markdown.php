@@ -99,9 +99,13 @@ class DocMarkdown extends MarkdownExtra_Parser {
 
                 if ($level < $old_level) {
                     $toc .= str_repeat("</li>\n</ul>", $old_level - $level) . "</li>\n";
-                    var_dump($counter);
-                    $counter = array_slice($counter, 0, $level - $this->toc_offset + 1);
+                    $counter = array_slice($counter, 0, $level - $this->toc_offset + 1, true);
                     array_pop($top_ks);
+                    if (!isset($counter[$level])) {
+                        $counter[$level] = 1;
+                    } else {
+                        $counter[$level]++;
+                    }
                 } elseif ($level > $old_level) {
                     if ($level != $old_level + 1) {
                         trigger_error('incorrect header: '.$content, E_USER_ERROR);
