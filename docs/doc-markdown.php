@@ -90,7 +90,7 @@ class DocMarkdown extends MarkdownExtra_Parser {
             $last_k = -1;
             $top_ks = array();
             foreach ($headers as $k => $header) {
-                $level = $header[2][0];
+                $level = (int) $header[2][0];
                 if ($this->toc_offset > $level || ($this->toc_only_after && $header[0][1] < $toc_pos)) {
                     continue;
                 }
@@ -99,7 +99,8 @@ class DocMarkdown extends MarkdownExtra_Parser {
 
                 if ($level < $old_level) {
                     $toc .= str_repeat("</li>\n</ul>", $old_level - $level) . "</li>\n";
-                    $counter = array_slice($counter, 0, $level);
+                    var_dump($counter);
+                    $counter = array_slice($counter, 0, $level - $this->toc_offset + 1);
                     array_pop($top_ks);
                 } elseif ($level > $old_level) {
                     if ($level != $old_level + 1) {
