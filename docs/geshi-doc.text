@@ -134,6 +134,30 @@ it to perform basic highlighting.
 If you're reading this and don't have GeSHi, that's a problem ;). So, how do you get your hands on it?
 Visit <http://qbnz.com/highlighter/downloads.php> to obtain the latest version.
 
+####  Downloading GeSHi {#downloading-geshi}
+
+There are several ways to get a copy of GeSHi. The first and easiest way of all is
+visiting <http://qbnz.com/highlighter/downloads.php> to obtain the latest version.
+This is suitable especially when you plan on using GeSHi on an production website
+or otherwise need a stable copy for flawless operation.
+
+If you are somewhat more sophisticated or need a feature just recently implemented
+you might consider getting GeSHi by downloading via SVN. There are multiple ways
+for doing so and each one has its own advantages and disadvantages. Let's cover
+the various locations in the SVN you might download from:
+
+*   <https://geshi.svn.sourceforge.net/svnroot/geshi/tags/>:<br />
+    This directory holds all previous releases of GeSHi each as a subdirectory. By downloading from here you can test your code with various old versions in case something has been broken recently.
+*   <https://geshi.svn.sourceforge.net/svnroot/geshi/branches/RELEASE_1_0_X_STABLE/geshi-1.0.X/src/>:<br />
+    This directory is the right place for you if you want to have reasonably current versions of GeSHi but need something that is stable. This directory is updated once in a while between updates whenever there's something new but which is already reasonably stable. This branch is used to form the actual release once the work is done.
+*   <https://geshi.svn.sourceforge.net/svnroot/geshi/trunk/geshi-1.0.X/src/>:<br />
+    This directory is the working directory where every new feature, patch or improvement is committed to. This directory is updated regularly, but is not guaranteed to be tested and stable at all times. With this version you'll always get the latest version of GeSHi out there, but beware of bugs! There will be loads of them here! So this is absolutely **not recommended** for productive use!
+
+If you have choosen the right SVN directory for you do a quick
+<bash>svn co $SVNPATH geshi</bash> where <bash>$SVNPATH</bash> is one of the above paths and your desired version of GeSHi will be
+downloaded into an subdirectory called "geshi". If you got a version of GeSHi
+you can go on installing as shown below.
+
 ####  Installing GeSHi {#installing-geshi}
 
 Installing GeSHi is a snap, even for those most new to PHP. There's no tricks involved. Honest!
