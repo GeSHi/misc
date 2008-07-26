@@ -4,7 +4,6 @@
     <head>
         <title>GeSHi Documentation <version /></title>
         <style type="text/css">
-        <!--
             html {
                 background-color: #e6e6e6;
             }
@@ -15,11 +14,14 @@
                 background-color: #f6f6f6;
                 padding: 10px;
             }
-            p, ul, ol, div, blockquote, dt {
+            p, ul, ol, div, blockquote, dt, dd {
                 font-size: 80%;
                 line-height: 140%;
                 letter-spacing: 1px;
                 color: #002;
+            }
+            dt {
+                font-weight: bold;
             }
             acronym {
                 border-bottom: 1px dotted #303030;
@@ -152,8 +154,6 @@
 
             <?php echo $styles; ?>
 
-
-        -->
         </style>
     </head>
     <body>

@@ -31,12 +31,12 @@ chdir(dirname(__FILE__));
 require 'doc-markdown.php';
 require '../profiling/geshi-trunk/geshi.php'; // for version...
 
-$parser = new DocMarkdown;
-
 $documentation = file_get_contents('geshi-doc.text')."\n"
                   .file_get_contents('links.text')."\n"
                   .file_get_contents('abbrevations.text');
 
+$parser = new DocMarkdown;
+$parser->toc_offset = 2;
 $documentation = $parser->transform($documentation);
 
 $styles =& $parser->styles;
