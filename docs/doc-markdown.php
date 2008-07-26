@@ -148,7 +148,7 @@ class DocMarkdown extends MarkdownExtra_Parser {
             $geshi =& $this->geshi_parsers[$lang];
         }
         if ($is_block) {
-            $geshi->set_header_type(GESHI_HEADER_PRE_VALID);
+            $geshi->set_header_type(GESHI_HEADER_PRE_TABLE);
             $geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 2);
             $geshi->set_header_content('<LANGUAGE> code');
         } else {
