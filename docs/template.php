@@ -57,7 +57,8 @@
               font-weight:bold;
             }
             code, tt, kbd {
-                font-size: 12px;
+                font-size: 125%;
+                font-weight:normal;
             }
             hr {
                 height: 0;

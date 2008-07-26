@@ -93,7 +93,6 @@ Several systems are using GeSHi now, including:
 * [MediaWiki][] - A leader in Wikis[^plugin-only]
 * [TikiWiki][] - A megapowerful Wiki/CMS
 * [TikiPro][] - Another powerful Wiki based on Tikiwiki
-* [WikkaWiki][] - An advanced Wiki/CMS
 * [RWeb][] - A site-building tool
 
 [^plugin-only]: Available as plugin only. In addition, some of the other entries mentioned
@@ -130,35 +129,10 @@ Remember, any help I am grateful for :)
 In this section, you'll learn a bit about GeSHi, how it works and what it uses, how to install it and how to use
 it to perform basic highlighting.
 
-###  Getting GeSHi work {#getting-geshi}
+###  Getting GeSHi {#getting-geshi}
 
 If you're reading this and don't have GeSHi, that's a problem ;). So, how do you get your hands on it?
-
-####  Downloading GeSHi {#downloading-geshi}
-
-There are several ways to get a copy of GeSHi. The first and easiest way of all is
-visiting <http://qbnz.com/highlighter/downloads.php> to obtain the latest version.
-This is suitable especially when you plan on using GeSHi on an production website
-or otherwise need a stable copy for flawless operation.
-
-If you are somewhat more sophisticated or need a feature just recently implemented
-you might consider getting GeSHi by downloading via SVN. There are multiple ways
-for doing so and each one has its own advantages and disadvantages. Let's cover
-the various locations in the SVN you might download from:
-
-<https://geshi.svn.sourceforge.net/svnroot/geshi/tags/>
-:   This directory holds all previous releases of GeSHi each as a subdirectory. By downloading from here you can test your code with various old versions in case something has been broken recently.
-
-<https://geshi.svn.sourceforge.net/svnroot/geshi/branches/RELEASE_1_0_X_STABLE/geshi-1.0.X/src/>
-:   This directory is the right place for you if you want to have reasonably current versions of GeSHi but need something that is stable. This directory is updated once in a while between updates whenever there's something new but which is already reasonably stable. This branch is used to form the actual release once the work is done.
-
-<https://geshi.svn.sourceforge.net/svnroot/geshi/trunk/geshi-1.0.X/src/>
-:   This directory is the working directory where every new feature, patch or improvement is committed to. This directory is updated regularly, but is not guaranteed to be tested and stable at all times. With this version you'll always get the latest version of GeSHi out there, but beware of bugs! There will be loads of them here! So this is absolutely **not recommended** for productive use!
-
-If you have choosen the right SVN directory for you do a quick
-<bash>svn co $SVNPATH geshi</bash> where <bash>$SVNPATH</bash> is one of the above paths and your desired version of GeSHi will be
-downloaded into an subdirectory called "geshi". If you got a version of GeSHi
-you can go on installing as shown below.
+Visit <http://qbnz.com/highlighter/downloads.php> to obtain the latest version.
 
 ####  Installing GeSHi {#installing-geshi}
 
@@ -361,7 +335,7 @@ defines the container type. Available are:
     created using an ordered list this header type produces **invalid HTML**.
 
 <php>$geshi->set_header_type(GESHI_HEADER_PRE_VALID);</php>
-:  _Available since 1.0.8_
+:  <small>_Available since 1.0.8_</small>
 
 :   When linenumbers are disabled, this behaves just like `GESHI_HEADER_PRE`. In the other case though, a
     <html><div></html> is used to wrap the code and linenumbers and the <html><pre></html> is put inside the list
@@ -369,7 +343,7 @@ defines the container type. Available are:
     output is **valid HTML**.
 
 <php>$geshi->set_header_type(GESHI_HEADER_PRE_TABLE);</php>
-:   _Available since 1.0.8_
+:  <small>_Available since 1.0.8_</small>
 
 :   Once again a <html><div></html> tag wraps the output. This time though no ordered list is used to create an ordered list,
     but instead we use a table with two cells in a single row. The left cell contains a <html><pre></html> tag which holds all
@@ -380,7 +354,7 @@ defines the container type. Available are:
     browsers, see [SF#1651996][] for more information.
 
 <php>$geshi->set_header_type(GESHI_HEADER_NONE);</php>
-: _Available since 1.0.7.2_
+: <small>_Available since 1.0.7.2_</small>
 
 :   No wrapper is added.
 
