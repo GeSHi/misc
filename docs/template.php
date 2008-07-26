@@ -15,7 +15,7 @@
                 padding: 10px;
             }
             p, ul, ol, div, blockquote, dt, dd {
-                font-size: 10pt;
+                font-size: 80%;
                 line-height: 140%;
                 letter-spacing: 1px;
                 color: #002;
@@ -36,6 +36,7 @@
                 color: #002;
                 margin:0;
                 font-size: 12px;
+                width:100%;
             }
             .geshicode pre {
                 border:none;
@@ -43,10 +44,13 @@
             .geshicode .li2 {
                 background-color: #f5f5f5;
             }
-            .geshicode ol {
+            .geshicode tbody td {
                 background-color:#fff;
                 margin:0 5px 5px 5px;
                 border:1px solid #fff;
+            }
+            .geshicode td.ln pre {
+                background:#fff;
             }
             .geshicode .head {
               text-align:center;
