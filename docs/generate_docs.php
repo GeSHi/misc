@@ -59,3 +59,9 @@ if('\\' == DIRECTORY_SEPARATOR) {
 }
 
 file_put_contents('geshi-doc.html', $documentation);
+
+if("CLI" != php_sapi_name()) {
+    header("Location: geshi-doc.html");
+}
+
+?>

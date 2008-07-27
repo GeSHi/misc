@@ -93,8 +93,8 @@ Several systems are using GeSHi now, including:
 * [Mambo][] - A popular open source CMS
 * [MediaWiki][] - A leader in Wikis[^plugin-only]
 * [TikiWiki][] - A megapowerful Wiki/CMS
-* [TikiPro][] - Another powerful Wiki based on Tikiwiki
-* [WikkaWiki][] - An advanced Wiki/CMS
+* [TikiPro][] - Another powerful Wiki based on TikiWiki
+* [WikkaWiki][] - A flexible and lightweight Wiki engine
 * [RWeb][] - A site-building tool
 
 [^plugin-only]: Available as plugin only. In addition, some of the other entries mentioned
@@ -122,7 +122,7 @@ the best it can be, and I need your help! You can contact me in the following wa
 
 - **E-mail:**  [Nigel McNie][], [Benny Baumann][] or better yet: use the [geshi-users][] mailinglist
 - **Forums:**  [Sourceforge.net Forums][][geshi-forums]
-- **IRC:** #geshi on [Freenode]
+- **IRC:** [#geshi][][geshi-irc] on [Freenode][]
 
 Remember, any help I am grateful for :)
 
