@@ -1049,6 +1049,7 @@ series of <php>set_*_highlighting</php> methods:
     and <php>true</php> if you want to re-enable highlighting of this group.
 
 The following methods:
+
 *   <php>set_escape_characters_highlighting($flag)</php>
 *   <php>set_symbols_highlighting($flag)</php>
 *   <php>set_strings_highlighting($flag)</php>
@@ -1109,7 +1110,7 @@ Here's the result: much better!
 
 Lets say that you're working on a large project, with many files, many classes and many functions. Perhaps also you
 have the source code on the web and highlighted by GeSHi, perhaps as a front end to CVS, as a learning tool, something
-to refer to, whatever. Well, why not highlight the names of the functions and classes \*your\* project uses, as well
+to refer to, whatever. Well, why not highlight the names of the functions and classes *your* project uses, as well
 as the standard functions and classes? Or perhaps you're not interested in highlighting certain functions, and would
 like to remove them? Or maybe you don't mind if an entire function group goes west in the interest of speed? GeSHi
 can handle all of this!
@@ -1135,7 +1136,7 @@ Perhaps you want to remove a keyword from an existing group. Maybe you don't use
 
 <php>$geshi->remove_keyword($key, $word);</php>
 
-Where <php>$key</php> is the index of the gropu of keywords that you want to remove this keyword from, and
+Where <php>$key</php> is the index of the group of keywords that you want to remove this keyword from, and
 <php>$word</php> is the word to remove.
 
 This implies knowledge of the language file to know the correct index - most of the time the keywords you'll
