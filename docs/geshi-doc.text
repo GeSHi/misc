@@ -431,7 +431,7 @@ Setting it to `1` applies the fancy style to every line number.
   The values above are CONSTANTS - so don't put them in strings!
 </note>
 
-#### 3.2.2 Styling Line Numbers {#styling-line-numbers}
+#### Styling Line Numbers {#styling-line-numbers}
 
 As of GeSHi 1.0.2, line numbers are added by the use of ordered lists. This solves the old issues of line number
 styles inheriting from styles meant for the code. Also, this solves an important issue about selecting code. For
@@ -495,7 +495,7 @@ $geshi->set_line_style('background: red;', 'background: blue;', true);
   any code you have already styled with 1.0.1 when you upgrade to make sure nothing bad happens to it.
 </caution>
 
-#### 3.2.3: Choosing a Start Number {#starting-line-numbers}
+#### Choosing a Start Number {#starting-line-numbers}
 
 As of GeSHi 1.0.2, you can now make the line numbers start at any number, rather than just 1. This feature is useful
 if you're highlighting code from a file from around a certain line number in that file, as an additional guide to
@@ -515,13 +515,13 @@ If you have not enabled line numbers, this will have no effect.
   doing this, it is only supported in Opera versions 7.5 and above (not even Firefox supports this).
 </caution>
 
-### 3.3: Using CSS Classes {#using-css-classes}
+### Using CSS Classes {#using-css-classes}
 
 Using CSS to highlight your code instead of in-lining the styles is a definate bonus. Not only is it more compliant
 (the w3c is deprecating the style attribute in XHTML 2.0) but it results in far less outputted code - up to a whopping
 90% saving - which makes a \*huge\* difference to those unlucky of us on modems!
 
-#### 3.3.1: Enabling CSS Classes {#enabling-css-classes}
+#### Enabling CSS Classes {#enabling-css-classes}
 
 By default, GeSHi doesn't use the classes, so it's easy just to whack out some highlighted code if you need without
 worrying about stylesheets. However, if you're a bit more organised about it, you should use the classes ;). To turn
@@ -548,7 +548,7 @@ are cached by browsers).
   code, but this may result in unexpected behaviour.
 </div>
 
-#### 3.3.2: Setting the CSS class and ID {#setting-css-class-id}
+#### Setting the CSS class and ID {#setting-css-class-id}
 
 You can set an overall CSS class and id for the code. This is a good feature that allows you to use the same
 stylesheet for many different snippets of code. You call <php>set_overall_class()</php> and <php>set_overall_id</php>
@@ -566,7 +566,7 @@ CSS IDs are supposed to be unique, and you should use them as such. Basically, y
 and then use that ID to highlight that code in a unique way. You'd do this for a block of code that you expressly
 wanted to be highlighted in a different way (see the section below on gettting the stylesheet for your code for an example).
 
-#### 3.3.3: Getting the stylesheet for your code {#getting-stylesheet}
+#### Getting the stylesheet for your code {#getting-stylesheet}
 
 The other half of using CSS classes is getting the stylesheet for use with the classes. GeSHi makes it very easy to
 get a stylesheet for your code, with one easy method call:
@@ -665,7 +665,7 @@ Before version 1.0.2, you needed to set the class of the code you wanted to be u
 limitation has been removed in version 1.0.2 - if you set the ID of a block of code, all styling will be done based
 on that ID alone.
 
-#### 3.3.4: Using an External Stylesheet {#using-an-external-stylesheet}
+#### Using an External Stylesheet {#using-an-external-stylesheet}
 
 An external stylesheet can reduce even more the amount of code needed to highlight some source. However there are some
 drawbacks with this. To use an external stylesheet, it's up to you to link it in to your document, normally with
@@ -695,7 +695,7 @@ generated. You can still disable highlighting of certain lexics dynamically, how
   script in version 1.2!
 </note>
 
-### 3.4: Changing Styles {#changing-styles}
+### Changing Styles {#changing-styles}
 
 One of the more powerful features of GeSHi is the ability to change the style of the output dynamically. Why be chained
 to the boring styles the language authors make up? You can change almost every single aspect of highlighted code - and
@@ -704,7 +704,7 @@ can even say whether something is to be highlighted at all.
 If you're confused about "styles", you probably want to have a quick tutorial in them so you know what you can do with
 them. Checkout the homepage of CSS at <http://www.w3.org/Style/CSS>.
 
-#### 3.4.1: The Overall Styles {#the-overall-styles}
+#### The Overall Styles {#the-overall-styles}
 
 The code outputted by GeSHi is either in a <html><div></html> or a <html><pre></html> (see the section entitled "The
 Code Container"), and this can be styled.
@@ -716,10 +716,10 @@ Where styles is a string containing valid CSS declarations. By default, these st
 The default styles "shine through" wherever anything isn't highlighted. Also, you can apply more advanced styles, like position: (fixed|relative) etc, because a <html><div></html>/<html><pre></html> is a block level element.
 
 <note>
-    Remember that a <html><div></html> will by default have a larger font size than a <html><pre></html>, as discussed in the section ["The Code Container"](#the-code-container).
+  Remember that a <html><div></html> will by default have a larger font size than a <html><pre></html>, as discussed in the section ["The Code Container"](#the-code-container).
 </note>
 
-#### 3.4.2: Line Number Styles {#line-number-styles}
+#### Line Number Styles {#line-number-styles}
 
 You may wish to refer to the section [Styling Line Numbers][1] before reading this section.
 
@@ -756,7 +756,7 @@ Line number styles are set by using the method <php>set_line_style</php>:
   saving in code - but the difference may be confusing for anyone using 1.0.1 at first.
 </caution>
 
-#### 3.4.3: Setting Keyword Styles {#setting-keyword-styles}
+#### Setting Keyword Styles {#setting-keyword-styles}
 
 Perhaps the most regular change you will make will be to the styles of a keyword set. In order to change the styles for
 a particular set, you'll have to know what the set is called first. Sets are numbered from 1 up. Typically, set 1
@@ -778,7 +778,7 @@ combine them with the current styles:
 
 <php>$geshi->set_keyword_group_style(3, 'color: white;', true);</php>
 
-#### 3.4.4: Setting Comment Styles {#setting-comment-styles}
+#### Setting Comment Styles {#setting-comment-styles}
 
 To change the styles for a comment group, call the <php>set_comments_style()</php> method:
 
@@ -802,32 +802,46 @@ combine them with the current styles:
   line comment styles.
 </note>
 
-#### 3.4.5: Setting Other Styles {#setting-other-styles}
+#### Setting Other Styles {#setting-other-styles}
 
-GeSHi can highlight many other aspects of your source other than just keywords and comments. Strings, Numbers, Methods and Brackets among other things can all also be highlighted. Here are the related methods:
+GeSHi can highlight many other aspects of your source other than just keywords and comments. Strings, Numbers, Methods
+and Brackets among other things can all also be highlighted. Here are the related methods:
 
-`$geshi->set_escape_characters_style($styles&#91;, $preserve_defaults&#93;);
-$geshi->set_symbols_style($styles&#91;, $preserve_defaults&#93;);
+<blockphp>
+$geshi->set_escape_characters_style($styles[, $preserve_defaults]);
+$geshi->set_symbols_style($styles[, $preserve_defaults]);
 
-$geshi->set_strings_style($styles&#91;, $preserve_defaults&#93;);
-$geshi->set_numbers_style($styles&#91;, $preserve_defaults&#93;);
-$geshi->set_methods_style($key, $styles&#91;, $preserve_defaults&#93;);
-$geshi->set_regexps_style($key, $styles&#91;, $preserve_defaults&#93;);`
-<php>$styles</php> is a string containing valid stylesheet declarations, while <php>$preserve_defaults</php> should be set to **true** if you want your styles to be merged with the previous styles. In the case of <php>set_methods_style</php>, you should select a group to set the styles of, check the language files for the number used for each "object splitter".
+$geshi->set_strings_style($styles[, $preserve_defaults]);
+$geshi->set_numbers_style($styles[, $preserve_defaults]);
+$geshi->set_methods_style($key, $styles[, $preserve_defaults]);
+$geshi->set_regexps_style($key, $styles[, $preserve_defaults]);
+</blockphp>
 
-Like this was possible for <php>set_method_style</php> a new parameter has been introduced for <php>set_symbols_style</php> too which allows you to select the group of symbols for which you'd like to change your style. `$geshi->set_symbols_style($styles&#91;, $preserve_defaults&#91;, $group&#93;&#93;);` If the third parameter is not given, group 0 is assumed. Furthermore you should note that any changes to group 0 are also reflected in the bracket style, i.e. a pass-through call to <php>set_bracket_style</php> is made.
+<php>$styles</php> is a string containing valid stylesheet declarations, while <php>$preserve_defaults</php> should be set
+to **true** if you want your styles to be merged with the previous styles. In the case of <php>set_methods_style()</php>,
+you should select a group to set the styles of, check the language files for the number used for each "object splitter".
 
- 3.5: Case Sensitivity and Auto Casing {#case-caps}
+Like this was possible for <php>set_method_style</php> a new parameter has been introduced for
+<php>set_symbols_style</php> too which allows you to select the group of symbols for which you'd like to change your
+style. <php>$geshi->set_symbols_style($styles[, $preserve_defaults[, $group]]);</php> If the third parameter is not
+given, group 0 is assumed. Furthermore you should note that any changes to group 0 are also reflected in the bracket
+style, i.e. a pass-through call to <php>set_bracket_style</php> is made.
 
-Controlling the case of the outputted source is an easy job with GeSHi. You can control which keywords are converted in case, and also control whether keywords are checked in a case sensitive manner.
+### Case Sensitivity and Auto Casing {#case-caps}
 
- 3.5.1: Auto-Caps/Nocaps {#auto-caps-nocaps}
+Controlling the case of the outputted source is an easy job with GeSHi. You can control which keywords are converted in
+case, and also control whether keywords are checked in a case sensitive manner.
 
-Auto-Caps/Nocaps is a nifty little feature that capitalises or lowercases automatically certain lexics when they are styled. I dabble in QuickBASIC, a dialect of BASIC which is well known for it's capatalisation, and SQL is another language well known for using caps for readability.
+#### Auto-Caps/Nocaps {#auto-caps-nocaps}
+
+Auto-Caps/Nocaps is a nifty little feature that capitalises or lowercases automatically certain lexics when they are
+styled. I dabble in QuickBASIC, a dialect of BASIC which is well known for it's capatalisation, and SQL is another
+language well known for using caps for readability.
 
 To change what case lexics are rendered in, you call the <php>set_case_keywords()</php> method:
 
-`$geshi->set_case_keywords($caps_modifier);`
+<php>$geshi->set_case_keywords($caps_modifier);</php>
+
 The valid values to pass to this method are:
 
 *   `GESHI_CAPS_NO_CHANGE` - Don't change the case of any lexics, leave as they are found
@@ -835,11 +849,8 @@ The valid values to pass to this method are:
 *   `GESHI_CAPS_LOWER` - Lowercase all lexics found
 
 <caution>
-
-  <p>
-    When I say "lexic", I mean "keywords". **Any** keyword in **any** keyword array will be modified using this option! This is one small area of inflexibility I hope to fix in 1.2.X.
-  </p>
-</div>
+  When I say "lexic", I mean "keywords". **Any** keyword in **any** keyword array will be modified using this option! This is one small area of inflexibility I hope to fix in 1.2.X.
+</caution>
 
 I suspect this will only be used to specify `GESHI_CAPS_NO_CHANGE` to turn off autocaps for languages like SQL and BASIC variants, like so:
 
