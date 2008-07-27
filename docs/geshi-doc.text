@@ -849,38 +849,54 @@ The valid values to pass to this method are:
 *   `GESHI_CAPS_LOWER` - Lowercase all lexics found
 
 <caution>
-  When I say "lexic", I mean "keywords". **Any** keyword in **any** keyword array will be modified using this option! This is one small area of inflexibility I hope to fix in 1.2.X.
+  When I say "lexic", I mean "keywords". **Any** keyword in **any** keyword array will be modified using this option!
+  This is one small area of inflexibility I hope to fix in 1.2.X.
 </caution>
 
-I suspect this will only be used to specify `GESHI_CAPS_NO_CHANGE` to turn off autocaps for languages like SQL and BASIC variants, like so:
+I suspect this will only be used to specify `GESHI_CAPS_NO_CHANGE` to turn off autocaps for languages like SQL
+and BASIC variants, like so:
 
-`$geshi = new GeSHi($source, 'sql');
-$geshi->set_case_keywords(GESHI_CAPS_NO_CHANGE); // don't want keywords capatalised `
+<blockphp>
+$geshi = new GeSHi($source, 'sql');
+$geshi->set_case_keywords(GESHI_CAPS_NO_CHANGE); // don't want keywords capatalised
+</blockphp>
+
 All the same, it can be used for some interesting effects:
 
-`$geshi = new GeSHi($source, 'java');
+<blockphp>
+$geshi = new GeSHi($source, 'java');
 // Anyone who's used java knows how picky it is about CapitalLetters...
 $geshi->set_case_keywords(GESHI_CAPS_LOWER);
-// No *way* the source will look right now ;) `
- 3.5.2: Setting Case Sensitivity {#setting-case-sensitivity}
+// No *way* the source will look right now ;)
+</blockphp>
 
-Some languages, like PHP, don't mind what case function names and keywords are in, while others, like Java, depend on such pickiness to maintain their bad reputations ;). In any event, you can use the <php>set_case_sensitivity</php> to change the case sensitiveness of a particular keyword group from the default:
+#### Setting Case Sensitivity {#setting-case-sensitivity}
 
-`$geshi->set_case_sensitivity($key, $sensitivity);`
-Where <php>$key</php> is the key of the group for which you wish to change case sensitivness for (see the language file for that language), and <php>$sensitivity</php> is a boolean value - **true** if the keyword is case sensitive, and **false** if not.
+Some languages, like PHP, don't mind what case function names and keywords are in, while others, like Java, depend on
+such pickiness to maintain their bad reputations ;). In any event, you can use the <php>set_case_sensitivity()</php>
+to change the case sensitiveness of a particular keyword group from the default:
 
- 3.6: Changing the Source, Language, Config Options {#changing-config}
+<php>$geshi->set_case_sensitivity($key, $sensitivity);</php>
 
-What happens if you want to change the source to be highlighted on the fly, or the language. Or if you want to specify any of those basic fields after you've created a GeSHi object? Well, that's where these methods come in.
+Where <php>$key</php> is the key of the group for which you wish to change case sensitivness for (see the language file
+for that language), and <php>$sensitivity</php> is a boolean value - <php>true</php> if the keyword is case sensitive, and
+<php>false</php> if not.
 
- 3.6.1: Changing the Source Code {#changing-the-source}
+### Changing the Source, Language, Config Options {#changing-config}
+
+What happens if you want to change the source to be highlighted on the fly, or the language. Or if you want to specify
+any of those basic fields after you've created a GeSHi object? Well, that's where these methods come in.
+
+#### Changing the Source Code {#changing-the-source}
 
 To change the source code, you call the <php>set_source()</php> method:
 
-`$geshi->set_source($newsource);`
+<php>$geshi->set_source($newsource);</php>
+
 Example:
 
-`$geshi = new GeSHi($source1, 'php');
+<blockphp>
+$geshi = new GeSHi($source1, 'php');
 
 
 // Method calls to specify various options...
@@ -889,16 +905,19 @@ $code1 = $geshi->parse_code();
 
 $geshi->set_source($source2);
 
-$code2 = $geshi->parse_code();`
- 3.6.2: Changing the Language {#changing-the-language}
+$code2 = $geshi->parse_code();
+</blockphp>
+
+#### Changing the Language {#changing-the-language}
 
 What happens if you want to change the language used for highlighting? Just call <php>set_language()</php>:
 
-`$geshi->set_language('newlanguage');`
+<php>$geshi->set_language('newlanguage');</php>
+
 Example:
 
-`$geshi = new GeSHi($source, 'php');
-
+<blockphp>
+$geshi = new GeSHi($source, 'php');
 
 $code = $geshi->parse_code();
 
@@ -907,24 +926,25 @@ $geshi->set_source($code);
 
 $geshi->set_language('html4strict');
 $geshi->enable_classes(false);
-echo $geshi->parse_code();` <note>
-
-  <p>
-    Names are case-insensitive - they will be converted to lower case to match a language file however. So if you're making a language file, remember it should have a name in lower case.
-  </p>
-</div>
+echo $geshi->parse_code();
+</blockphp>
 
 <note>
-
-  <p>
-    What you pass to this method is the name of a language file, minus the .php extension. If you're writing a plugin for a particular application, it's up to you to somehow convert user input into a valid language name.
-  </p>
-</div>
+  Names are case-insensitive - they will be converted to lower case to match a language file however. So if you're
+  making a language file, remember it should have a name in lower case.
+</note>
 
 <note>
+  What you pass to this method is the name of a language file, minus the .php extension. If you're writing a plugin
+  for a particular application, it's up to you to somehow convert user input into a valid language name.
+</note>
 
-  <p>
-    Since GeSHi 1.0.8 this function does not reset language settings for an already loaded language. If you want to highlight code in the same language with different settings add the optional $force_reset parameter:  <code>&lt;span style="color: #0000ff;">$geshi&lt;/span>-&gt;&lt;span style="color: #006600;">set_language&lt;/span>&lt;span style="color: #66cc66;">(&lt;/span>&lt;span style="color: #ff0000;">'language'&lt;/span>, &lt;span style="color: #000000; font-weight: bold; ">true&lt;/span>&lt;span style="color: #66cc66;">)&lt;/span>;</code>
+<note>
+  Since GeSHi 1.0.8 this function does not reset language settings for an already loaded language. If you want
+  to highlight code in the same language with different settings add the optional
+  <php>$force_reset parameter</php>:
+
+  <code>&lt;span style="color: #0000ff;">$geshi&lt;/span>-&gt;&lt;span style="color: #006600;">set_language&lt;/span>&lt;span style="color: #66cc66;">(&lt;/span>&lt;span style="color: #ff0000;">'language'&lt;/span>, &lt;span style="color: #000000; font-weight: bold; ">true&lt;/span>&lt;span style="color: #66cc66;">)&lt;/span>;</code>
   </p>
 </div>
 

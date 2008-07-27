@@ -73,7 +73,7 @@
             li {
                 padding-top: 2px;
             }
-            ul ul, ol ol {
+            ul ul, ol ol, div ul, div ol {
                 font-size:100%;
             }
             .note {
