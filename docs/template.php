@@ -163,7 +163,9 @@
             sup a {
                 text-decoration: none;
             }
-
+            abbr {
+                cursor: help;
+            }
             #header p {
                 text-align: center;
                 border-bottom: 1px dotted #d0d0d0;

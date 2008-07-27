@@ -773,7 +773,7 @@ To change the styles for a keyword set, call the <php>set_keyword_group_style()<
 Where <php>$group</php> is the group to change the styles for and <php>$styles</php> is a string containing the styles
 to apply to that group.
 
-By default, the styles you pass overwrite the current styles. Add a boolean **true** after the styles you specify to
+By default, the styles you pass overwrite the current styles. Add a boolean <php>true</php> after the styles you specify to
 combine them with the current styles:
 
 <php>$geshi->set_keyword_group_style(3, 'color: white;', true);</php>
@@ -818,7 +818,7 @@ $geshi->set_regexps_style($key, $styles[, $preserve_defaults]);
 </blockphp>
 
 <php>$styles</php> is a string containing valid stylesheet declarations, while <php>$preserve_defaults</php> should be set
-to **true** if you want your styles to be merged with the previous styles. In the case of <php>set_methods_style()</php>,
+to <php>true</php> if you want your styles to be merged with the previous styles. In the case of <php>set_methods_style()</php>,
 you should select a group to set the styles of, check the language files for the number used for each "object splitter".
 
 Like this was possible for <php>set_method_style</php> a new parameter has been introduced for
@@ -944,140 +944,201 @@ echo $geshi->parse_code();
   to highlight code in the same language with different settings add the optional
   <php>$force_reset parameter</php>:
 
-  <code>&lt;span style="color: #0000ff;">$geshi&lt;/span>-&gt;&lt;span style="color: #006600;">set_language&lt;/span>&lt;span style="color: #66cc66;">(&lt;/span>&lt;span style="color: #ff0000;">'language'&lt;/span>, &lt;span style="color: #000000; font-weight: bold; ">true&lt;/span>&lt;span style="color: #66cc66;">)&lt;/span>;</code>
-  </p>
-</div>
+  <php>$geshi->set_language('language', true);</php>
+</note>
 
 <caution>
+  GeSHi <php>include()</php>s the language file, so be careful to make sure that users can't pass some wierd
+  language name to include any old script! GeSHi tries to strip non-valid characters out of a language name, but
+  you should always do this your self anyway. In particular, language files are always lower-case, with either
+  alphanumeric characters, dashes or underscores in their name.
 
-  <p>
-    GeSHi <php>include()</php>s the language file, so be careful to make sure that users can't pass some wierd language name to include any old script! GeSHi tries to strip non-valid characters out of a language name, but you should always do this your self anyway. In particular, language files are always lower-case, with either alphanumeric characters, dashes or underscores in their name.
-  </p>
+  At the very least, strip "/" characters out of a language name.
+</caution>
 
-  <p>
-    At the very least, strip "/" characters out of a language name.
-  </p>
-</div>
+#### Changing the Language Path {#changing-the-path}
 
- 3.6.3: Changing the Language Path {#changing-the-path}
+What happens if all of a sudden you want to use language files from a different directory from the current
+language file location? You call the <php>set_language_path()</php> method:
 
-What happens if all of a sudden you want to use language files from a different directory from the current language file location? You call the <php>set_language_path()</php> method:
+<php>$geshi->set_language_path($newpath);</php>
 
-`$geshi->set_language_path($newpath);`
-It doesn't matter whether the path has a trailing slash after it or not - only that it points to a valid folder. If it doesn't, that's your tough luck ;)
+It doesn't matter whether the path has a trailing slash after it or not - only that it points to a valid folder.
+If it doesn't, that's your tough luck ;)
 
- 3.6.4: Changing the Character Set {#changing-the-charset}
+#### Changing the Character Set {#changing-the-charset}
 
 <note>
+  As of GeSHi 1.0.7.18, you don't need to use this, as htmlspecialchars is not being used due to a security flaw in
+  it (that is unpatched in even the most recent PHP4 versions, and in PHP5 < 5.2). As long as you set the encoding
+  properly with a php <php>header()</php> call, your foreign characters will be displayed correctly.
+</note>
 
-  <p>
-    As of GeSHi 1.0.7.18, you don't need to use this, as htmlspecialchars is not being used due to a security flaw in it (that is unpatched in even the most recent PHP4 versions, and in PHP5 < 5.2). As long as you set the encoding properly with a php <a href="http://php.net/header">header()</a> call, your foreign characters will be displayed correctly.
-  </p>
-</div>
+As of version 1.0.3, you can use the method <php>set_encoding()</php> to specify the character set that your source
+is in. Valid names are those names that are valid for the PHP function <php>htmlentities()</php>:
 
-As of version 1.0.3, you can use the method <php>set_encoding</php> to specify the character set that your source is in. Valid names are those names that are valid for the PHP function <html>htmlentities()</html>:
+<php>$geshi->set_encoding($encoding);</php>
 
-`$geshi->set_encoding($encoding);`
-There is a table of valid strings for <php>$encoding</php> at the php.net manual linked to above. If you do not specify an encoding, or specify an invalid encoding, the character set used is ISO-8859-1.
+There is a table of valid strings for <php>$encoding</php> at the php.net manual linked to above. If you do not
+specify an encoding, or specify an invalid encoding, the character set used is ISO-8859-1.
 
- Using `load_from_file` to Change the Language and Source Code {#changing-using-load-from-file}
+Using <php>load_from_file()</php> to Change the Language and Source Code {#changing-using-load-from-file}
 
-As of GeSHi 1.0.5, you can use the method <php>load_from_file</php> to load the source code and language from a file. Simply pass this method a file name and it will attempt to load the source and set the language.
+As of GeSHi 1.0.5, you can use the method <php>load_from_file()</php> to load the source code and language from a file.
+Simply pass this method a file name and it will attempt to load the source and set the language.
 
-`$geshi->load_from_file($file_name, $lookup);`
-<php>$file_name</php> is the file name to use, and <php>$lookup</php> is an optional parameter that contains a lookup array to use for deciding which language to choose. You can use this to override GeSHi's default lookup array, which may not contain the extension of the file you're after, or perhaps does have your extension but under a different language. The lookup array is of the form:
+<php>$geshi->load_from_file($file_name, $lookup);</php>
 
-<pre>array(
-	 *   'lang_name' =&gt; array('extension', 'extension', ...),
-	 *   'lang_name' ...
-	 * );</pre>
+<php>$file_name</php> is the file name to use, and <php>$lookup</php> is an optional parameter that contains a lookup
+array to use for deciding which language to choose. You can use this to override GeSHi's default lookup array, which
+may not contain the extension of the file you're after, or perhaps does have your extension but under a different
+language. The lookup array is of the form:
 
-Also, you can use the method <php>get_language_name_from_extension</php> if you need to convert a file extension to a valid language name. This method will return the empty string if it could not find a match in the lookup, and like <php>load_from_file</php> it accepts an optional second parameter that contains a lookup array.
+<blockphp>
+array(
+   'lang_name' => array('extension', 'extension', ...),
+   'lang_name' ...
+);
+</blockphp>
 
- 3.7: Error Handling {#error-handling}
+Also, you can use the method <php>get_language_name_from_extension()</php> if you need to convert a file extension
+to a valid language name. This method will return the empty string if it could not find a match in the lookup, and
+like <php>load_from_file</php> it accepts an optional second parameter that contains a lookup array.
 
-What happens if you try to highlight using a language that doesn't exist? Or if GeSHi can't read a required file? The results you get may be confusing. You may check your code over and over, and never find anything wrong. GeSHi provides ways of finding out if GeSHi itself found anything wrong with what you tried to do. After highlighting, you can call the <php>error()</php> method:
+### Error Handling {#error-handling}
 
-`$geshi = new GeSHi('hi', 'thisLangIsNotSupported');`
+What happens if you try to highlight using a language that doesn't exist? Or if GeSHi can't read a required file?
+The results you get may be confusing. You may check your code over and over, and never find anything wrong. GeSHi
+provides ways of finding out if GeSHi itself found anything wrong with what you tried to do. After highlighting,
+you can call the <php>error()</php> method:
 
-`echo $geshi->error();&nbsp; // echoes error message`
+<php>$geshi = new GeSHi('hi', 'thisLangIsNotSupported');</php>
+
+<php>echo $geshi->error(); // echoes error message</php>
+
 The error message you will get will look like this:
 
 > GeSHi Error: GeSHi could not find the language thisLangIsNotSupported (using path geshi/) (code 2)
-The error outputted will be the last error GeSHi came across, just like how `mysql_error()` works.
 
- 3.8: Disabling styling of some Lexics {#disabling-lexics}
+The error outputted will be the last error GeSHi came across, just like how <php>mysql_error()</php> works.
 
-One disadvantage of GeSHi is that for large source files using complex languages, it can be quite slow with every option turned on. Although future releases will concentrate on the speed/resource side of highlighting, for now you can gain speed increases by disabling some of the highlighting options. This is done by using a series of <php>set_*_highlighting</php> methods:
+### Disabling styling of some Lexics {#disabling-lexics}
 
-*   **<tt>set_keyword_group_highlighting(<php>$group</php>, <php>$flag</php>):</tt>** Sets whether a particular <php>$group</php> of keywords is to be highlighted or not. Consult the necessary language file(s) to see what <php>$group</php> should be for each group (typically a positive integer). <php>$flag</php> is **false** if you want to disable highlighting of this group, and **true** if you want to re-enable higlighting of this group. If you disable a keyword group then even if the keyword group has a related URL one will not be generated for that keyword.
-*   **<tt>set_comments_highlighting(<php>$group</php>, <php>$flag</php>):</tt>** Sets whether a particular <php>$group</php> of comments is to be highlighted or not. Consult the necessary language file(s) to see what <php>$group</php> should be for each group (typically a positive integer, or the string 'MULTI' for multiline comments. <php>$flag</php> is **false** if you want to disable highlighting of this group, and **true** if you want to re-enable highlighting of this group.
-*   **<tt>set_regexps_highlighting(<php>$regexp</php>, <php>$flag</php>):</tt>** Sets whether a particular <php>$regexp</php> is to be highlighted or not. Consult the necessary language file(s) to see what <php>$regexp</php> should be for each regexp (typically a positive integer, or the string 'MULTI' for multiline comments. <php>$flag</php> is **false** if you want to disable highlighting of this group, and **true** if you want to re-enable highlighting of this group.
-*   The following methods:
-    *   **<tt>set_escape_characters_highlighting(<php>$flag</php>)</tt>**
-    *   **<tt>set_symbols_highlighting(<php>$flag</php>)</tt>**
-    *   **<tt>set_strings_highlighting(<php>$flag</php>)</tt>**
-    *   **<tt>set_numbers_highlighting(<php>$flag</php>)</tt>**
-    *   **<tt>set_methods_highlighting(<php>$flag</php>)</tt>** Work on their respective lexics (e.g. set\_methods\_highlighting will disable/enable highlighting of methods). For each method, if
-    <php>$flag</php> is **false** then the related lexics will not be highlighted at all (this means no HTML will surround the lexic like usual, saving on time and bandwidth.
+One disadvantage of GeSHi is that for large source files using complex languages, it can be quite slow with
+every option turned on. Although future releases will concentrate on the speed/resource side of highlighting,
+for now you can gain speed increases by disabling some of the highlighting options. This is done by using a
+series of <php>set_*_highlighting</php> methods:
 
-In case all highlighting should be disabled or reenabled GeSHi provides two methods called <php>disable_highlighting()</php> and **<tt>enable_highlighting(<php>$flag</php>)</tt>**. The optional paramter <php>$flag</php> has been added in 1.0.7.21 and specifies the desired state, i.e. **true** (default) to turn all highlighting on, or **false** to turn all highlighting off. Since 1.0.7.21 the method <php>disnable_highlighting()</php> has become deprecated.
+<php>set_keyword_group_highlighting($group, $flag):</php>
+:   Sets whether a particular <php>$group</php> of keywords is to be highlighted or not. Consult the necessary
+    language file(s) to see what <php>$group</php> should be for each group (typically a positive integer).
+    <php>$flag</php> is <php>false</php> if you want to disable highlighting of this group, and <php>true</php> if you want
+    to re-enable higlighting of this group. If you disable a keyword group then even if the keyword group has a
+    related URL one will not be generated for that keyword.
 
- 3.9: Setting the Tab Width {#setting-tab-width}
+<php>set_comments_highlighting($group, $flag):</php>
+:   Sets whether a particular <php>$group</php> of comments is to be highlighted or not. Consult the necessary
+    language file(s) to see what <php>$group</php> should be for each group (typically a positive integer, or th
+    string <php>'MULTI'</php> for multiline comments. <php>$flag</php> is <php>false</php> if you want to disable
+    highlighting of this group, and <php>true</php> if you want to re-enable highlighting of this group.
 
-If you're using the <html><pre></tt> header, tabs are handled automatically by your browser, and in general you can count on good results. However, if you're using the <tt><div></html> header, you may want to specify a tab width explicitly.
+<php>set_regexps_highlighting($regexp, $flag):</php>
+:   Sets whether a particular <php>$regexp</php> is to be highlighted or not. Consult the necessary language file(s)
+    to see what <php>$regexp</php> should be for each regexp (typically a positive integer, or the string <php>'MULTI'</php>
+    for multiline comments. <php>$flag</php> is <php>false</php> if you want to disable highlighting of this group,
+    and <php>true</php> if you want to re-enable highlighting of this group.
 
-Note that tabs created in this fashion won't be like normal tabs - there won't be "tab-stops" as such, instead tabs will be replaced with the specified number of spaces.
+The following methods:
+*   <php>set_escape_characters_highlighting($flag)</php>
+*   <php>set_symbols_highlighting($flag)</php>
+*   <php>set_strings_highlighting($flag)</php>
+*   <php>set_numbers_highlighting($flag)</php>
+*   <php>set_methods_highlighting($flag)</php>
+
+Work on their respective lexics (e.g. <php>set_methods_highlighting()</php> will disable/enable highlighting of methods).
+For each method, if <php>$flag</php> is <php>false</php> then the related lexics will not be highlighted at all (this
+means no HTML will surround the lexic like usual, saving on time and bandwidth.
+
+In case all highlighting should be disabled or reenabled GeSHi provides two methods called <php>disable_highlighting()</php>
+and <php>enable_highlighting($flag)</php>. The optional paramter <php>$flag</php> has been added in 1.0.7.21 and specifies
+the desired state, i.e. <php>true</php> (default) to turn all highlighting on, or <php>false</php> to turn all
+highlighting off. Since 1.0.7.21 the method <php>disnable_highlighting()</php> has become deprecated.
+
+### Setting the Tab Width {#setting-tab-width}
+
+If you're using the <html><pre></html> header, tabs are handled automatically by your browser, and in general you can
+count on good results. However, if you're using the <html><div></html> header, you may want to specify a tab
+width explicitly.
+
+Note that tabs created in this fashion won't be like normal tabs - there won't be "tab-stops" as such, instead
+tabs will be replaced with the specified number of spaces.
 
 To change the tab width, you call the <php>set_tab_width()</php> method:
 
-`$geshi->set_tab_width($width);`
+<php>$geshi->set_tab_width($width);</php>
+
 Where <php>$width</php> is the width in spaces that you'd like tabs to be.
 
- 3.10: Using Strict Mode {#using-strict-mode}
+### Using Strict Mode {#using-strict-mode}
 
-Some languages like to get tricky, and jump in and out of the file that they're in. For example, the vast majority of you reading this will have used a PHP file. And you know that PHP code is only executed if it's within delimiters like `<?php` and `?>` (there are others of course...). So what happens if you do the following in a php file?
+Some languages like to get tricky, and jump in and out of the file that they're in. For example, the vast
+majority of you reading this will have used a PHP file. And you know that PHP code is only executed if it's
+within delimiters like <php><?php</php> and <php>?></php> (there are others of course...). So what happens if you do the
+following in a php file?
 
-`<img src="<?php echo rand(1, 100) ?>" />`
+<php><img src="<?php echo rand(1, 100) ?>" /></php>
+
 Well normally using GeSHi with PHP, or using a bad highlighter, you'll end up with this:
 
-`<img src="<?php echo rand(1, 100) ?>" />`
-What a mess! Especially if you're being slack about where you're putting your quotes, you could end up with the rest of your file as bright red. Fortunately, you can tell GeSHi to be "strict" about just when it highlights and when it does not, using the <php>enable_strict_mode</php> method:
+<php><img src="<?php echo rand(1, 100) ?>" /></php>
 
-`$geshi->enable_strict_mode($mode);`
-Where <php>$mode</php> is **true** or not specified to enable strict mode, or **false** to disable strict mode if you've already turned it and don't want it now.
+What a mess! Especially if you're being slack about where you're putting your quotes, you could end up with the rest
+of your file as bright red. Fortunately, you can tell GeSHi to be "strict" about just when it highlights and when it
+does not, using the <php>enable_strict_mode</php> method:
+
+<php>$geshi->enable_strict_mode($mode);</php>
+
+Where <php>$mode</php> is <php>true</php> or not specified to enable strict mode, or <php>false</php> to disable
+strict mode if you've already turned it and don't want it now.
 
 Here's the result: much better!
 
-`<img src="<?php echo rand(1, 100) ?>" />`
- 3.11: Adding/Removing Keywords {#adding-removing-keywords}
+<php><img src="<?php echo rand(1, 100) ?>" /></php>
 
-Lets say that you're working on a large project, with many files, many classes and many functions. Perhaps also you have the source code on the web and highlighted by GeSHi, perhaps as a front end to CVS, as a learning tool, something to refer to, whatever. Well, why not highlight the names of the functions and classes \*your\* project uses, as well as the standard functions and classes? Or perhaps you're not interested in highlighting certain functions, and would like to remove them? Or maybe you don't mind if an entire function group goes west in the interest of speed? GeSHi can handle all of this!
+### Adding/Removing Keywords {#adding-removing-keywords}
 
- 3.11.1: Adding a Keyword {#adding-a-keyword}
+Lets say that you're working on a large project, with many files, many classes and many functions. Perhaps also you
+have the source code on the web and highlighted by GeSHi, perhaps as a front end to CVS, as a learning tool, something
+to refer to, whatever. Well, why not highlight the names of the functions and classes \*your\* project uses, as well
+as the standard functions and classes? Or perhaps you're not interested in highlighting certain functions, and would
+like to remove them? Or maybe you don't mind if an entire function group goes west in the interest of speed? GeSHi
+can handle all of this!
+
+#### Adding a Keyword {#adding-a-keyword}
 
 If you want to add a keyword to an existing keyword group, you use the <php>add_keyword</php> method:
 
-`$geshi->add_keyword($key, $word);`
-Where <php>$key</php> is the index of the group of keywords you want to add this keyword to, and <php>$word</php> is the word to add.
+<php>$geshi->add_keyword($key, $word);</php>
+
+Where <php>$key</php> is the index of the group of keywords you want to add this keyword to, and <php>$word</php> is
+the word to add.
 
 This implies knowledge of the language file to know the correct index.
 
 <note>
+  Keywords should contain at least two alphabetical characters (lower or upper case letters only). This is to enable GeSHi to work much faster by not bothering to try to detect keywords in parts of your source where there is no alphabetical characters.
+</note>
 
-  <p>
-    Keywords should contain at least two alphabetical characters (lower or upper case letters only). This is to enable GeSHi to work much faster by not bothering to try to detect keywords in parts of your source where there is no alphabetical characters.
-  </p>
-</div>
-
- 3.11.2: Removing a Keyword {#removing-a-keyword}
+#### Removing a Keyword {#removing-a-keyword}
 
 Perhaps you want to remove a keyword from an existing group. Maybe you don't use it and want to save yourself some time. Whatever the reason, you can remove it using the <php>remove_keyword</php> method:
 
-`$geshi->remove_keyword($key, $word);`
-Where <php>$key</php> is the index of the gropu of keywords that you want to remove this keyword from, and <php>$word</php> is the word to remove.
+<php>$geshi->remove_keyword($key, $word);</php>
 
-This implies knowledge of the language file to know the correct index - most of the time the keywords you'll want to remove will be in group 3, but this is not guaranteed and you should check the language file first.
+Where <php>$key</php> is the index of the gropu of keywords that you want to remove this keyword from, and
+<php>$word</php> is the word to remove.
+
+This implies knowledge of the language file to know the correct index - most of the time the keywords you'll
+want to remove will be in group 3, but this is not guaranteed and you should check the language file first.
 
 This function is silent - if the keyword is not in the group you specified, nothing awful will happen ;)
-
