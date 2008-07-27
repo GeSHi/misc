@@ -207,10 +207,12 @@ class DocMarkdown extends MarkdownExtra_Parser {
             $geshi->set_header_type(GESHI_HEADER_PRE_TABLE);
             $geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 2);
             $geshi->set_header_content('<LANGUAGE> code');
+            $geshi->enable_keyword_links(true);
         } else {
             $geshi->set_header_type(GESHI_HEADER_NONE);
             $geshi->enable_line_numbers(GESHI_NO_LINE_NUMBERS);
             $geshi->set_header_content('');
+            $geshi->enable_keyword_links(false);
         }
 
         $geshi->set_source(trim($matches[4]));
