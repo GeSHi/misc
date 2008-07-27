@@ -177,6 +177,10 @@
                 padding: 5px;
             }
 
+            #header img {
+                float: right;
+            }
+
             <?php echo $styles; ?>
 
         </style>
