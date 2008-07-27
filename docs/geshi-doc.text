@@ -3,7 +3,8 @@
 <div id="header" markdown="1">
 Version <version />
 
-<img align="right" src="http://qbnz.com/highlighter/images/geshi.png" />
+<img src="http://qbnz.com/highlighter/images/geshi.png" alt="the geshi logo" />
+
 Authors:
 :   &copy; 2004 - 2007 [Nigel McNie][]
 :   &copy; 2007 - 2008 [Benny Baumann][]
@@ -546,7 +547,7 @@ are cached by browsers).
   This should be the very first method you call after creating a new GeSHi object! That way, various other methods
   can act upon your choice to use classes correctly. In theory, you could call this method just before parsing the
   code, but this may result in unexpected behaviour.
-</div>
+</caution>
 
 #### Setting the CSS class and ID {#setting-css-class-id}
 
@@ -1143,3 +1144,279 @@ This implies knowledge of the language file to know the correct index - most of 
 want to remove will be in group 3, but this is not guaranteed and you should check the language file first.
 
 This function is silent - if the keyword is not in the group you specified, nothing awful will happen ;)
+
+#### Adding a Keyword Group {#adding-a-keyword-group}
+
+Lets say for your big project you have several main functions and classes that you'd like highlighted. Why not
+add them as their own group instead of having them highlighted the same way as other keywords? Then you can make
+them stand out, and people can instantly see which functions and classes are user defined or inbuilt. Furthermore,
+you could set the URL for this group to point at the API documentation of your project.
+
+You add a keyword group by using the <php>add_keyword_group</php> method:
+
+<php>$geshi->add_keyword_group($key, $styles, $case_sensitive, $words);</php>
+
+Where <php>$key</php> is the key that you want to use to refer to this group, <php>$styles</php> is the styles that
+you want to use to style this group, <php>$case_sensitive</php> is **true** or **false** depending on whether you want
+this group of keywords to be case sensitive or not and <php>$words</php> is an array of words (or a string) of which
+words to add to this group. For example:
+
+<php>$geshi->add_keyword_group(10, 'color: #600000;', false, array('myfunc_1', 'myfunc_2', 'myfunc_3'));</php>
+
+Adds a keyword group referenced by index 10, of which all keywords in the group will be dark red, each keyword
+can be in any case and which contains the keywords "myfunc_1", "myfunc_2" and "myfunc_3".
+
+After creating such a keyword group, you may call other GeSHi methods on it, just as you would for any other keyword group.
+
+<caution>
+  If you specify a <php>$key</php> for which there is already a keyword group, the old keyword group will be
+  overwritten! Most language files don't use numbers larger than 5, so I recommend you play it safe and use a number
+  like 10 or 42.
+</caution>
+
+#### Removing a Keyword Group {#removing-a-keyword-group}
+
+Perhaps you *really* need speed? Why not just remove an entire keyword group? GeSHi won't have to loop through
+each keyword checking for its existance, saving much time. You remove a keyword group by using the
+<php>remove_keyword_group</php> method:
+
+<php>$geshi->remove_keyword_group($key);</php>
+
+Where <php>$key</php> is the key of the group you wish to remove. This implies knowleged of the language file.
+
+### Headers and Footers for Your Code {#headers-and-footers}
+
+So you want to add some special information to the highlighted source? GeSHi can do that too! You can specify headers
+and footers for your code, style them, and insert information from the highlighted source into your header or footer.
+
+#### Keyword Substitution {#keyword-substitution}
+
+In your header and footer, you can put special keywords that will be replaced with actual configuration values for
+this GeSHi object. The keywords you can use are:
+
+*   **`<TIME>`** or **`{TIME}`**: Is replaced by the time it took for the <php>parse_code()</php> method - i.e.,
+    how long it took for your code to be highlighted. The time is returned to three decimal places.
+*   **`<LANGUAGE>`** or **`{LANGUAGE}`**: Is replaced by a nice, friendly version of the language name used to
+    highlight this code.
+*   **`<VERSION>`** or **`{VERSION}`**: The GeSHi version used to highlight the code.
+
+#### Setting Header Content {#setting-header-content}
+
+The header for your code is a <html><div></html>, which is inside the containing block. Therefore, it is affected by
+the method <php>set_overall_style</php>, and should contain the sort of HTML that belongs in a <html><div></html>.
+You may use any HTML you like, and format it as an HTML document. You should use valid HTML - convert to entities
+any quotemarks or angle brackets you want displayed. You set the header content using the method
+<php>set_header_content()</php>:
+
+<php>$geshi->set_header_content($content);</php>
+
+Where <php>$content</php> is the HTML you want to use for the header.
+
+#### Setting Footer Content {#setting-footer-content}
+
+The footer for your code is a <html><div></html>, which is inside the containing block. Therefore, it is affected by
+the method <php>set_overall_style</php>, and should contain the sort of HTML that belongs in a <html><div></html>.
+You may use any HTML you like, and format it as an HTML document. You should use valid HTML - convert to entities
+any quotemarks or angle brackets you want displayed. You set the footer content using the method
+<php>set_footer_content()</php>:
+
+<php>$geshi->set_footer_content($content);</php>
+
+Where <php>$content</php> is the HTML you want to use for the footer.
+
+#### Styling Header Content {#styling-header-content}
+
+You can apply styles to the header content you have set with the <php>set_header_content_style</php>:
+
+<php>$geshi->set_header_content_style($styles);</php>
+
+Where <php>$styles</php> is the stylesheet declarations you want to use to style the header content.
+
+#### Styling Footer Content {#styling-footer-content}
+
+You can apply styles to the footer content you have set with the <php>set_footer_content_style</php>:
+
+<php>$geshi->set_footer_content_style($styles);</php>
+
+Where <php>$styles</php> is the stylesheet declarations you want to use to style the footer content.
+
+### Keyword URLs {#keyword-urls}
+
+As of version 1.0.2, GeSHi allows you to specify a URL for keyword groups. This URL is used by GeSHi to convert
+the keywords in that group into URLs to appropriate documentation. And using <php>add_keyword_group</php> you
+can add functions and classes from your own projects and use the URL functionality to provide a link to your
+own API documentation.
+
+#### Setting a URL for a Keyword Group {#setting-a-url}
+
+To set the URL to be used for a keyword group, you use the <php>set_url_for_keyword_group()</php> method:
+
+<php>$geshi->set_url_for_keyword_group($group, $url);</php>
+
+Where <php>$group</php> is the keyword group you want to assign the URL for, and <php>$url</php> is the URL for
+this group of keywords.
+
+You may be wondering how to make each keyword in the group point to the correct URL. You do this by putting
+``{FNAME}`` in the URL at the correct place. For example, PHP makes it easy by linking `www.php.net/function-name`
+to the documentation for that function, so the URL used is `http://www.php.net/{FNAME}`.
+
+Of course, when you get to a language like Java, that puts its class documentation in related folders, it gets a
+little trickier to work out an appropriate URL (see the Java language file!). I hope to provide some kind of
+redirection service at the GeSHi website in the future.
+
+<note>
+  As of Version 1.0.7.21 there have been added two more symbols you can use to link to functions. `{FNAMEL}`
+  will generate the lowercase version of the keyword, `{FNAMEU}` will generate the upper-case version. `{FNAME}`
+  will provide the keyword as specified in the language file. **Use one of these if possible**,
+  they result in less overhead while linking for case insensitive languages.
+</note>
+
+#### Disabling a URL for a Keyword Group {#disabling-urls}
+
+It's easy to disable a URL for a keyword group: Simply use the method <php>set_url_for_keyword_group()</php> to pass
+an empty string as the URL:
+
+<php>$geshi->set_url_for_keyword_group($group, '');</php>
+
+##### 3.13.3 Disabling all URLs for Keywords {#disabling-all-urls}
+
+As of GeSHi 1.0.7.18, you can disable all URL linking for keywords:
+
+<php>$geshi->enable_keyword_links(false);</php>
+
+#### Styling Links {#styling-links}
+
+You can also style the function links. You can style their default status, hovered, active and visited status.
+All of this is controlled by one method, <php>set_link_styles()</php>:
+
+<php>$geshi->set_link_styles($mode, $styles);</php>
+
+Where <php>$mode</php> is one of four values:
+
+*   **<php>GESHI_LINK</php>:** The default style of the links.
+*   **<php>GESHI_HOVER</php>:** The style of the links when they have focus (the mouse is hovering over them).
+*   **<php>GESHI_ACTIVE</php>:** The style of the links when they are being clicked.
+*   **<php>GESHI_VISITED</php>:** The style of links that the user has already visited.
+
+And <php>$styles</php> is the stylesheet declarations to apply to the links.
+
+#### Setting the Link Target {#using-targets}
+
+Perhaps you want to set the target of link attributes, so the manual pages open in a new window? Use the
+<php>set_link_target()</php> method:
+
+<php>$geshi->set_link_target($target, $styles);</php>
+
+Where <php>$target</php> is any valid (X)HTML target value - `_blank` or `_top` for example.
+
+### Using Contextual Importance {#using-contextual-importance}
+
+<caution>
+  This functionality is not only buggy, but is proving very hard to implement in 1.1.X. Therefore, this
+  functionality may well be **removed** in 1.2.0. You are hereby warned!
+</caution>
+
+### Highlighting Special Lines "Extra" {#highlighting-special-lines-extra}
+
+An alternative (and more stable) method of highlighting code that is important is to use extra highlighting by line. Although you may not know what line numbers contain the important lines, if you do this method is a much more flexible way of making important lines stand out.
+
+#### Specifying the Lines to Highlight Extra {#specifying-lines-to-highlight-extra}
+
+To specify which lines to highlight extra, you past an array containing the line numbers to <php>highlight_lines_extra</php>:
+
+<php>$geshi->highlight_lines_extra($array);</php>
+
+The array could be in the form <php>array(2, 3, 4, 7, 12, 344, 4242)</php>, made from a DB query, generated
+from looking through the source for certain important things and working out what line those things are...
+However you get the line numbers, the array should simply be an array of integers.
+
+Here's an example, using the same source as before:
+
+<blockphp>
+//
+// Here we go again! This time we'll simply highlight the 8th line
+//
+$source = 'public int[][] product ( n, m )
+{
+  int [][] ans = new int[n][m];
+  for ( int i = 0; i < n; i++ )
+  {
+    for ( int j = 0; i < m; j++ )
+    {
+      ans[i][j] = i * j;
+    }
+  }
+  return ans;
+}';
+
+
+$geshi = new GeSHi($source, 'java');
+
+
+$geshi->highlight_lines_extra(array(8));
+
+
+echo $geshi->parse_code();
+</blockphp>
+
+Which produces:
+
+<blockjava>
+public int[][] product ( n, m )
+{
+  int [][] ans = new int[n][m];
+  for ( int i = 0; i < n; i++ )
+  {
+    for ( int j = 0; i < m; j++ )
+    {
+      ans[i][j] = i * j;
+    }
+  }
+  return ans;
+}
+</blockjava>
+
+What's more, as you can see the code on a highlighted line is still actually highlighted itself.
+
+<note>
+  As you can see, this is a little buggy, but that is because of HTML laws (code elements should not contain
+  div elements). This works just fine if you use line numbers.
+</note>
+
+#### Styles for the Highlighted Lines {#styles-for-highlighted-lines}
+
+Again as with contextual importance, you're not chained to the yellow theme that is the default. You can
+use the <php>set_highlight_lines_extra_style</php> method:
+
+<php>$geshi->set_highlight_lines_extra_style($styles);</php>
+
+Where <php>$styles</php> is the stylesheet declarations that you want to apply to highlighted lines.
+
+### Adding IDs to Each Line {#adding-ids-to-each-line}
+
+Perhaps you're a javascript junkie? GeSHi provides a way to give each line an ID so you can access that line with
+javascript, or perhaps just by plain CSS (though if you want to access lines by CSS you should use the method
+in the previous section). To enable IDs you call the <php>enable_ids</php> method:
+
+<php>$geshi->enable_ids($flag);</php>
+
+Where <php>$flag</php> is <php>true</php> or not present to enable IDs, and <php>false</php> to disable them again if you need.
+
+The ID generated is in the form `{overall-css-id}-{line-number}`. So for example, if you set the overall CSS id to
+be "mycode", then the IDs for each line would by "mycode-1", "mycode-2" etc. If there is no CSS ID set, then one is
+made up in the form `geshi-[4 random characters]`, but this is not so useful for if you want to do javascript manipulation.
+
+### Getting the Time of Styling {#getting-the-time-of-styling}
+
+Once you've called <php>parse_code()</php>, you can get the time it took to run the highlighting by calling the
+<php>get_time()</php> method:
+
+<blockphp>
+$geshi = new GeSHi($source, $language, $path);
+
+$code = mysql_real_escape_string($geshi->parse_code());
+$time = $geshi->get_time();
+
+// do something with it
+mysql_query("INSERT INTO code VALUES ('$code', '$time')");
+</blockphp>

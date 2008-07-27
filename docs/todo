@@ -2,3 +2,7 @@
 - SF#1651996
 - strictmode
 - keywords optimize
+- speed @ remove keyword group
+- <speed>
+- highlight extra line <blockjava>
+- getting time <TIME>
