@@ -133,7 +133,7 @@ while (list($lang, $lang_files) = each($samples)) {
             // speed calculation & memory peak so far
             $profile_results = profile::get_last_results();
             $mem_peak = profile::format_size(memory_get_peak_usage());
-            $speed = profile::format_size(strlen($GeSHi->source) / ($profile_results[1] - $profile_results[0])) . '/s';
+            $speed = profile::format_size(strlen($GeSHi->source) / ($profile_results[1] - $profile_results[0]), 2) . '/s';
             profile::add_measurement('speed', $speed, $pkey);
             profile::add_measurement('mem_peak', $mem_peak, $pkey);
             echo "<p>proccessed ". $file ." at ". $speed ." | mem peak afterwards: ". $mem_peak . '</p>';
