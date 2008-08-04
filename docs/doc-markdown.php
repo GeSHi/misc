@@ -65,6 +65,10 @@ class DocMarkdown extends MarkdownExtra_Parser {
         $text = preg_replace('#<caution>(.+)</caution>#Us',
                           '<div class="caution" markdown="1"><div class="caution-header">Caution:</div>\1</div>', $text);
 
+
+        // highlight arbitrary files
+        $text = preg_replace_callback('#<colourfile path="([^"]+)" language="([^"]+)" />#', array($this, 'colourfile'), $text);
+
         // language highlighting
         $text = preg_replace_callback('#<((block)?('.$this->geshi_language_rx.'))>(.+)</\1>#Us', array($this, 'highlight'), $text);
 
@@ -182,7 +186,7 @@ class DocMarkdown extends MarkdownExtra_Parser {
     /**
      * highlight <html>...</html> or <php>...</php> stuff.
      *
-     * this is a callback - don't call it manually!
+     * @note this is a callback - don't call it manually!
      *
      * @param array $matches
      * @return string highlighted code
@@ -223,5 +227,19 @@ class DocMarkdown extends MarkdownExtra_Parser {
             $code = '<code class="highlighted '.$lang.'">'.$code.'</code>';
         }
         return $code;
+    }
+    /**
+     * include arbitrary files and prepare them for highlighting
+     *
+     * @note this is a callback - don't call it manually!
+     *
+     * @param array $matches
+     * @return string
+     */
+    private function colourfile($matches) {
+        if (!file_exists($matches[1])) {
+            trigger_error('file "'.$matches[1].'" in <colourfile /> tag not found!', E_USER_ERROR);
+        }
+        return '<block'.$matches[2].'>'.file_get_contents($matches[1]).'</block'.$matches[2].'>';
     }
 }
