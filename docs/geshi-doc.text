@@ -1648,7 +1648,7 @@ Here are some points to note about these keywords:
 *   **Markup Languages are special cases:** Check the html4strict language file for an example: keywords have to be
     specified twice for opening tags and twice for each closing tag.
 
-### Symbols and Case Sensitivity {#language-file-symbols-case}
+#### Symbols and Case Sensitivity {#language-file-symbols-case}
 
 So you've put all the keywords for your language in? Now for a breather before we style them :). Symbols define
 what symbols your language uses, these are things like colons, brackets/braces, and other such general punctuation,
@@ -1961,7 +1961,7 @@ the example above that highlighting will only occur if the source is inside <php
   comes before <php><?</php>.
 </note>
 
-### Tidying Up {#language-file-tidying-up}
+#### Tidying Up {#language-file-tidying-up}
 
 All language files should end with:
 
