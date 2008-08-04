@@ -179,6 +179,7 @@
 
             #header img {
                 float: right;
+                margin:2.5em 1em 0 0;
             }
 
             <?php echo $styles; ?>
