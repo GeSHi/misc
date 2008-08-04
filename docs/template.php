@@ -127,33 +127,35 @@
                 -moz-border-radius-bottomleft: 3px;
                 -moz-border-radius-bottomright: 3px;
             }
-            h1, h2 {
+            h1, #contents {
                 margin-top: 0;
                 margin-bottom: 0;
                 text-align: center;
                 color: #404060;
             }
-            h2 {
-                text-align: left;
+            #contents {
+                text-align:left;
+                background:none;
+                border:none;
             }
-            h3 {
+            h2 {
                 border-bottom: 1px dotted #b0b0b0;
                 margin-top: 2em;
                 border-top: 1px dotted #b0b0b0;
                 background-color: #ddd;
                 margin-bottom: 0;
             }
-            h4 {
+            h3 {
                 margin-top: 1.6em;
                 border-bottom: 1px dotted #c0c0c0;
                 margin-bottom: 0;
             }
-            h5 {
+            h4 {
                 border-bottom: 1px dotted #d0d0d0;
                 margin-top: 1.2em;
                 margin-bottom: 0;
             }
-            h3, h4, h5 {
+            h2, h3, h4 {
                 color: #707070;
                 font-weight: normal;
             }
