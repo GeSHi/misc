@@ -3,7 +3,7 @@
 <div id="header" markdown="1">
 Version <version />
 
-<img src="http://qbnz.com/highlighter/images/geshi.png" alt="the geshi logo" />
+<img src="http://qbnz.com/highlighter/images/geshi.png" alt="The GeSHi Logo" />
 
 Authors:
 :   &copy; 2004 - 2007 [Nigel McNie][]
@@ -242,7 +242,7 @@ include_once 'geshi.php';
 //
 
 $source = '$foo = 45;
-for ( $i = 1; $i
+for ( $i = 1; $i < $foo; $i++ )
 {
   echo "$foo\n";
   --$foo;
@@ -363,7 +363,7 @@ defines the container type. Available are:
     created using an ordered list this header type produces **invalid HTML**.
 
 <php>$geshi->set_header_type(GESHI_HEADER_PRE_VALID);</php>
-:  <small>_Available since 1.0.8_</small>
+: <small>_Available since 1.0.8_</small>
 
 :   When linenumbers are disabled, this behaves just like `GESHI_HEADER_PRE`. In the other case though, a
     <html><div></html> is used to wrap the code and linenumbers and the <html><pre></html> is put inside the list
@@ -371,7 +371,7 @@ defines the container type. Available are:
     output is **valid HTML**.
 
 <php>$geshi->set_header_type(GESHI_HEADER_PRE_TABLE);</php>
-:  <small>_Available since 1.0.8_</small>
+: <small>_Available since 1.0.8_</small>
 
 :   Once again a <html><div></html> tag wraps the output. This time though no ordered list is used to create an ordered list,
     but instead we use a table with two cells in a single row. The left cell contains a <html><pre></html> tag which holds all
@@ -407,6 +407,22 @@ in what is used as the Code Container (although it *should* simply use a <html><
 GeSHi has the ability to add line numbers to your code (see the demo available at <http://qbnz.com/highlighter/demo.php>
 to see what can be achieved). Line numbers are a great way to make your code look professional, especially if you use the
 fancy line numbers feature.
+
+There are multiple methods for highlighting line numbers, but none of them is perfect. Of the various ways to highlight
+line numbers GeSHi itself implements 2 different approaches, but allows you
+by the way it generates the code to do the line numbers yourself if necessary - but more on this case later.
+
+The easiest approach is using the <html><ol></html>-tag for generating the line numbers, but
+even though this is the easiest one there's a big drawback with this one when
+using Gecko-engine based browsers like Firefox or Konqueror. In these browsers
+this approach will select the line numbers along with the code or will include extra markup in the selection.
+
+The other approach has been implemented in the 1.0.8 release of GeSHi with the <php>GESHI_HEADER_PRE_TABLE</php> header type.
+When using this header type the line numbers are rendered apart from the source
+in a table cell while the actual source is formatted as if the <php>GESHI_HEADER_PRE</php> header had been used.
+This approach works with Firefox and other Gecko-based browsers so far although extreme care
+has to be taken when applying styles to your source as Windows has some fonts
+where bold font is of different height than normal or italic text of the same fontface.
 
 ####  Enabling Line Numbers {#enabling-line-numbers}
 
@@ -529,9 +545,11 @@ worrying about stylesheets. However, if you're a bit more organised about it, yo
 the use of classes on, you call the <php>enable_classes()</php> method:
 
 <php>$geshi->enable_classes();</php>
+
 If you want to turn classes OFF for some reason later:
 
 <php>$geshi->enable_classes(false);</php>
+
 If classes are enabled when <php>parse_code()</php> is called, then the resultant source will use CSS classes in the
 output, otherwise it will in-line the styles. The advantages of using classes are great - the reduction in source will
 be very noticeable, and what's more you can use one stylesheet for several different highlights on the same page. In
@@ -1444,12 +1462,12 @@ still, there's a lot of indices to that array... but this section is here to bre
 There are several conventions that are used in language files. For ease of use and readability, your language
 files should obey the following rules:
 
-*   **Indentation is in *tabs*, not spaces:** Use tabs! There's no excuse for using spaces in this day and age,
-    where almost every good editor allows you to change the tab width. Tabs also take up less space, and ensure
-    proper alignment. When you indent, use tabs, and if your editor converts tabs to spaces, tell it not to.
+*   **Indentation is *4 spaces*, not tabs:** Use spaces! as editors continiously screw up tabs there should be
+    no tabs in your documents since it would look differently on every computer otherwise.
 *   **Strings are in single quotes:** Every string in a language file should be in single quotes ('), unless you are
     specifying a single quote as a quotemark or escape character, in which case they can be in double quotes for
-    readability; or if you are specifying a REGEXP (see below)
+    readability; or if you are specifying a REGEXP (see below). This ensures that the language file can be loaded
+    as fast as possible by PHP as unnecessary parsing can be avoided.
 *   **Large arrays are multi-lined:** An array with more than three or four values should be broken into multiple
     lines. In any case, lines should not be wider than a full-screen window (about 100 chars per line max).
 *   **Ending brackets for multi-lined arrays on a new line:** Also with a comma after them, unless the array is
@@ -1475,7 +1493,7 @@ The *header* of a language file is the first lines with the big comment and the 
  * ---------------------------------
  * Author: <name> (<e-mail address>)
  * Copyright: (c) 2004 <name> (<website URL>)
- * Release Version: 1.0.0
+ * Release Version: <GeSHi release>
  * CVS Revision Version: $Revision$
  * Date Started: <date started>
  * Last Modified: $Date$
@@ -1486,7 +1504,7 @@ The *header* of a language file is the first lines with the big comment and the 
  *
  * CHANGES
  * -------
- * <date-of-release> (1.0.0)
+ * <date-of-release> (<GeSHi release>)
  *  -  First Release
  *
  * TODO (updated <date-of-release>)
@@ -1536,6 +1554,8 @@ Here are the parts you should change:
 *   `<date-of-release` - The date you released the language file to the public. If you simply send it to me for inclusion
     in a new GeSHi and don't release it, leave this blank, and I'll replace it with the date of the GeSHi release that
     it is first added to.
+*   `<GeSHi release>` - This is the version of the release that will contain the changes you made.
+    So if you have version 1.0.8 of GeSHi running this will be the next version to be released, e.g. 1.0.8.1.
 
 Everything should remain the same, including <code>$Revision$</code> and <code>$Date: 2008-07-26 16:36:58 +0200
 (Sa, 26 Jul 2008) $</code> (I know these may look funny but they have their purpose for those of you who don't
@@ -1550,12 +1570,12 @@ GeSHi release)?
 Here is an example from the php language file of the first indices:
 
 <blockphp>
-'LANG_NAME' => 'PHP',
-'COMMENT_SINGLE' => array(1 => '//', 2 => '#'),
-'COMMENT_MULTI' => array('/*' => '*/'),
-'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-'QUOTEMARKS' => array("'", '"'),
-'ESCAPE_CHAR' => '\\',
+    'LANG_NAME' => 'PHP',
+    'COMMENT_SINGLE' => array(1 => '//', 2 => '#'),
+    'COMMENT_MULTI' => array('/*' => '*/'),
+    'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
+    'QUOTEMARKS' => array("'", '"'),
+    'ESCAPE_CHAR' => '\\',
 </blockphp>
 
 The first indices are the first few lines of a language file before the KEYWORDS index. These indices specify:
@@ -1590,37 +1610,37 @@ inbuilt functions, data types, predefined constants etc etc.
 Here's a (shortened) example from the php language file:
 
 <blockphp>
-'KEYWORDS' => array(
-    1 => array(
-    'include', 'require', 'include_once', 'require_once',
-    'for', 'foreach', 'as', 'if', 'elseif', 'else', 'while', 'do', 'endwhile', 'endif', 'switch', 'case', 'endswitch',
-    'return', 'break'
-    ),
-    2 => array(
-    'null', '__LINE__', '__FILE__',
-    'false', '&lt;?php', '?>', '&lt;?',
-    '&lt;script language=', '&lt;/script>',
-    'true', 'var', 'default',
-    'function', 'class', 'new',
-    '__FUNCTION__', '__CLASS__', '__METHOD__', 'PHP_VERSION',
-    'PHP_OS', 'DEFAULT_INCLUDE_PATH', 'PEAR_INSTALL_DIR', 'PEAR_EXTENSION_DIR',
-    'PHP_EXTENSION_DIR', 'PHP_BINDIR', 'PHP_LIBDIR', 'PHP_DATADIR', 'PHP_SYSCONFDIR',
-    'PHP_LOCALSTATEDIR', 'PHP_CONFIG_FILE_PATH', 'PHP_OUTPUT_HANDLER_START', 'PHP_OUTPUT_HANDLER_CONT',
-    'PHP_OUTPUT_HANDLER_END', 'E_ERROR', 'E_WARNING', 'E_PARSE', 'E_NOTICE',
-    'E_CORE_ERROR', 'E_CORE_WARNING', 'E_COMPILE_ERROR', 'E_COMPILE_WARNING', 'E_USER_ERROR',
-    'E_USER_WARNING', 'E_USER_NOTICE', 'E_ALL'
-    ),
-    3 => array(
-    'zlib_get_coding_type','zend_version','zend_logo_guid','yp_order','yp_next',
-    'yp_match','yp_master','yp_get_default_domain','yp_first','yp_errno','yp_err_string',
-    'yp_cat','yp_all','xml_set_unparsed_entity_decl_handler','xml_set_start_namespace_decl_handler',
-    'xml_set_processing_instruction_handler','xml_set_object',
-    'xml_set_notation_decl_handler','xml_set_external_entity_ref_handler','xml_set_end_namespace_decl_handler',
-    'xml_set_element_handler','xml_set_default_handler','xml_set_character_data_handler',
-    'xml_parser_set_option','xml_parser_get_option','xml_parser_free','xml_parser_create_ns',
-    'xml_parser_create','xml_parse_into_struct'
-    )
-),
+    'KEYWORDS' => array(
+        1 => array(
+            'include', 'require', 'include_once', 'require_once',
+            'for', 'foreach', 'as', 'if', 'elseif', 'else', 'while', 'do', 'endwhile', 'endif', 'switch', 'case', 'endswitch',
+            'return', 'break'
+            ),
+        2 => array(
+            'null', '__LINE__', '__FILE__',
+            'false', '&lt;?php', '?>', '&lt;?',
+            '&lt;script language=', '&lt;/script>',
+            'true', 'var', 'default',
+            'function', 'class', 'new',
+            '__FUNCTION__', '__CLASS__', '__METHOD__', 'PHP_VERSION',
+            'PHP_OS', 'DEFAULT_INCLUDE_PATH', 'PEAR_INSTALL_DIR', 'PEAR_EXTENSION_DIR',
+            'PHP_EXTENSION_DIR', 'PHP_BINDIR', 'PHP_LIBDIR', 'PHP_DATADIR', 'PHP_SYSCONFDIR',
+            'PHP_LOCALSTATEDIR', 'PHP_CONFIG_FILE_PATH', 'PHP_OUTPUT_HANDLER_START', 'PHP_OUTPUT_HANDLER_CONT',
+            'PHP_OUTPUT_HANDLER_END', 'E_ERROR', 'E_WARNING', 'E_PARSE', 'E_NOTICE',
+            'E_CORE_ERROR', 'E_CORE_WARNING', 'E_COMPILE_ERROR', 'E_COMPILE_WARNING', 'E_USER_ERROR',
+            'E_USER_WARNING', 'E_USER_NOTICE', 'E_ALL'
+            ),
+        3 => array(
+            'zlib_get_coding_type','zend_version','zend_logo_guid','yp_order','yp_next',
+            'yp_match','yp_master','yp_get_default_domain','yp_first','yp_errno','yp_err_string',
+            'yp_cat','yp_all','xml_set_unparsed_entity_decl_handler','xml_set_start_namespace_decl_handler',
+            'xml_set_processing_instruction_handler','xml_set_object',
+            'xml_set_notation_decl_handler','xml_set_external_entity_ref_handler','xml_set_end_namespace_decl_handler',
+            'xml_set_element_handler','xml_set_default_handler','xml_set_character_data_handler',
+            'xml_parser_set_option','xml_parser_get_option','xml_parser_free','xml_parser_create_ns',
+            'xml_parser_create','xml_parse_into_struct'
+            )
+        ),
 </blockphp>
 
 You can see that the index 'KEYWORDS' refers to an array of arrays, indexed by positive integers. In each array,
