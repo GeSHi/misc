@@ -207,19 +207,27 @@ class DocMarkdown extends MarkdownExtra_Parser {
         } else {
             $geshi =& $this->geshi_parsers[$lang];
         }
+        $source = $matches[4];
         if ($is_block) {
             $geshi->set_header_type(GESHI_HEADER_PRE_TABLE);
             $geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 2);
             $geshi->set_header_content('<LANGUAGE> code');
             $geshi->enable_keyword_links(true);
+            while("\n" === $source[0] || "\r" === $source[0]) {
+                $source = substr($source, 1);
+            }
+            while("\n" === $source[strlen($source)] || "\r" === $source[strlen($source)]) {
+                $source = substr($source, 0, -1);
+            }
         } else {
             $geshi->set_header_type(GESHI_HEADER_NONE);
             $geshi->enable_line_numbers(GESHI_NO_LINE_NUMBERS);
             $geshi->set_header_content('');
             $geshi->enable_keyword_links(false);
+            $source = trim($source);
         }
 
-        $geshi->set_source(trim($matches[4]));
+        $geshi->set_source($source);
 
         $code = $geshi->parse_code();
 

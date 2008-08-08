@@ -1,6 +1,6 @@
 # GeSHi Documentation {#top}
 
-<div id="header" markdown="1">
+<div class="header" markdown="1">
 Version <version />
 
 <img src="http://qbnz.com/highlighter/images/geshi.png" alt="The GeSHi Logo" />
@@ -1119,10 +1119,10 @@ following in a php file?
 
 <php><img src="<?php echo rand(1, 100) ?>" /></php>
 
-Well normally using GeSHi with PHP, or using a bad highlighter, you'll end up with scrambled crap,
+When using GeSHi without strict mode, or using a bad highlighter, you'll end up with scrambled crap,
 especially if you're being slack about where you're putting your quotes, you could end up with the rest
 of your file as bright blue. Fortunately, you can tell GeSHi to be "strict" about just when it highlights
-and when it does not, using the <php>enable_strict_mode</php> method:
+and when it does not, using the <php>enable_strict_mode()</php> method:
 
 <php>$geshi->enable_strict_mode($mode);</php>
 
@@ -1496,10 +1496,13 @@ files should obey the following rules:
     as fast as possible by PHP as unnecessary parsing can be avoided.
 *   **Large arrays are multi-lined:** An array with more than three or four values should be broken into multiple
     lines. In any case, lines should not be wider than a full-screen window (about 100 chars per line max).
+    Don't break the keywords arrays after every keyword.
 *   **Ending brackets for multi-lined arrays on a new line:** Also with a comma after them, unless the array is
     the last one in a parent array. See the PHP language file for examples of where to use commas.
 *   **Use GeSHi's constants:** For capatalisation, regular expressions etc. use the GeSHi constants, *not*
     their actual values.
+*   **Verbatim header format:** Copy the file header verbatim from other language files and modify the values
+    afterwards. Don't try to invent own header formats, as your languages else will fail validation!
 
 There are more notes on each convention where it may appear in the language file sections below.
 
@@ -1518,11 +1521,9 @@ The *header* of a language file is the first lines with the big comment and the 
  * <name-of-language-file.php>
  * ---------------------------------
  * Author: <name> (<e-mail address>)
- * Copyright: (c) 2004 <name> (<website URL>)
+ * Copyright: (c) 2008 <name> (<website URL>)
  * Release Version: <GeSHi release>
- * CVS Revision Version: $Revision$
  * Date Started: <date started>
- * Last Modified: $Date$
  *
  * <name-of-language> language file for GeSHi.
  *
@@ -1583,9 +1584,7 @@ Here are the parts you should change:
 *   `<GeSHi release>` - This is the version of the release that will contain the changes you made.
     So if you have version 1.0.8 of GeSHi running this will be the next version to be released, e.g. 1.0.8.1.
 
-Everything should remain the same, including <code>$Revision$</code> and <code>$Date: 2008-07-26 16:36:58 +0200
-(Sa, 26 Jul 2008) $</code> (I know these may look funny but they have their purpose for those of you who don't
-know about SVN).
+Everything should remain the same.
 
 **Also:** I'm not sure about the copyright on a new language file. I'm not a lawyer, could someone contact me about
 whether the copyright for a new language file should be exclusivly the authors, or joint with me (if included in a
@@ -1627,6 +1626,8 @@ The first indices are the first few lines of a language file before the KEYWORDS
     character then make this the empty string (`''`). This is not an array! If found, any character after an
     escape character and the escape character itself will be highlighted differently, and the character after the
     escape character cannot end a string.
+
+In some language files you might see here other indices too, but those are dealt with later on.
 
 #### Keywords {#language-file-keywords}
 
@@ -1674,33 +1675,33 @@ there are some keywords (in the actual php language file there is in fact many m
 Here are some points to note about these keywords:
 
 *   **Indexed by positive integers:** Use nothing else! I may change this in 1.2.X, but for the 1.0.X series,
-    use positive integers only.
-*   **Keywords sorted in reverse:** Keywords _should_ be sorted in *reverse order*. I know that many of the
-    language files I've made do not follow this rule, but that's because I made the files before I discovered
-    the following issue with GeSHi: If you have two keywords, **as** and **asc**for example, then when GeSHi
-    encounters the "as" keyword it will be highlighted **even if the "as" is part of "asc"**. I would get GeSHi to
-    reverse-sort keyword arrays, but there's no harm in you doing this yourself and saving some processing time. At
-    the least (and in fact this is sufficient) you should swap any keywords you come across that would be caught
-    by this issue.
+    use positive integers only. Using strings here results in unnecessary overhead degrading performance when
+    highlighting code with your language file!
+*   **Keywords sorted ascending:** Keywords _should_ be sorted in *ascending*. This is mainly for
+    readability. An issue with versions before 1.0.8 has been solved, so the reverse sorting order
+    is no longer required and should thus be avoided. GeSHi itself sorts the keywords internally when
+    building some of its caches, so the order doesn't matter, but makes things easier to read and maintain.
 *   **Keywords are case sensitive (sometimes):** If your language is case-sensitive, the correct casing of the
     keywords is defined as the case of the keywords in these keyword arrays. If you check the java language file you
     will see that everything is in exact casing. So if any of these keyword arrays are case sensitive, put the
     keywords in as their correct case! (note that which groups are case sensitive and which are not is configurable,
-    see later on)
+    see later on). If a keyword group is case insensitive, put the lowercase version of the keyword here
+    **OR** in case documentation links require a special casing (other than all lowercase or all uppercase)
+    the casing required for them use their casing.
 *   **Keywords must be in `htmlentities()` form:** All keywords should be written as if they had been run through
     the php function `htmlentities()`. E.g, the keyword is <html>&lt;foogt;</html>, not <html><foo></html>
-*   **Don't use keywords to highlight symbols:** Just don't. It doesn't work, and there will be seperate support
-    for symbols later.
-*   **Markup Languages are special cases:** Check the html4strict language file for an example: keywords have to be
-    specified twice for opening tags and twice for each closing tag.
+*   **Don't use keywords to highlight symbols:** Just don't!!! It doesn't work, and there is seperate support
+    for symbols since GeSHi 1.0.7.21.
+*   **Markup Languages are special cases:** Check the html4strict language file for an example: You need to tweak
+    the Parser control here to tell the surroundings of tagnames. In case of doubt, feel free to ask.
 
 #### Symbols and Case Sensitivity {#language-file-symbols-case}
 
 So you've put all the keywords for your language in? Now for a breather before we style them :). Symbols define
-what symbols your language uses, these are things like colons, brackets/braces, and other such general punctuation,
-and case sensitivity alludes to the previous section: here you can set which keyword groups are case sensitive.
+what symbols your language uses. These are things like colons, brackets/braces, and other such general punctuation.
+No alphanumeric stuff belongs here, just the same as no symbols belong into the keywords section.
 
-As of GeSHi version 1.0.7.21 the symbols section is used in two ways:
+As of GeSHi version 1.0.7.21 the symbols section can be used in two ways:
 
 Flat usage:
 :   This mode is the suggested way for existing language files and languages that only need few symbols where no
@@ -1731,13 +1732,20 @@ which is not too different from the newly introduced group usage shown below:
 ),
 </blockphp>
 
-*   **'SYMBOLS':** An array of the symbols, or - as of 1.0.7.21 - an array of symbol groups, used in your language.
-    *Please note that versions before 1.0.7.21 will silently ignore this setting.*
-*   **'CASE_SENSITIVE':** Note the `GESHI_COMMENTS`! This is used to set whether comments are case sensitive
-    or not (for example, BASIC has the REM statement which while not being case sensitive is still alphanumeric, and
-    as in the example given before about the Java language file using "import" as a single line comment, this can be
-    useful sometimes. **true** if comments are case sensitive, **false** otherwise. All of the other indices
-    correspond to indices in the `'KEYWORDS'` section (see above).
+<note>
+  Please note that versions before 1.0.7.21 will silently ignore this setting.
+
+  Also note that GeSHi 1.0.7.21 itself had some bugs in Symbol highlighting that could cause
+  heavily scrambled code output.
+</note>
+
+The following case sensitivity group alludes to the keywords section: here you can set which keyword groups are case sensitive.
+
+In the **'CASE_SENSITIVE'** group there's a special key `GESHI_COMMENTS` which is used to set whether comments are
+case sensitive or not (for example, BASIC has the REM statement which while not being case sensitive is still alphanumeric, and
+as in the example given before about the Java language file using "import" as a single line comment, this can be
+useful sometimes. **true** if comments are case sensitive, **false** otherwise. All of the other indices
+correspond to indices in the `'KEYWORDS'` section (see above).
 
 #### Styles for your Language File {#language-file-styles}
 
@@ -1747,60 +1755,69 @@ language file.
 Here's an example:
 
 <blockphp>
-'STYLES' => array(
-  'KEYWORDS' => array(
-  1 => 'color: #b1b100;',
-  2 => 'color: #000000; font-weight: bold;',
-  3 => 'color: #000066;'
-  ),
-  'COMMENTS' => array(
-  1 => 'color: #808080; font-style: italic;',
-  2 => 'color: #808080; font-style: italic;',
-  'MULTI' => 'color: #808080; font-style: italic;'
-  ),
-  'ESCAPE_CHAR' => array(
-  0 => 'color: #000099; font-weight: bold;'
-  ),
-  'BRACKETS' => array(
-  0 => 'color: #66cc66;'
-  ),
-  'STRINGS' => array(
-  0 => 'color: #ff0000;'
-  ),
-  'NUMBERS' => array(
-  0 => 'color: #cc66cc;'
-  ),
-  'METHODS' => array(
-  0 => 'color: #006600;'
-  ),
-  'SYMBOLS' => array(
-  0 => 'color: #66cc66;'
-  ),
-  'REGEXPS' => array(
-  0 => 'color: #0000ff;'
-  ),
-  'SCRIPT' => array(
-  0 => '',
-  1 => '',
-  2 => '',
-  3 => ''
-  )
-),
+    'STYLES' => array(
+        'KEYWORDS' => array(
+            1 => 'color: #b1b100;',
+            2 => 'color: #000000; font-weight: bold;',
+            3 => 'color: #000066;'
+            ),
+        'COMMENTS' => array(
+            1 => 'color: #808080; font-style: italic;',
+            2 => 'color: #808080; font-style: italic;',
+            'MULTI' => 'color: #808080; font-style: italic;'
+            ),
+        'ESCAPE_CHAR' => array(
+            0 => 'color: #000099; font-weight: bold;'
+            ),
+        'BRACKETS' => array(
+            0 => 'color: #66cc66;'
+            ),
+        'STRINGS' => array(
+            0 => 'color: #ff0000;'
+            ),
+        'NUMBERS' => array(
+            0 => 'color: #cc66cc;'
+            ),
+        'METHODS' => array(
+            0 => 'color: #006600;'
+            ),
+        'SYMBOLS' => array(
+            0 => 'color: #66cc66;'
+            ),
+        'REGEXPS' => array(
+            0 => 'color: #0000ff;'
+            ),
+        'SCRIPT' => array(
+            0 => '',
+            1 => '',
+            2 => '',
+            3 => ''
+            )
+        ),
 </blockphp>
 
 Note that all style rules should end with a semi-colon! This is important: GeSHi may add extra rules to the rules you
 specify (and will do so if a user tries to change your styles on the fly), so the last semi-colon in any stylesheet
-rule is important.
+rule is important!
 
-All strings here should contain valid stylesheet declarations (it's also find to have the empty string).
+All strings here should contain valid stylesheet declarations (it's also fine to have the empty string).
 
 *   **'KEYWORDS':** This is an array, from keyword index to style. The index you use is the index you used in
     the keywords section to specify the keywords belonging to that group.
 *   **'COMMENTS':** This is an array, from single-line comment index to style for that index. The index 'MULTI' is
-    used for multiline comments (and cannot be an array)
-*   **'ESCAPE_CHAR' down to 'SYMBOLS':** These are arrays with only one index: 0. You cannot add other indices to
+    used for multiline comments (and cannot be an array). COMMENT_REGEXP use the style given for their key as
+    if they were single-line comments.
+*   **'ESCAPE_CHAR', 'BRACKETS' and 'METHODS':** These are arrays with only one index: 0. You cannot add other indices to
     these arrays.
-*   **'REGEXPS':**This is an array with a style for each matching regex. Also, since 1.0.7.21, you can specify the
+*   **'STRINGS':** This defines the various styles for the Quotemarks you defined earlier. If you don't use
+    multiple styles for strings there's only one index: 0. Please also add this index in case no strings are present.
+*   **'NUMBERS':** This sets the styles used to highlight numbers. The format used here depends on the format used to
+    set the formats of numbers to highlight. If you just used an integer (bitmask) for numbers, you have to either
+    specify one key with the respective constant, and\or include a key 0 as a default style. If you used an
+    array below, copy the keys used there and assign the styles accordingly.
+*   **'SYMBOLS':** This provides one key for each symbol group you defined above. If you used the flat usage
+    make sure you include a key for symbols group 0.
+*   **'REGEXPS':** This is an array with a style for each matching regex. Also, since 1.0.7.21, you can specify the
     name of a function to be called, that will be given the text matched by the regex, each time a match is found.
     Note that my testing found that `create_function` would not work with this due to a PHP bug, so you have to
     put the function definition at the top of the language file. Be sure to prefix the function name
@@ -1818,12 +1835,12 @@ manual entries.
 Here is an example:
 
 <blockphp>
-'URLS' => array(
-  1 => '',
-  2 => '',
-  3 => 'http://www.php.net/{FNAME}',
-  4 => ''
-),
+    'URLS' => array(
+        1 => '',
+        2 => '',
+        3 => 'http://www.php.net/{FNAME}',
+        4 => ''
+        ),
 </blockphp>
 
 The indices of this array correspond to the keyword groups you specified in the keywords section. The string `{FNAME}`
@@ -1841,8 +1858,8 @@ tell it to do so and what the "splitter" is between object/method etc.
 Here's an example:
 
 <blockphp>
-'OOLANG' => true,
-'OBJECT_SPLITTER' => '-&gt;',
+    'OOLANG' => true,
+    'OBJECT_SPLITTER' => '-&gt;',
 </blockphp>
 
 If your language has object orientation, the value of `'OOLANG'` is true, otherwise it is false. If it is object
@@ -1858,7 +1875,6 @@ characters (a simplification). This is easy to catch with regular expressions.
 And new to version 1.0.2, there is an advanced way of using regular expressions to catch certain things but highlight
 only part of those things. This is particularly useful for languages like XML.
 
-
 <caution>
   Regular expressions use the PCRE syntax (perl-style), _not_ the <php>ereg()</php> style!
 </caution>
@@ -1866,21 +1882,21 @@ only part of those things. This is particularly useful for languages like XML.
 Here is an example (this time the PHP file merged with the XML file):
 
 <blockphp>
-0 => array(
-  GESHI_SEARCH => '(((xml:)?[a-z\-]+))(=)',
-  GESHI_REPLACE => '\\1',
-  GESHI_MODIFIERS => '',
-  GESHI_BEFORE => '',
-  GESHI_AFTER => '\\4'
-  ),
-1 => array(
-  GESHI_SEARCH => '(>/?[a-z0-9]*(>)?)',
-  GESHI_REPLACE => '\\1',
-  GESHI_MODIFIERS => '',
-  GESHI_BEFORE => '',
-  GESHI_AFTER => ''
-  ),
-2 => "[\\$]{1,2}[a-zA-Z_][a-zA-Z0-9_]*"
+        0 => array(
+            GESHI_SEARCH => '(((xml:)?[a-z\-]+))(=)',
+            GESHI_REPLACE => '\\1',
+            GESHI_MODIFIERS => '',
+            GESHI_BEFORE => '',
+            GESHI_AFTER => '\\4'
+            ),
+        1 => array(
+            GESHI_SEARCH => '(>/?[a-z0-9]*(>)?)',
+            GESHI_REPLACE => '\\1',
+            GESHI_MODIFIERS => '',
+            GESHI_BEFORE => '',
+            GESHI_AFTER => ''
+            ),
+        2 => "[\\$]{1,2}[a-zA-Z_][a-zA-Z0-9_]*"
 </blockphp>
 
 As you can see there are two formats. One is the "simple" format used in GeSHi < 1.0.2, and the other is a more
@@ -1932,13 +1948,13 @@ I want to highlight *only the text between the $ and the &*. How do I do that? W
 but with advanced, it's relatively easy:
 
 <blockphp>
-1 => array(
-  GESHI_SEARCH => '(\$)([a-z]+)(&)', // search for a dollar sign, then one or more of the characters a-z, then an ampersand
-  GESHI_REPLACE => '\\2',            // we wanna highlight the characters, which are in the second bracketed group
-  GESHI_MODIFIERS => '',             // no modifiers, since we're not matching the "anything" regex
-  GESHI_BEFORE => '\\1',             // before the highlighted characters should be the first bracketed group (always a dollar sign in this example)
-  GESHI_AFTER => '\\3'               // after the highlighted characters should be the third bracketed group (always an ampersand in this example)
-),
+        1 => array(
+            GESHI_SEARCH => '(\$)([a-z]+)(&)', // search for a dollar sign, then one or more of the characters a-z, then an ampersand
+            GESHI_REPLACE => '\\2',            // we wanna highlight the characters, which are in the second bracketed group
+            GESHI_MODIFIERS => '',             // no modifiers, since we're not matching the "anything" regex
+            GESHI_BEFORE => '\\1',             // before the highlighted characters should be the first bracketed group (always a dollar sign in this example)
+            GESHI_AFTER => '\\3'               // after the highlighted characters should be the third bracketed group (always an ampersand in this example)
+            ),
 </blockphp>
 
 So if someone tried to highlight using my language, all cases of `$foo&` would turn into:
@@ -1956,27 +1972,27 @@ text I don't want that highlighted! So how do you tell GeSHi not to highlight in
 Here is an example:
 
 <blockphp>
-'STRICT_MODE_APPLIES' => GESHI_MAYBE,
-'SCRIPT_DELIMITERS' => array(
-  0 => array(
-    '<?php' => '?>'
-    ),
-  1 => array(
-    '<?' => '?>'
-    ),
-  2 => array(
-    '<%' => '%>'
-    ),
-  3 => array(
-    '<script language="php">' => '</script>'
-    )
-  ),
-'HIGHLIGHT_STRICT_BLOCK' => array(
-  0 => true,
-  1 => true,
-  2 => true,
-  3 => true
-  )
+    'STRICT_MODE_APPLIES' => GESHI_MAYBE,
+    'SCRIPT_DELIMITERS' => array(
+        0 => array(
+            '<?php' => '?>'
+            ),
+        1 => array(
+            '<?' => '?>'
+            ),
+        2 => array(
+            '<%' => '%>'
+            ),
+        3 => array(
+            '<script language="php">' => '</script>'
+            )
+        ),
+    'HIGHLIGHT_STRICT_BLOCK' => array(
+        0 => true,
+        1 => true,
+        2 => true,
+        3 => true
+        )
 </blockphp>
 
 What is strict mode? Strict mode says that highlighting only occurs inside the blocks you specify. You can see from
@@ -2007,14 +2023,47 @@ the example above that highlighting will only occur if the source is inside <php
   comes before <php><?</php>.
 </note>
 
+Since GeSHi 1.0.8 instead of specifying an array with starter and ender you may also provide a regular expression
+that matches *the full block* you wish to highlight. If the regular expression match starts at the same position
+as a previous array declaration the Regexp match is taken. This is to allow for a fall-back when a preg_match
+doesn't quite work as expected so you still get reasonably well results.
+
+If you didn't get this, you might want to look into the PHP or HTML language files as this feature is used there
+to fix some issues that have been there for about 3 years.
+
+<caution>
+  For PHP versions <4.3.3 Strict Block Regexps are completely ignored due to problems in those version
+  that would cause loads of warning messages otherwise.
+</caution>
+
 #### Tidying Up {#language-file-tidying-up}
 
 All language files should end with:
 
 <blockphp>
 );
+
 ?>
 </blockphp>
+
+That is the string content <php>"\n);\n?>\n"</php>.
+
+<caution>
+  Make sure that there is EXACTLY one linebreak character at the end. If you accidentially include more
+  you might end up with messages like "Headers already sent".
+</caution>
+
+### Validating your language file {#lang-validation}
+
+Since GeSHi 1.0.8 there is a new script `langcheck.php` in the contrib directory that scans all
+language files it finds in the geshi/ subdirectory of the GeSHi installation for mistakes.
+
+Please make sure that your language does not contain any mistakes that this script shows you when sending in
+your language file for inclusion into the official release as this saves work for us when including your file.
+Also you can be sure your language file will work as expected once your language file validates correctly.
+
+Please note that not all of the language files shipped with GeSHi are fully valid yet, but we're working on it
+and are happy about every patch we get!
 
 ## Method/Constant Reference {#method-constant-reference}
 
@@ -2044,6 +2093,12 @@ you like, though flick me an e-mail if you do.
 
 Anyway, enough blather from me. Get GeSHi working for you already! :D
 
-<address><pre>Nigel McNie
-  <a href="mailto:nigel@geshi.org">nigel@geshi.org</a>
-  <a href="http://qbnz.com/highlighter/">http://qbnz.com/highlighter/</a></pre></address>
+<div class="header" markdown="1">
+Authors:
+:   &copy; 2004 - 2007 [Nigel McNie][]
+:   &copy; 2007 - 2008 [Benny Baumann][]
+:   &copy; 2008 [Milian Wolff][]
+
+GeSHi Website:
+:   <http://qbnz.com/highlighter>
+</div>
