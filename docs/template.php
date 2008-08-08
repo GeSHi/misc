@@ -1,8 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
     <head>
         <title>GeSHi Documentation <version /></title>
+
+    	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    	<meta name="keywords" content="GeSHi, syntax, highlighter, colorizer, beautifier, code, generic, php, sql, css, html, syntax, highlighting, documentation" />
+    	<meta name="description" content="GeSHi - Generic Syntax Highlighter for PHP. Highlight many languages, including PHP, CSS, HTML, SQL, Java and C for XHTML compliant output using this easy PHP Class. Every aspect of the highlighting is customisable, from colours and other styles to case-sensitivity checking and more. GeSHi - the best syntax highlighter in the world!" />
+
         <style type="text/css">
             html {
                 background-color: #e6e6e6;
