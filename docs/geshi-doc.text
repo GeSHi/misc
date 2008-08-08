@@ -558,7 +558,7 @@ are cached by browsers).
 
 <note>
   There have been problems with inline styles and the Symbol Highlighting added in 1.0.7.21. If you can you should
-  therefore turn CSS classes ON to avoid those issues.
+  therefore turn CSS classes ON to avoid those issues. Although latest reworks in 1.0.8 should fix most of those issues.
 </note>
 
 <caution>
@@ -584,6 +584,10 @@ sources that use the same language, and incidentally means that you probably won
 CSS IDs are supposed to be unique, and you should use them as such. Basically, you can specify an ID for your code
 and then use that ID to highlight that code in a unique way. You'd do this for a block of code that you expressly
 wanted to be highlighted in a different way (see the section below on gettting the stylesheet for your code for an example).
+
+<note>
+  As of GeSHi 1.0.8 the class name will always include the language name used for highlighting.
+</note>
 
 #### Getting the stylesheet for your code {#getting-stylesheet}
 
@@ -846,14 +850,18 @@ style. <php>$geshi->set_symbols_style($styles[, $preserve_defaults[, $group]]);<
 given, group 0 is assumed. Furthermore you should note that any changes to group 0 are also reflected in the bracket
 style, i.e. a pass-through call to <php>set_bracket_style</php> is made.
 
+<note>
+  Since GeSHi 1.0.8 multiple styles for strings and numbers are supported, though the API doesn't provide full access yet.
+</note>
+
 ### Case Sensitivity and Auto Casing {#case-caps}
 
 Controlling the case of the outputted source is an easy job with GeSHi. You can control which keywords are converted in
 case, and also control whether keywords are checked in a case sensitive manner.
 
-#### Auto-Caps/Nocaps {#auto-caps-nocaps}
+#### Auto-Caps/NoCaps {#auto-caps-nocaps}
 
-Auto-Caps/Nocaps is a nifty little feature that capitalises or lowercases automatically certain lexics when they are
+Auto-Caps/NoCaps is a nifty little feature that capitalises or lowercases automatically certain lexics when they are
 styled. I dabble in QuickBASIC, a dialect of BASIC which is well known for it's capatalisation, and SQL is another
 language well known for using caps for readability.
 
@@ -917,13 +925,11 @@ Example:
 <blockphp>
 $geshi = new GeSHi($source1, 'php');
 
-
 // Method calls to specify various options...
 
 $code1 = $geshi->parse_code();
 
 $geshi->set_source($source2);
-
 $code2 = $geshi->parse_code();
 </blockphp>
 
@@ -947,6 +953,27 @@ $geshi->set_language('html4strict');
 $geshi->enable_classes(false);
 echo $geshi->parse_code();
 </blockphp>
+
+As of GeSHi 1.0.5, you can use the method <php>load_from_file()</php> to load the source code and language from a file.
+Simply pass this method a file name and it will attempt to load the source and set the language.
+
+<php>$geshi->load_from_file($file_name, $lookup);</php>
+
+<php>$file_name</php> is the file name to use, and <php>$lookup</php> is an optional parameter that contains a lookup
+array to use for deciding which language to choose. You can use this to override GeSHi's default lookup array, which
+may not contain the extension of the file you're after, or perhaps does have your extension but under a different
+language. The lookup array is of the form:
+
+<blockphp>
+array(
+   'lang_name' => array('extension', 'extension', ...),
+   'lang_name' ...
+);
+</blockphp>
+
+Also, you can use the method <php>get_language_name_from_extension()</php> if you need to convert a file extension
+to a valid language name. This method will return the empty string if it could not find a match in the lookup, and
+like <php>load_from_file</php> it accepts an optional second parameter that contains a lookup array.
 
 <note>
   Names are case-insensitive - they will be converted to lower case to match a language file however. So if you're
@@ -988,41 +1015,25 @@ If it doesn't, that's your tough luck ;)
 #### Changing the Character Set {#changing-the-charset}
 
 <note>
-  As of GeSHi 1.0.7.18, you don't need to use this, as htmlspecialchars is not being used due to a security flaw in
-  it (that is unpatched in even the most recent PHP4 versions, and in PHP5 < 5.2). As long as you set the encoding
-  properly with a php <php>header()</php> call, your foreign characters will be displayed correctly.
+  Although GeSHi itself does not require to know the exact charset of your source you
+  will need to set this option when processing sources where multi-byte characters can occur.
+  As of GeSHi 1.0.7.18 internally a rewrite of <php>htmlspecialchars</php> is used
+  due to a security flaw in that function that is unpatched in even the most recent PHP4 versions and in PHP5 < 5.2.
+  Although this does no longer explicitely require the charset it is required again
+  as of GeSHi 1.0.8 to properly handle multi-byte characters (e.g. after an escape char).
+</note>
+
+<note>
+  As of GeSHi 1.0.8 the default charset has been changed to UTF-8.
 </note>
 
 As of version 1.0.3, you can use the method <php>set_encoding()</php> to specify the character set that your source
-is in. Valid names are those names that are valid for the PHP function <php>htmlentities()</php>:
+is in. Valid names are those names that are valid for the PHP mbstring library:
 
 <php>$geshi->set_encoding($encoding);</php>
 
 There is a table of valid strings for <php>$encoding</php> at the php.net manual linked to above. If you do not
 specify an encoding, or specify an invalid encoding, the character set used is ISO-8859-1.
-
-Using <php>load_from_file()</php> to Change the Language and Source Code {#changing-using-load-from-file}
-
-As of GeSHi 1.0.5, you can use the method <php>load_from_file()</php> to load the source code and language from a file.
-Simply pass this method a file name and it will attempt to load the source and set the language.
-
-<php>$geshi->load_from_file($file_name, $lookup);</php>
-
-<php>$file_name</php> is the file name to use, and <php>$lookup</php> is an optional parameter that contains a lookup
-array to use for deciding which language to choose. You can use this to override GeSHi's default lookup array, which
-may not contain the extension of the file you're after, or perhaps does have your extension but under a different
-language. The lookup array is of the form:
-
-<blockphp>
-array(
-   'lang_name' => array('extension', 'extension', ...),
-   'lang_name' ...
-);
-</blockphp>
-
-Also, you can use the method <php>get_language_name_from_extension()</php> if you need to convert a file extension
-to a valid language name. This method will return the empty string if it could not find a match in the lookup, and
-like <php>load_from_file</php> it accepts an optional second parameter that contains a lookup array.
 
 ### Error Handling {#error-handling}
 
@@ -1045,7 +1056,7 @@ The error outputted will be the last error GeSHi came across, just like how <php
 
 One disadvantage of GeSHi is that for large source files using complex languages, it can be quite slow with
 every option turned on. Although future releases will concentrate on the speed/resource side of highlighting,
-for now you can gain speed increases by disabling some of the highlighting options. This is done by using a
+you can gain speed by disabling some of the highlighting options. This is done by using a
 series of <php>set_*_highlighting</php> methods:
 
 <php>set_keyword_group_highlighting($group, $flag):</php>
@@ -1091,7 +1102,7 @@ count on good results. However, if you're using the <html><div></html> header, y
 width explicitly.
 
 Note that tabs created in this fashion won't be like normal tabs - there won't be "tab-stops" as such, instead
-tabs will be replaced with the specified number of spaces.
+tabs will be replaced with the specified number of spaces - just like most editors do.
 
 To change the tab width, you call the <php>set_tab_width()</php> method:
 
@@ -1108,22 +1119,28 @@ following in a php file?
 
 <php><img src="<?php echo rand(1, 100) ?>" /></php>
 
-Well normally using GeSHi with PHP, or using a bad highlighter, you'll end up with this:
-
-<php><img src="<?php echo rand(1, 100) ?>" /></php>
-
-What a mess! Especially if you're being slack about where you're putting your quotes, you could end up with the rest
-of your file as bright red. Fortunately, you can tell GeSHi to be "strict" about just when it highlights and when it
-does not, using the <php>enable_strict_mode</php> method:
+Well normally using GeSHi with PHP, or using a bad highlighter, you'll end up with scrambled crap,
+especially if you're being slack about where you're putting your quotes, you could end up with the rest
+of your file as bright blue. Fortunately, you can tell GeSHi to be "strict" about just when it highlights
+and when it does not, using the <php>enable_strict_mode</php> method:
 
 <php>$geshi->enable_strict_mode($mode);</php>
 
 Where <php>$mode</php> is <php>true</php> or not specified to enable strict mode, or <php>false</php> to disable
 strict mode if you've already turned it and don't want it now.
 
-Here's the result: much better!
+<note>
+  As of GeSHi 1.0.8 there is a new way to tell GeSHi when to use Strict Mode
+  which is somewhat more intelligent than in previous releases. GeSHi now also
+  allows <php>GESHI_MAYBE</php>, <php>GESHI_NEVER</php> and <php>GESHI_ALWAYS</php> instead of <php>true</php> and <php>false</php>.
+  Basically <php>GESHI_ALWAYS</php> always (<php>true</php>) enables strict mode,
+  whereas <php>GESHI_NEVER</php> completely disables strict mode. The new thing is
+  <php>GESHI_MAYBE</php> which enables strict mode if it finds any sequences of code
+  that look like strict block delimiters.
 
-<php><img src="<?php echo rand(1, 100) ?>" /></php>
+  By the way: That's why this section had to be changed, as the new documentation
+  tool we now uses this feature and thus auto-detects when strict mode has to be used ...
+</note>
 
 ### Adding/Removing Keywords {#adding-removing-keywords}
 
@@ -1144,10 +1161,6 @@ Where <php>$key</php> is the index of the group of keywords you want to add this
 the word to add.
 
 This implies knowledge of the language file to know the correct index.
-
-<note>
-  Keywords should contain at least two alphabetical characters (lower or upper case letters only). This is to enable GeSHi to work much faster by not bothering to try to detect keywords in parts of your source where there is no alphabetical characters.
-</note>
 
 #### Removing a Keyword {#removing-a-keyword}
 
@@ -1216,6 +1229,7 @@ this GeSHi object. The keywords you can use are:
     how long it took for your code to be highlighted. The time is returned to three decimal places.
 *   **`<LANGUAGE>`** or **`{LANGUAGE}`**: Is replaced by a nice, friendly version of the language name used to
     highlight this code.
+*   **`<SPEED>`** or **`{SPEED}`**: Is replaced by the speed at which your source has been processed.
 *   **`<VERSION>`** or **`{VERSION}`**: The GeSHi version used to highlight the code.
 
 #### Setting Header Content {#setting-header-content}
@@ -1284,9 +1298,9 @@ redirection service at the GeSHi website in the future.
 
 <note>
   As of Version 1.0.7.21 there have been added two more symbols you can use to link to functions. `{FNAMEL}`
-  will generate the lowercase version of the keyword, `{FNAMEU}` will generate the upper-case version. `{FNAME}`
-  will provide the keyword as specified in the language file. **Use one of these if possible**,
-  they result in less overhead while linking for case insensitive languages.
+  will generate the lowercase version of the keyword, `{FNAMEU}` will generate the uppercase version. `{FNAME}`
+  will provide the keyword as specified in the language file. **Use one of these more specific placeholders
+  if possible**, as they result in less overhead while linking for case insensitive languages.
 </note>
 
 #### Disabling a URL for a Keyword Group {#disabling-urls}
@@ -1296,7 +1310,7 @@ an empty string as the URL:
 
 <php>$geshi->set_url_for_keyword_group($group, '');</php>
 
-##### 3.13.3 Disabling all URLs for Keywords {#disabling-all-urls}
+#### Disabling all URLs for Keywords {#disabling-all-urls}
 
 As of GeSHi 1.0.7.18, you can disable all URL linking for keywords:
 
@@ -1318,6 +1332,10 @@ Where <php>$mode</php> is one of four values:
 
 And <php>$styles</php> is the stylesheet declarations to apply to the links.
 
+<note>
+  The names <php>GESHI_LINK</php>, <php>GESHI_HOVER</php> ... are constants. Don't put them in quotes!
+</note>
+
 #### Setting the Link Target {#using-targets}
 
 Perhaps you want to set the target of link attributes, so the manual pages open in a new window? Use the
@@ -1334,13 +1352,20 @@ Where <php>$target</php> is any valid (X)HTML target value - `_blank` or `_top` 
   functionality may well be **removed** in 1.2.0. You are hereby warned!
 </caution>
 
+This feature allows you to mark a part of your source as important. But as the
+implementation its use is deprecated and you should consider using
+the "Highlight Lines Extra" feature described below.
+
 ### Highlighting Special Lines "Extra" {#highlighting-special-lines-extra}
 
-An alternative (and more stable) method of highlighting code that is important is to use extra highlighting by line. Although you may not know what line numbers contain the important lines, if you do this method is a much more flexible way of making important lines stand out.
+An alternative (and more stable) method of highlighting code that is important
+is to use extra highlighting by line. Although you may not know what line numbers
+contain the important lines, if you do this method is a much more flexible way of
+making important lines stand out.
 
 #### Specifying the Lines to Highlight Extra {#specifying-lines-to-highlight-extra}
 
-To specify which lines to highlight extra, you past an array containing the line numbers to <php>highlight_lines_extra</php>:
+To specify which lines to highlight extra, you pass an array containing the line numbers to <php>highlight_lines_extra()</php>:
 
 <php>$geshi->highlight_lines_extra($array);</php>
 
@@ -1367,18 +1392,14 @@ $source = 'public int[][] product ( n, m )
   return ans;
 }';
 
-
 $geshi = new GeSHi($source, 'java');
 
-
 $geshi->highlight_lines_extra(array(8));
-
 
 echo $geshi->parse_code();
 </blockphp>
 
 Which produces:
-
 <blockjava>
 public int[][] product ( n, m )
 {
@@ -1401,6 +1422,11 @@ What's more, as you can see the code on a highlighted line is still actually hig
   div elements). This works just fine if you use line numbers.
 </note>
 
+<note>
+  The example given here does not show up correctly due to an unimplemented feature
+  in the documentation tool used to create this HTML version of this document.
+</note>
+
 #### Styles for the Highlighted Lines {#styles-for-highlighted-lines}
 
 Again as with contextual importance, you're not chained to the yellow theme that is the default. You can
@@ -1414,7 +1440,7 @@ Where <php>$styles</php> is the stylesheet declarations that you want to apply t
 
 Perhaps you're a javascript junkie? GeSHi provides a way to give each line an ID so you can access that line with
 javascript, or perhaps just by plain CSS (though if you want to access lines by CSS you should use the method
-in the previous section). To enable IDs you call the <php>enable_ids</php> method:
+in the previous section). To enable IDs you call the <php>enable_ids()</php> method:
 
 <php>$geshi->enable_ids($flag);</php>
 
