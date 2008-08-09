@@ -1417,16 +1417,6 @@ public int[][] product ( n, m )
 
 What's more, as you can see the code on a highlighted line is still actually highlighted itself.
 
-<note>
-  As you can see, this is a little buggy, but that is because of HTML laws (code elements should not contain
-  div elements). This works just fine if you use line numbers.
-</note>
-
-<note>
-  The example given here does not show up correctly due to an unimplemented feature
-  in the documentation tool used to create this HTML version of this document.
-</note>
-
 #### Styles for the Highlighted Lines {#styles-for-highlighted-lines}
 
 Again as with contextual importance, you're not chained to the yellow theme that is the default. You can
