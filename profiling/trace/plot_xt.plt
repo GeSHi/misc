@@ -63,7 +63,7 @@ set format y "%.1e"
 set ylabel 'timediff in sec'
 plot data using 7:3 notitle with points
 
-# code coverage
+# code coverage : number of times a given loc is touched
 set output imgbase.'_coverage_vs_loc.png'
 set title customtitle.' Coverage of linenumbers (i.e. how often got function X get called in line Y)'
 set xlabel 'line number'
@@ -71,3 +71,16 @@ set ylabel 'coverage (number of calls)'
 set xtics 100 out rotate by 90
 set mxtics 4
 plot coveragedata using 1:2 notitle with impulses
+
+# code coverage : accumulated timediffs per loc
+set output imgbase.'_accumulated_time_vs_loc.png'
+set title customtitle.' Accumulated timediff over linenumbers (i.e. how much time is spent in total on loc X)'
+set xlabel 'line number'
+set ylabel 'accumulated timediff in sec'
+set xtics 100 out rotate by 90
+set mxtics 4
+set logscale y
+set ytics autofreq
+set mytics 10
+set format y "%.1e"
+plot coveragedata using 1:3 notitle with impulses
