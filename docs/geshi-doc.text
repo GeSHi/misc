@@ -363,7 +363,7 @@ defines the container type. Available are:
     created using an ordered list this header type produces **invalid HTML**.
 
 <php>$geshi->set_header_type(GESHI_HEADER_PRE_VALID);</php>
-: <small>_Available since 1.0.8_</small>
+:   _<small>Available since 1.0.8</small>_
 
 :   When linenumbers are disabled, this behaves just like `GESHI_HEADER_PRE`. In the other case though, a
     <html><div></html> is used to wrap the code and linenumbers and the <html><pre></html> is put inside the list
@@ -371,7 +371,7 @@ defines the container type. Available are:
     output is **valid HTML**.
 
 <php>$geshi->set_header_type(GESHI_HEADER_PRE_TABLE);</php>
-: <small>_Available since 1.0.8_</small>
+:   _<small>Available since 1.0.8</small>_
 
 :   Once again a <html><div></html> tag wraps the output. This time though no ordered list is used to create an ordered list,
     but instead we use a table with two cells in a single row. The left cell contains a <html><pre></html> tag which holds all
@@ -382,7 +382,7 @@ defines the container type. Available are:
     browsers, see [SF#1651996][] for more information.
 
 <php>$geshi->set_header_type(GESHI_HEADER_NONE);</php>
-: <small>_Available since 1.0.7.2_</small>
+:   _<small>Available since 1.0.7.2</small>_
 
 :   No wrapper is added.
 
