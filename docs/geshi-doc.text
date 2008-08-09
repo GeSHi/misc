@@ -333,7 +333,7 @@ But if you don't like <html><pre></html> or it looks stupid in your browser no m
 apply to it or something similar, you might want to use a <html><div></html> instead. A <html><div></html> will
 result in more source - GeSHi will have to insert whitespace markup - but in return you can wrap long lines of code
 that would otherwise have your browser's horizontal scrollbar appear. Of course with <html><div></html> you can
-*not* wrap lines if you please. The highlighter demo at the [GeSHi home page][][geshi-home] uses the <html><div></html>
+*not* wrap lines if you please. The highlighter demo at the [GeSHi home page][geshi-home] uses the <html><div></html>
 approach for this reason.
 
 At this stage there isn't an option to wrap the code in <html><code></html> tags (unless you use the function
