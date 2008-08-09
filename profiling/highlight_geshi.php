@@ -77,7 +77,6 @@ for ($i = 1; $i <= $iterations; ++$i) {
   }
 
   $G = new GeSHi("", "php");
-  $G->enable_strict_mode(false);
   $G->enable_classes();
   $G->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 2);
   $G->set_header_type(GESHI_HEADER_PRE);
