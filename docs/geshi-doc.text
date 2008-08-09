@@ -1400,7 +1400,7 @@ echo $geshi->parse_code();
 </blockphp>
 
 Which produces:
-<blockjava>
+<blockjava mark="8">
 public int[][] product ( n, m )
 {
   int [][] ans = new int[n][m];
