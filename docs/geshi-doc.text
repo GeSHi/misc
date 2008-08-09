@@ -353,7 +353,7 @@ defines the container type. Available are:
 
 :   Puts a <html><div></html> around both, code and linenumbers. Whitespace is converted to <html> &nbsp;</html>
     sequences (i.e. one whitespace and the html entity of a non-breaking whitespace) to keep your indendation level
-    in tact. Tabs are converted as well and you can manually [define the tab-width][]. Lines are automatically wrapped.
+    in tact. Tabs are converted as well and you can manually [define the tab-width](#setting-tab-width). Lines are automatically wrapped.
     Linenumbers are created using an ordered list.
 
 <php>$geshi->set_header_type(GESHI_HEADER_PRE);</php>
