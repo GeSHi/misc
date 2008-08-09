@@ -70,7 +70,7 @@ class DocMarkdown extends MarkdownExtra_Parser {
         $text = preg_replace_callback('#<colourfile path="([^"]+)" language="([^"]+)" />#', array($this, 'colourfile'), $text);
 
         // language highlighting
-        $text = preg_replace_callback('#<((block)?('.$this->geshi_language_rx.'))>(.+)</\1>#Us', array($this, 'highlight'), $text);
+        $text = preg_replace_callback('#<((block)?('.$this->geshi_language_rx.'))(?: mark="([^"]*)")?>(.+)</\1>#Us', array($this, 'highlight'), $text);
 
         // don't let markdown put <toc /> inside <p> tags
         $toc_pos = strpos($text, '<toc />');
@@ -207,7 +207,7 @@ class DocMarkdown extends MarkdownExtra_Parser {
         } else {
             $geshi =& $this->geshi_parsers[$lang];
         }
-        $source = $matches[4];
+        $source = $matches[5];
         if ($is_block) {
             $geshi->set_header_type(GESHI_HEADER_PRE_TABLE);
             $geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 2);
@@ -228,6 +228,9 @@ class DocMarkdown extends MarkdownExtra_Parser {
         }
 
         $geshi->set_source($source);
+        if (!empty($matches[4])) {
+            $geshi->highlight_lines_extra(explode(',', $matches[4]));
+        }
 
         $code = $geshi->parse_code();
 
