@@ -148,6 +148,18 @@ while ($line = fscanf($input, '%d %d %d %f %d %s %d %s %s %d')) {
         $start = $start_stack[$line[0]];
 
         $timediff = $line[3] - $start[3];
+
+        // simple code coverage and total time cost for given lines
+        if (!isset($line_costs[$start[9]])) {
+            $line_costs[$start[9]] = array(
+              'hits' => 1,
+              'time' => $timediff
+            );
+        } else {
+            ++$line_costs[$start[9]]['hits'];
+            $line_costs[$start[9]]['time'] += $timediff;
+        }
+
         // cumulate timediff for this level
         if (!isset($level_time_costs[$line[0]])) {
           $level_time_costs[$line[0]] = 0;
@@ -161,16 +173,6 @@ while ($line = fscanf($input, '%d %d %d %f %d %s %d %s %s %d')) {
         // the child level must be resetted now
         $level_time_costs[$line[0] + 1] = 0;
 
-        // simple code coverage and total time cost for given lines
-        if (!isset($line_costs[$start[9]])) {
-            $line_costs[$start[9]] = array(
-              'hits' => 1,
-              'time' => $timediff
-            );
-        } else {
-            ++$line_costs[$start[9]]['hits'];
-            $line_costs[$start[9]]['time'] += $timediff;
-        }
         // time_before    time_after    timediff    memory_before    memory_after    memorydiff    loc    function    path
         $lines .= vsprintf(TRACE_FORMAT, array(
             $start[3],
