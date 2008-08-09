@@ -216,7 +216,7 @@ class DocMarkdown extends MarkdownExtra_Parser {
             while("\n" === $source[0] || "\r" === $source[0]) {
                 $source = substr($source, 1);
             }
-            while("\n" === $source[strlen($source)] || "\r" === $source[strlen($source)]) {
+            while("\n" === $source[strlen($source) - 1] || "\r" === $source[strlen($source) - 1]) {
                 $source = substr($source, 0, -1);
             }
         } else {
