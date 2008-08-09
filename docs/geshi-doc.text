@@ -1133,13 +1133,13 @@ strict mode if you've already turned it and don't want it now.
   As of GeSHi 1.0.8 there is a new way to tell GeSHi when to use Strict Mode
   which is somewhat more intelligent than in previous releases. GeSHi now also
   allows <php>GESHI_MAYBE</php>, <php>GESHI_NEVER</php> and <php>GESHI_ALWAYS</php> instead of <php>true</php> and <php>false</php>.
-  Basically <php>GESHI_ALWAYS</php> always (<php>true</php>) enables strict mode,
-  whereas <php>GESHI_NEVER</php> completely disables strict mode. The new thing is
+  Basically <php>GESHI_ALWAYS</php> (<php>true</php>) always enables strict mode,
+  whereas <php>GESHI_NEVER</php> (<php>false</php>) completely disables strict mode. The new thing is
   <php>GESHI_MAYBE</php> which enables strict mode if it finds any sequences of code
   that look like strict block delimiters.
 
   By the way: That's why this section had to be changed, as the new documentation
-  tool we now uses this feature and thus auto-detects when strict mode has to be used ...
+  tool we now use, applies this feature and thus auto-detects when strict mode has to be used ...
 </note>
 
 ### Adding/Removing Keywords {#adding-removing-keywords}
