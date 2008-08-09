@@ -77,10 +77,11 @@ $input = fopen($tracefile, 'r');
 $tmp = tempnam(dirname($tracefile), $tracefile . '_');
 $output = fopen($tmp, 'w');
 
-$lines_touched = array();
+$line_costs = array();
 $x = 0;
 $lines = '';
 $start_stack = array();
+$level_time_costs = array(); // we don't want parent functions to include the timediffs of their children
 
 while ($line = fscanf($input, '%d %d %d %f %d %s %d %s %s %d')) {
     if (is_null($line[1])) {
@@ -125,11 +126,9 @@ while ($line = fscanf($input, '%d %d %d %f %d %s %d %s %s %d')) {
             // we don't like this path, skip it
             continue;
         }
-        // simple code coverage
-        if (!isset($lines_touched[$line[9]])) {
-            $lines_touched[$line[9]] = 1;
-        } else {
-            ++$lines_touched[$line[9]];
+        if ($line[9] === 0) {
+          // assume this is a callback and set the linenumber to the last
+          $line[9] = $start_stack[$line[0] - 1][9];
         }
         if (!$line[9] && $line[9] !== 0) {
             fclose($input);
@@ -147,11 +146,36 @@ while ($line = fscanf($input, '%d %d %d %f %d %s %d %s %s %d')) {
             continue;
         }
         $start = $start_stack[$line[0]];
+
+        $timediff = $line[3] - $start[3];
+        // cumulate timediff for this level
+        if (!isset($level_time_costs[$line[0]])) {
+          $level_time_costs[$line[0]] = 0;
+        }
+        $level_time_costs[$line[0]] += $timediff;
+
+        // reduce timediff by cumulated timediff of child level
+        if (isset($level_time_costs[$line[0] + 1])) {
+          $timediff -= $level_time_costs[$line[0] + 1];
+        }
+        // the child level must be resetted now
+        $level_time_costs[$line[0] + 1] = 0;
+
+        // simple code coverage and total time cost for given lines
+        if (!isset($line_costs[$start[9]])) {
+            $line_costs[$start[9]] = array(
+              'hits' => 1,
+              'time' => $timediff
+            );
+        } else {
+            ++$line_costs[$start[9]]['hits'];
+            $line_costs[$start[9]]['time'] += $timediff;
+        }
         // time_before    time_after    timediff    memory_before    memory_after    memorydiff    loc    function    path
         $lines .= vsprintf(TRACE_FORMAT, array(
             $start[3],
             $line[3],
-            $line[3] - $start[3],
+            $timediff,
             $start[4],
             $line[4],
             $line[4] - $start[4],
@@ -169,7 +193,7 @@ while ($line = fscanf($input, '%d %d %d %f %d %s %d %s %s %d')) {
         }
     }
 }
-
+unset($level_time_costs);
 // clean up this mess
 if (!empty($lines)) {
     fwrite($output, $lines);
@@ -186,8 +210,7 @@ rename($tmp, $tracefile);
 $outputfile = substr($tracefile, 0, strrpos($tracefile, '.')) . '_coverage.data';
 $output = fopen($outputfile, 'w');
 
-$keys = array_keys($lines_touched);
-
+$keys = array_keys($line_costs);
 for ($i = 0, $n = count($keys); $i < $n; ++$i) {
-  fwrite($output, $keys[$i] ."\t". $lines_touched[$keys[$i]] . "\n");
+  fprintf($output, "%-6d    %-6d    %f\n", $keys[$i], $line_costs[$keys[$i]]['hits'], $line_costs[$keys[$i]]['time']);
 }
