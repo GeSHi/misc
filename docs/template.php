@@ -43,22 +43,28 @@
                 font-size: 12px;
                 width:100%;
             }
+            table {
+                border-collapse:collapse;
+            }
             .geshicode pre {
                 border:none;
+                background-color:inherit;
                 font-weight:bold;
             }
-            .geshicode .li2 {
-                background-color: #f5f5f5;
+            .geshicode .li2 td {
+                background-color:#eee;
             }
-            .geshicode td {
+            .geshicode .li1 td {
                 background-color:#fff;
-                border:1px solid #fff;
             }
             .geshicode td td {
                 padding:0 2px;
             }
             .geshicode td, .geshicode table {
                 width: 100%;
+            }
+            .geshicode td.ln {
+                border-right:2px solid #e0e8ef;
             }
             .geshicode .head {
                 text-align:center;
