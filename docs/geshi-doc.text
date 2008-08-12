@@ -1688,7 +1688,7 @@ Here are some points to note about these keywords:
     **OR** in case documentation links require a special casing (other than all lowercase or all uppercase)
     the casing required for them use their casing.
 *   **Keywords must be in `htmlentities()` form:** All keywords should be written as if they had been run through
-    the php function `htmlentities()`. E.g, the keyword is <html>&lt;foogt;</html>, not <html><foo></html>
+    the php function `htmlentities()`. E.g, the keyword is <html>&lt;foo&gt;</html>, not <html><foo></html>
 *   **Don't use keywords to highlight symbols:** Just don't!!! It doesn't work, and there is seperate support
     for symbols since GeSHi 1.0.7.21.
 *   **Markup Languages are special cases:** Check the html4strict language file for an example: You need to tweak
