@@ -40,6 +40,10 @@ $parser->toc_offset = 2;
 $parser->toc_only_after = true;
 $documentation = $parser->transform($documentation);
 
+// make beautiful typography
+require 'smartypants.php';
+$documentation = SmartyPants($documentation);
+
 $styles =& $parser->styles;
 
 ob_start();
@@ -57,10 +61,6 @@ $documentation = str_replace("\r", "\n", $documentation);
 if('\\' == DIRECTORY_SEPARATOR) {
     $documentation = str_replace("\n", "\r\n", $documentation);
 }
-
-// make beautiful typography
-require 'smartypants.php';
-$documentation = SmartyPants($documentation);
 
 file_put_contents('geshi-doc.html', $documentation);
 
