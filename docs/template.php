@@ -55,8 +55,8 @@
                 margin:0 5px 5px 5px;
                 border:1px solid #fff;
             }
-            .geshicode td.ln pre {
-                background:#fff;
+            .geshicode td, .geshicode table {
+                width: 100%;
             }
             .geshicode .head {
                 text-align:center;
