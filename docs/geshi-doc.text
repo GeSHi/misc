@@ -1687,8 +1687,9 @@ Here are some points to note about these keywords:
     see later on). If a keyword group is case insensitive, put the lowercase version of the keyword here
     **OR** in case documentation links require a special casing (other than all lowercase or all uppercase)
     the casing required for them use their casing.
-*   **Keywords must be in `htmlentities()` form:** All keywords should be written as if they had been run through
-    the php function `htmlentities()`. E.g, the keyword is <html>&lt;foo&gt;</html>, not <html><foo></html>
+*   **Keywords must be in <php>htmlentities()</php> form:** All keywords should be written as if they had been
+    run through the php function <php>htmlentities()</php>. E.g, the keyword is <html>&lt;foo&gt;</html>, not
+    <html><foo></html>
 *   **Don't use keywords to highlight symbols:** Just don't!!! It doesn't work, and there is seperate support
     for symbols since GeSHi 1.0.7.21.
 *   **Markup Languages are special cases:** Check the html4strict language file for an example: You need to tweak
@@ -2015,14 +2016,14 @@ the example above that highlighting will only occur if the source is inside <php
         they please. If strict mode is off then everything in the source will be highlighted, even things outside
         the strict block markers. If strict mode is on the nothing outside strict block markers will be highlighted.
 *   **'SCRIPT_DELIMITERS':** This is an array of script delimiters, in the format of the above. The indices are use in the
-    'SCRIPT' part of the styles section for highlighting everything in a strict block in a certain way. For example, you
-    could set up your language file to make the background yellow of any code inside a strict block this way. The
-    delimiters are in the form 'OPEN' => 'CLOSE'. Delimiters can be of any length > 0. Delimiters are *not* formatted
-    as if they were run through <php>htmlentities()</php>!
-*   **'HIGHLIGHT_STRICT_BLOCK':** specifies whether any highlighting should go on inside each block. Most of the time
-    this should be true, but for example, in the XML language file highlighting is turned off for blocks beginning
-    with <html><!DOCTYPE</html> and ending with <html>></html>. However, you can still style the overall block using
-    the method described above, and the XML language file does just that.
+    'SCRIPT' part of the styles section for highlighting everything in a strict block in a certain way.
+    For example, you could set up your language file to make the background yellow of any code inside a strict
+    block this way. The delimiters are in the form <php>'OPEN' => 'CLOSE'</php>. Delimiters can be of any
+    length > 0. Delimiters are *not* formatted as if they were run through <php>htmlentities()</php>!
+*   **'HIGHLIGHT_STRICT_BLOCK':** specifies whether any highlighting should go on inside each block. Most of
+    the time this should be true, but for example, in the XML language file highlighting is turned off for
+    blocks beginning with <html><!DOCTYPE</html> and ending with <html>></html>. However, you can still
+    style the overall block using the method described above, and the XML language file does just that.
 
 <note>
   The delimiters should be in _reverse alphabetical order_. Note that in the above example, <php><?php</php>
