@@ -50,10 +50,13 @@
             .geshicode .li2 {
                 background-color: #f5f5f5;
             }
-            .geshicode tbody td {
+            .geshicode td {
                 background-color:#fff;
-                margin:0 5px 5px 5px;
+                padding:0 5px 5px 5px;
                 border:1px solid #fff;
+            }
+            .geshicode td td {
+                padding:0 2px;
             }
             .geshicode td, .geshicode table {
                 width: 100%;
