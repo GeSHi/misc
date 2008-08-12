@@ -52,7 +52,6 @@
             }
             .geshicode td {
                 background-color:#fff;
-                padding:0 5px 5px 5px;
                 border:1px solid #fff;
             }
             .geshicode td td {
