@@ -58,6 +58,10 @@ if('\\' == DIRECTORY_SEPARATOR) {
     $documentation = str_replace("\n", "\r\n", $documentation);
 }
 
+// make beautiful typography
+require 'smartypants.php';
+$documentation = SmartyPants($documentation);
+
 file_put_contents('geshi-doc.html', $documentation);
 
 if("CLI" != php_sapi_name()) {
