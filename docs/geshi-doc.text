@@ -1585,12 +1585,12 @@ GeSHi release)?
 Here is an example from the php language file of the first indices:
 
 <blockphp>
-    'LANG_NAME' => 'PHP',
-    'COMMENT_SINGLE' => array(1 => '//', 2 => '#'),
-    'COMMENT_MULTI' => array('/*' => '*/'),
-    'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-    'QUOTEMARKS' => array("'", '"'),
-    'ESCAPE_CHAR' => '\\',
+'LANG_NAME' => 'PHP',
+'COMMENT_SINGLE' => array(1 => '//', 2 => '#'),
+'COMMENT_MULTI' => array('/*' => '*/'),
+'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
+'QUOTEMARKS' => array("'", '"'),
+'ESCAPE_CHAR' => '\\',
 </blockphp>
 
 The first indices are the first few lines of a language file before the KEYWORDS index. These indices specify:
@@ -1627,37 +1627,46 @@ inbuilt functions, data types, predefined constants etc etc.
 Here's a (shortened) example from the php language file:
 
 <blockphp>
-    'KEYWORDS' => array(
-        1 => array(
-            'include', 'require', 'include_once', 'require_once',
-            'for', 'foreach', 'as', 'if', 'elseif', 'else', 'while', 'do', 'endwhile', 'endif', 'switch', 'case', 'endswitch',
-            'return', 'break'
-            ),
-        2 => array(
-            'null', '__LINE__', '__FILE__',
-            'false', '&lt;?php', '?>', '&lt;?',
-            '&lt;script language=', '&lt;/script>',
-            'true', 'var', 'default',
-            'function', 'class', 'new',
-            '__FUNCTION__', '__CLASS__', '__METHOD__', 'PHP_VERSION',
-            'PHP_OS', 'DEFAULT_INCLUDE_PATH', 'PEAR_INSTALL_DIR', 'PEAR_EXTENSION_DIR',
-            'PHP_EXTENSION_DIR', 'PHP_BINDIR', 'PHP_LIBDIR', 'PHP_DATADIR', 'PHP_SYSCONFDIR',
-            'PHP_LOCALSTATEDIR', 'PHP_CONFIG_FILE_PATH', 'PHP_OUTPUT_HANDLER_START', 'PHP_OUTPUT_HANDLER_CONT',
-            'PHP_OUTPUT_HANDLER_END', 'E_ERROR', 'E_WARNING', 'E_PARSE', 'E_NOTICE',
-            'E_CORE_ERROR', 'E_CORE_WARNING', 'E_COMPILE_ERROR', 'E_COMPILE_WARNING', 'E_USER_ERROR',
-            'E_USER_WARNING', 'E_USER_NOTICE', 'E_ALL'
-            ),
-        3 => array(
-            'zlib_get_coding_type','zend_version','zend_logo_guid','yp_order','yp_next',
-            'yp_match','yp_master','yp_get_default_domain','yp_first','yp_errno','yp_err_string',
-            'yp_cat','yp_all','xml_set_unparsed_entity_decl_handler','xml_set_start_namespace_decl_handler',
-            'xml_set_processing_instruction_handler','xml_set_object',
-            'xml_set_notation_decl_handler','xml_set_external_entity_ref_handler','xml_set_end_namespace_decl_handler',
-            'xml_set_element_handler','xml_set_default_handler','xml_set_character_data_handler',
-            'xml_parser_set_option','xml_parser_get_option','xml_parser_free','xml_parser_create_ns',
-            'xml_parser_create','xml_parse_into_struct'
-            )
+'KEYWORDS' => array(
+    1 => array(
+        'as', 'break', 'case', 'do', 'else', 'elseif', 'endif',
+        'endswitch', 'endwhile', 'for', 'foreach', 'if', 'include',
+        'include_once', 'require', 'require_once', 'return',
+        'switch', 'while'
         ),
+    2 => array(
+        '&lt;/script>', '&lt;?', '&lt;?php', '&lt;script language=',
+        '?>', 'class', 'default', 'DEFAULT_INCLUDE_PATH', 'E_ALL',
+        'E_COMPILE_ERROR', 'E_COMPILE_WARNING', 'E_CORE_ERROR',
+        'E_CORE_WARNING', 'E_ERROR', 'E_NOTICE', 'E_PARSE',
+        'E_USER_ERROR', 'E_USER_NOTICE', 'E_USER_WARNING',
+        'E_WARNING', 'false', 'function', 'new', 'null',
+        'PEAR_EXTENSION_DIR', 'PEAR_INSTALL_DIR', 'PHP_BINDIR',
+        'PHP_CONFIG_FILE_PATH', 'PHP_DATADIR', 'PHP_EXTENSION_DIR',
+        'PHP_LIBDIR', 'PHP_LOCALSTATEDIR', 'PHP_OS',
+        'PHP_OUTPUT_HANDLER_CONT', 'PHP_OUTPUT_HANDLER_END',
+        'PHP_OUTPUT_HANDLER_START', 'PHP_SYSCONFDIR', 'PHP_VERSION',
+        'true', 'var', '__CLASS__', '__FILE__', '__FUNCTION__',
+        '__LINE__', '__METHOD__'
+        ),
+    3 => array(
+        'xml_parser_create', 'xml_parser_create_ns',
+        'xml_parser_free', 'xml_parser_get_option',
+        'xml_parser_set_option', 'xml_parse_into_struct',
+        'xml_set_character_data_handler', 'xml_set_default_handler',
+        'xml_set_element_handler',
+        'xml_set_end_namespace_decl_handler',
+        'xml_set_external_entity_ref_handler',
+        'xml_set_notation_decl_handler', 'xml_set_object',
+        'xml_set_processing_instruction_handler',
+        'xml_set_start_namespace_decl_handler',
+        'xml_set_unparsed_entity_decl_handler', 'yp_all', 'yp_cat',
+        'yp_errno', 'yp_err_string', 'yp_first',
+        'yp_get_default_domain', 'yp_master', 'yp_match', 'yp_next',
+        'yp_order', 'zend_logo_guid', 'zend_version',
+        'zlib_get_coding_type'
+        )
+    ),
 </blockphp>
 
 You can see that the index 'KEYWORDS' refers to an array of arrays, indexed by positive integers. In each array,
@@ -1745,45 +1754,45 @@ language file.
 Here's an example:
 
 <blockphp>
-    'STYLES' => array(
-        'KEYWORDS' => array(
-            1 => 'color: #b1b100;',
-            2 => 'color: #000000; font-weight: bold;',
-            3 => 'color: #000066;'
-            ),
-        'COMMENTS' => array(
-            1 => 'color: #808080; font-style: italic;',
-            2 => 'color: #808080; font-style: italic;',
-            'MULTI' => 'color: #808080; font-style: italic;'
-            ),
-        'ESCAPE_CHAR' => array(
-            0 => 'color: #000099; font-weight: bold;'
-            ),
-        'BRACKETS' => array(
-            0 => 'color: #66cc66;'
-            ),
-        'STRINGS' => array(
-            0 => 'color: #ff0000;'
-            ),
-        'NUMBERS' => array(
-            0 => 'color: #cc66cc;'
-            ),
-        'METHODS' => array(
-            0 => 'color: #006600;'
-            ),
-        'SYMBOLS' => array(
-            0 => 'color: #66cc66;'
-            ),
-        'REGEXPS' => array(
-            0 => 'color: #0000ff;'
-            ),
-        'SCRIPT' => array(
-            0 => '',
-            1 => '',
-            2 => '',
-            3 => ''
-            )
+'STYLES' => array(
+    'KEYWORDS' => array(
+        1 => 'color: #b1b100;',
+        2 => 'color: #000000; font-weight: bold;',
+        3 => 'color: #000066;'
         ),
+    'COMMENTS' => array(
+        1 => 'color: #808080; font-style: italic;',
+        2 => 'color: #808080; font-style: italic;',
+        'MULTI' => 'color: #808080; font-style: italic;'
+        ),
+    'ESCAPE_CHAR' => array(
+        0 => 'color: #000099; font-weight: bold;'
+        ),
+    'BRACKETS' => array(
+        0 => 'color: #66cc66;'
+        ),
+    'STRINGS' => array(
+        0 => 'color: #ff0000;'
+        ),
+    'NUMBERS' => array(
+        0 => 'color: #cc66cc;'
+        ),
+    'METHODS' => array(
+        0 => 'color: #006600;'
+        ),
+    'SYMBOLS' => array(
+        0 => 'color: #66cc66;'
+        ),
+    'REGEXPS' => array(
+        0 => 'color: #0000ff;'
+        ),
+    'SCRIPT' => array(
+        0 => '',
+        1 => '',
+        2 => '',
+        3 => ''
+        )
+    ),
 </blockphp>
 
 Note that all style rules should end with a semi-colon! This is important: GeSHi may add extra rules to the rules you
@@ -1825,12 +1834,12 @@ manual entries.
 Here is an example:
 
 <blockphp>
-    'URLS' => array(
-        1 => '',
-        2 => '',
-        3 => 'http://www.php.net/{FNAME}',
-        4 => ''
-        ),
+'URLS' => array(
+    1 => '',
+    2 => '',
+    3 => 'http://www.php.net/{FNAME}',
+    4 => ''
+    ),
 </blockphp>
 
 The indices of this array correspond to the keyword groups you specified in the keywords section. The string `{FNAME}`
@@ -1848,8 +1857,8 @@ tell it to do so and what the "splitter" is between object/method etc.
 Here's an example:
 
 <blockphp>
-    'OOLANG' => true,
-    'OBJECT_SPLITTER' => '-&gt;',
+'OOLANG' => true,
+'OBJECT_SPLITTER' => '-&gt;',
 </blockphp>
 
 If your language has object orientation, the value of `'OOLANG'` is true, otherwise it is false. If it is object
@@ -1872,21 +1881,21 @@ only part of those things. This is particularly useful for languages like XML.
 Here is an example (this time the PHP file merged with the XML file):
 
 <blockphp>
-        0 => array(
-            GESHI_SEARCH => '(((xml:)?[a-z\-]+))(=)',
-            GESHI_REPLACE => '\\1',
-            GESHI_MODIFIERS => '',
-            GESHI_BEFORE => '',
-            GESHI_AFTER => '\\4'
-            ),
-        1 => array(
-            GESHI_SEARCH => '(>/?[a-z0-9]*(>)?)',
-            GESHI_REPLACE => '\\1',
-            GESHI_MODIFIERS => '',
-            GESHI_BEFORE => '',
-            GESHI_AFTER => ''
-            ),
-        2 => "[\\$]{1,2}[a-zA-Z_][a-zA-Z0-9_]*"
+0 => array(
+    GESHI_SEARCH => '(((xml:)?[a-z\-]+))(=)',
+    GESHI_REPLACE => '\\1',
+    GESHI_MODIFIERS => '',
+    GESHI_BEFORE => '',
+    GESHI_AFTER => '\\4'
+    ),
+1 => array(
+    GESHI_SEARCH => '(>/?[a-z0-9]*(>)?)',
+    GESHI_REPLACE => '\\1',
+    GESHI_MODIFIERS => '',
+    GESHI_BEFORE => '',
+    GESHI_AFTER => ''
+    ),
+2 => "[\\$]{1,2}[a-zA-Z_][a-zA-Z0-9_]*"
 </blockphp>
 
 As you can see there are two formats. One is the "simple" format used in GeSHi < 1.0.2, and the other is a more
@@ -1938,13 +1947,20 @@ I want to highlight *only the text between the $ and the &*. How do I do that? W
 but with advanced, it's relatively easy:
 
 <blockphp>
-        1 => array(
-            GESHI_SEARCH => '(\$)([a-z]+)(&)', // search for a dollar sign, then one or more of the characters a-z, then an ampersand
-            GESHI_REPLACE => '\\2',            // we wanna highlight the characters, which are in the second bracketed group
-            GESHI_MODIFIERS => '',             // no modifiers, since we're not matching the "anything" regex
-            GESHI_BEFORE => '\\1',             // before the highlighted characters should be the first bracketed group (always a dollar sign in this example)
-            GESHI_AFTER => '\\3'               // after the highlighted characters should be the third bracketed group (always an ampersand in this example)
-            ),
+1 => array(
+    // search for a dollar sign, then one or more of the characters a-z, then an ampersand
+    GESHI_SEARCH => '(\$)([a-z]+)(&)',
+    // we wanna highlight the characters, which are in the second bracketed group
+    GESHI_REPLACE => '\\2',
+    // no modifiers, since we're not matching the "anything" regex
+    GESHI_MODIFIERS => '',
+    // before the highlighted characters should be the first
+    // bracketed group (always a dollar sign in this example)
+    GESHI_BEFORE => '\\1',
+    // after the highlighted characters should be the third
+    // bracketed group (always an ampersand in this example)
+    GESHI_AFTER => '\\3'
+    ),
 </blockphp>
 
 So if someone tried to highlight using my language, all cases of `$foo&` would turn into:
@@ -1962,27 +1978,27 @@ text I don't want that highlighted! So how do you tell GeSHi not to highlight in
 Here is an example:
 
 <blockphp>
-    'STRICT_MODE_APPLIES' => GESHI_MAYBE,
-    'SCRIPT_DELIMITERS' => array(
-        0 => array(
-            '<?php' => '?>'
-            ),
-        1 => array(
-            '<?' => '?>'
-            ),
-        2 => array(
-            '<%' => '%>'
-            ),
-        3 => array(
-            '<script language="php">' => '</script>'
-            )
+'STRICT_MODE_APPLIES' => GESHI_MAYBE,
+'SCRIPT_DELIMITERS' => array(
+    0 => array(
+        '<?php' => '?>'
         ),
-    'HIGHLIGHT_STRICT_BLOCK' => array(
-        0 => true,
-        1 => true,
-        2 => true,
-        3 => true
+    1 => array(
+        '<?' => '?>'
+        ),
+    2 => array(
+        '<%' => '%>'
+        ),
+    3 => array(
+        '<script language="php">' => '</script>'
         )
+    ),
+'HIGHLIGHT_STRICT_BLOCK' => array(
+    0 => true,
+    1 => true,
+    2 => true,
+    3 => true
+    )
 </blockphp>
 
 What is strict mode? Strict mode says that highlighting only occurs inside the blocks you specify. You can see from
