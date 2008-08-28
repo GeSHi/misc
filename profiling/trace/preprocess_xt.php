@@ -9,20 +9,13 @@
  * with quite some interesting numbers in it. When you set xdebug.trace_format
  * to 1 (i.e. computer readable format) you'll need a script to preprocess
  * the tracefile before it can be evaluated by plotting or similar. This is
- * what this script does. Your old trace file will be replaced with the
- * preprocessed data in the following order @see TRACE_FORMAT:
+ * what this script does. It generates a folder which contains several tracefiles
+ * (one for each included script) with a new format (@see TRACE_FORMAT)
  *
- * time_before    time_after    timediff    memory_before    memory_after    memorydiff    loc    function    path
+ * time_before    time_after    timediff    memory_before    \
+ * memory_after    memorydiff    loc    function    path
  *
- * @attention your old tracefile will be replaced!
- *
- * To simply calculate memory and time differences do
- * @example ./preprocess_xt.php foobar.php.xt
- * @note This also generates a second file with code coverage data
- *       i.e. how often got line X called
- *
- * To additionally exclude a given file do something like this:
- * @example ./preprocess_xt.php foobar.php.xt foobar.php
+ * -------------
  *
  * preprocess_xt.php is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,17 +37,21 @@
  */
 
 /**
- * we use a line buffer and write only when we have processed
- * LINE_BUFFER lines.
+ * we use a line buffer and write only after we have processed
+ * LINE_BUFFER lines. HDD access is generally slow and memory cheap.
  */
 define('LINE_BUFFER', 1000);
 
 /**
  * this is the format for the new tracefile
+ *   time_before    time_after    timediff    memory_before    \
+ *   memory_after    memorydiff    loc    function    path
  */
 define('TRACE_FORMAT', '%f    %f    %f    %d    %d    %+d    %d    %s    %s');
 
 // validate user input
+// @todo: rewrite this part and use proper GetOpt style flags to handle
+//        outputdir, removefromtrace, etc. etc.
 if (!isset($_SERVER['argv'][1])) {
     die("usage: ". basename(__FILE__) ." TRACEFILE\n".
         "or:    ". basename(__FILE__) ." TRACEFILE REMOVEFROMTRACE ...\n");
@@ -62,27 +59,35 @@ if (!isset($_SERVER['argv'][1])) {
 
 $tracefile = $_SERVER['argv'][1];
 
-if (!is_readable($tracefile)) {
+if (!is_readable($tracefile) || !($input = fopen($tracefile, 'r'))) {
     die("cannot read tracefile `$tracefile`\n");
 }
 
-// we might want to remove a set of files from the trace
-$remove_paths = array();
-if (!empty($_SERVER['argv'][2])) {
-    $remove_paths = $_SERVER['argv'];
-    unset($remove_paths[0], $remove_paths[1]);
+// get output path
+// @todo: make it user definable via -outputdir DIR
+$outputdir = $tracefile.'_preprocessed';
+
+if (!is_dir($outputdir)) {
+    if (file_exists($outputdir)) {
+        trigger_error('Potential name-clash: File exists with name of output directoy "'.$outputdir.'"', E_USER_ERROR);
+    } elseif (!mkdir($outputdir, 0755)) {
+        trigger_error('Could not create output directoy "'.$outputdir.'"', E_USER_ERROR);
+    }
 }
 
-$input = fopen($tracefile, 'r');
-$tmp = tempnam(dirname($tracefile), $tracefile . '_');
-$output = fopen($tmp, 'w');
+// one file handle per included file in the trace
+$output = array();
 
 $line_costs = array();
 $x = 0;
-$lines = '';
+$lines = array(); // buffer per output file
 $start_stack = array();
 $level_time_costs = array(); // we don't want parent functions to include the timediffs of their children
 
+$paths = array();
+$path_key = 0;
+
+// @todo: properly sort the output
 while ($line = fscanf($input, '%d %d %d %f %d %s %d %s %s %d')) {
     if (is_null($line[1])) {
         // this seems to be junk
@@ -122,18 +127,15 @@ while ($line = fscanf($input, '%d %d %d %f %d %s %d %s %s %d')) {
                 $line[8] = substr($line[8], 0, $pos);
             }
         }
-        if (in_array(basename($line[8]), $remove_paths)) {
-            // we don't like this path, skip it
-            continue;
-        }
         if ($line[9] === 0) {
-          // assume this is a callback and set the linenumber to the last
+          // assume this is a callback thus set the linenumber to the last remembered
           $line[9] = $start_stack[$line[0] - 1][9];
         }
         if (!$line[9] && $line[9] !== 0) {
             fclose($input);
-            fclose($output);
-            unlink($tmp);
+            foreach ($output as &$handle) {
+                fclose($handle);
+            }
             trigger_error("Bad line number given, that should not happen:\n". print_r($line, true), E_USER_ERROR);
             die();
         }
@@ -150,19 +152,19 @@ while ($line = fscanf($input, '%d %d %d %f %d %s %d %s %s %d')) {
         $timediff = $line[3] - $start[3];
 
         // simple code coverage and total time cost for given lines
-        if (!isset($line_costs[$start[9]])) {
-            $line_costs[$start[9]] = array(
+        if (!isset($line_costs[$start[8]][$start[9]])) {
+            $line_costs[$start[8]][$start[9]] = array(
               'hits' => 1,
               'time' => $timediff
             );
         } else {
-            ++$line_costs[$start[9]]['hits'];
-            $line_costs[$start[9]]['time'] += $timediff;
+            ++$line_costs[$start[8]][$start[9]]['hits'];
+            $line_costs[$start[8]][$start[9]]['time'] += $timediff;
         }
 
         // cumulate timediff for this level
         if (!isset($level_time_costs[$line[0]])) {
-          $level_time_costs[$line[0]] = 0;
+            $level_time_costs[$line[0]] = 0;
         }
         $level_time_costs[$line[0]] += $timediff;
 
@@ -173,8 +175,27 @@ while ($line = fscanf($input, '%d %d %d %f %d %s %d %s %s %d')) {
         // the child level must be resetted now
         $level_time_costs[$line[0] + 1] = 0;
 
+        if (!isset($lines[$start[8]])) {
+            $lines[$start[8]] = '';
+            // when we are at it, also setup the filehandle
+            // we don't want horribly long file names, what we do is group by dirname:
+            // /foo/bar/etc/file.php => 1.file.php
+            // /foo/asdfasd/file.php => 2.file.php
+            $dirname = dirname($start[8]);
+            if (!isset($paths[$dirname])) {
+                $path_key++;
+                $paths[$dirname] = sprintf('%\'03d', $path_key);
+            }
+            $key = $paths[$dirname];
+            
+            $output_file = $outputdir . '/' . $key . '.'. basename($start[8]) .'.trace';
+            $output[$start[8]] = fopen($output_file , 'w');
+            if (!$output[$start[8]]) {
+                trigger_error('Failed to open file "'.$output_file.'" for writing', E_USER_ERROR);
+            }
+        }
         // time_before    time_after    timediff    memory_before    memory_after    memorydiff    loc    function    path
-        $lines .= vsprintf(TRACE_FORMAT, array(
+        $lines[$start[8]] .= sprintf(TRACE_FORMAT,
             $start[3],
             $line[3],
             $timediff,
@@ -184,35 +205,47 @@ while ($line = fscanf($input, '%d %d %d %f %d %s %d %s %s %d')) {
             $start[9],
             $start[5],
             $start[8]
-        )) . "\n";
+        ) . "\n";
         unset($start_stack[$line[0]], $start);
-        // buffer lines and only write $x lines in one go
+
+        // buffer lines and write LINE_BUFFER lines in one go
         ++$x;
         if ($x == LINE_BUFFER) {
-            fwrite($output, $lines);
+            foreach ($lines as $file => &$sub_lines) {
+                fwrite($output[$file], $sub_lines);
+                $sub_lines = '';
+            }
             $x = 0;
-            $lines = '';
         }
     }
 }
 unset($level_time_costs);
 // clean up this mess
-if (!empty($lines)) {
-    fwrite($output, $lines);
-}
-unset($lines);
-
 fclose($input);
-fclose($output);
-
-// we don't need the old file any longer
-rename($tmp, $tracefile);
-
-// write iterations to file
-$outputfile = substr($tracefile, 0, strrpos($tracefile, '.')) . '_coverage.data';
-$output = fopen($outputfile, 'w');
-
-$keys = array_keys($line_costs);
-for ($i = 0, $n = count($keys); $i < $n; ++$i) {
-  fprintf($output, "%-6d    %-6d    %f\n", $keys[$i], $line_costs[$keys[$i]]['hits'], $line_costs[$keys[$i]]['time']);
+foreach ($lines as $file => &$sub_lines) {
+    fwrite($output[$file], $sub_lines);
+    fclose($output[$file]);
 }
+unset($lines, $output);
+
+foreach ($line_costs as $file => &$per_file_line_costs) {
+    // write iterations to file
+    $outputfile = $outputdir .'/' . $paths[dirname($file)] . '.' . basename($file) . '.coverage';
+    $output = fopen($outputfile, 'w');
+    if (!$output) {
+        trigger_error('Could not open file "'.$outputfile.'" for writing', E_USER_ERROR);
+    }
+
+    ksort($per_file_line_costs);
+    foreach ($per_file_line_costs as $line => &$cost) {
+        fprintf($output, "%-6d    %-6d    %f\n", $line, $cost['hits'], $cost['time']);
+    }
+    fclose($output);
+}
+unset($line_costs);
+
+$path_file = fopen($outputdir.'/paths.txt', 'w');
+foreach ($paths as $path => $key) {
+    fwrite($path_file, $key."\t".$path."\n");
+}
+fclose($path_file);
