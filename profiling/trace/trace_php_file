@@ -74,9 +74,7 @@ fi
 if [[ $showusage == 1 ]]; then
   echo "usage: `basename $0` --file PHPFILE.php [--noparent] [--title TEXT] [--label TEXT]"
   echo " --file       The PHP script you want to trace"
-  echo " --noparent   Exclude the above script from the trace file and only care about included etc."
-  echo " --title      Text which is prepended to all titles of the plots"
-  echo " --imgname    The start of your image names, i.e. something like foobar_r1234 or similar"
+  echo " --noparent   Exclude the above script from the trace file and only care about included files"
   exit 1
 fi
 
@@ -95,34 +93,25 @@ fi
 base=`dirname $0`
 
 echo "tracing $file"
-php -e "$file" --trace > $base/.run_output
-cat $base/.run_output
+php -e "$file" --trace
 
 echo "preprocessing trace file"
 #sed -r -i 's#-> (.+):([0-9]+)$#\2    \1#g' single_test.php.xt
 #sed -r -i 's#.+contrib/single_test.php.+##g
 #s#([0-9]    )( +-> .+):([0-9]+)#\1\3\2#g' single_test.php.xt
 #sed -i '/contrib\/single_test.php/D' single_test.php.xt
+
+$base/preprocess_xt.php "$file.xt"
+
+# check that at least one trace file exists
+if [[ "$( ls "$file.xt_preprocessed/"*".trace" 2> /dev/null )" == "" ]]; then
+    exit
+fi
+
 if [[ $noparent ]]; then
-    $base/preprocess_xt.php "$file.xt" "$file"
-else
-    $base/preprocess_xt.php "$file.xt"
+    rm "$file".xt_preprocessed/*."$file".trace "$file".xt_preprocessed/*."$file".coverage
 fi
 
 echo "generating plots"
-tmpfile="$0$$"
-echo "data = \"`pwd`/$file.xt\"" > "$tmpfile"
-echo "imgbase = \"`pwd`/$imgname\"" >> "$tmpfile"
-echo "coveragedata = \"`pwd`/"$file"_coverage.data\"" >> "$tmpfile"
-echo "customtitle = \"$title\"" >> "$tmpfile"
-echo "memdiff = \"`cat $base/.run_output | grep 'run #1' | egrep -o '[0-9\.]+'.?B`\"" >> "$tmpfile"
-echo "speed = \"`cat $base/.run_output | grep speed | egrep -o '[0-9\.]+../s'`\"" >> "$tmpfile"
-echo "peakmem = \"`cat $base/.run_output | grep 'Peak memory' | egrep -o '[0-9\.]+..'`\"" >> "$tmpfile"
-echo "membefore = \"`cat $base/.run_output | grep 'Memory usage before' | egrep -o '[0-9\.]+..'`\"" >> "$tmpfile"
-echo "memafter = \"`cat $base/.run_output | grep 'Memory usage after' | egrep -o '[0-9\.]+..'`\"" >> "$tmpfile"
-echo "time = \"`cat $base/.run_output | grep 'overall' | egrep -o '[0-9\.]+s'`\"" >> "$tmpfile"
-rm $base/.run_output
 
-gnuplot "$tmpfile" "$base/plot_xt.plt"
-
-rm "$tmpfile"
+$base/plot_preprocessed_trace.php "$file.xt_preprocessed"

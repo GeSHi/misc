@@ -73,6 +73,24 @@ if (!is_dir($outputdir)) {
     } elseif (!mkdir($outputdir, 0755)) {
         trigger_error('Could not create output directoy "'.$outputdir.'"', E_USER_ERROR);
     }
+} else {
+    do {
+        echo "Outputdir '$outputdir' exists and is possibly not empty. Purge contents and continue?\n[y/N]:  ";
+        $answer = strtolower(trim(fgets(STDIN)));
+        if (empty($answer)) {
+            $answer = 'n';
+        }
+    } while (!in_array($answer, array('y', 'n')));
+    if ($answer == 'n') {
+        die("...aborting\n");
+    }
+    $dir = opendir($outputdir);
+    while (false !== ($file = readdir($dir))) {
+        if ($file[0] != '.' && is_file($outputdir.'/'.$file)) {
+            unlink($outputdir .'/'. $file);
+        }
+    }
+    closedir($dir);
 }
 
 // one file handle per included file in the trace
