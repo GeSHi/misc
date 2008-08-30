@@ -13,7 +13,7 @@
  * (one for each included script) with a new format (@see TRACE_FORMAT)
  *
  * time_before    time_after    timediff    memory_before    \
- * memory_after    memorydiff    loc    function    path
+ * memory_after    memorydiff    loc    function
  *
  * -------------
  *
@@ -45,9 +45,9 @@ define('LINE_BUFFER', 1000);
 /**
  * this is the format for the new tracefile
  *   time_before    time_after    timediff    memory_before    \
- *   memory_after    memorydiff    loc    function    path
+ *   memory_after    memorydiff    loc    function
  */
-define('TRACE_FORMAT', '%f    %f    %f    %d    %d    %+d    %d    %s    %s');
+define('TRACE_FORMAT', '%f    %f    %f    %d    %d    %+d    %d    %s');
 
 // validate user input
 // @todo: rewrite this part and use proper GetOpt style flags to handle
@@ -205,7 +205,7 @@ while ($line = fscanf($input, '%d %d %d %f %d %s %d %s %s %d')) {
                 $paths[$dirname] = sprintf('%\'03d', $path_key);
             }
             $key = $paths[$dirname];
-            
+
             $output_file = $outputdir . '/' . $key . '.'. basename($start[8]) .'.trace';
             $output[$start[8]] = fopen($output_file , 'w');
             if (!$output[$start[8]]) {
