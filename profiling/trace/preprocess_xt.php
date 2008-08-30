@@ -145,9 +145,9 @@ while ($line = fscanf($input, '%d %d %d %f %d %s %d %s %s %d')) {
                 $line[8] = substr($line[8], 0, $pos);
             }
         }
-        if ($line[9] === 0) {
-          // assume this is a callback thus set the linenumber to the last remembered
-          $line[9] = $start_stack[$line[0] - 1][9];
+        if ($line[9] === 0 && $line[5] != '{main}') {
+            // assume this is a callback thus set the linenumber to the last remembered
+            $line[9] = $start_stack[$line[0] - 1][9];
         }
         if (!$line[9] && $line[9] !== 0) {
             fclose($input);
