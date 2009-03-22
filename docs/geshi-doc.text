@@ -2019,6 +2019,7 @@ text I don't want that highlighted! So how do you tell GeSHi not to highlight in
 Here is an example:
 
 <blockphp>
+<? /* ... */
 'STRICT_MODE_APPLIES' => GESHI_MAYBE,
 'SCRIPT_DELIMITERS' => array(
     0 => array(
@@ -2033,13 +2034,18 @@ Here is an example:
     3 => array(
         '<script language="php">' => '</script>'
         )
+    4 => "/(<\?(?:php)?)(?:'(?:[^'\\\\]|\\\\.)*?'|\"(?:[^\"\\\\]|\\\\.)*?\"|\/\*(?!\*\/).*?\*\/|.)*?(\?>|\Z)/sm",
+    5 => "/(<%)(?:'(?:[^'\\\\]|\\\\.)*?'|\"(?:[^\"\\\\]|\\\\.)*?\"|\/\*(?!\*\/).*?\*\/|.)*?(%>|\Z)/sm"
     ),
 'HIGHLIGHT_STRICT_BLOCK' => array(
     0 => true,
     1 => true,
     2 => true,
-    3 => true
+    3 => true,
+    4 => true,
+    5 => true
     )
+/* ... */ ?>
 </blockphp>
 
 What is strict mode? Strict mode says that highlighting only occurs inside the blocks you specify. You can see from
