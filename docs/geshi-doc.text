@@ -1676,7 +1676,7 @@ Here are some points to note about these keywords:
 *   **Indexed by positive integers:** Use nothing else! I may change this in 1.2.X, but for the 1.0.X series,
     use positive integers only. Using strings here results in unnecessary overhead degrading performance when
     highlighting code with your language file!
-*   **Keywords sorted ascending:** Keywords _should_ be sorted in *ascending*. This is mainly for
+*   **Keywords sorted ascending:** Keywords _should_ be sorted in *ascending* order. This is mainly for
     readability. An issue with versions before 1.0.8 has been solved, so the reverse sorting order
     is no longer required and should thus be avoided. GeSHi itself sorts the keywords internally when
     building some of its caches, so the order doesn't matter, but makes things easier to read and maintain.
@@ -1814,7 +1814,7 @@ All strings here should contain valid stylesheet declarations (it's also fine to
 *   **'NUMBERS':** This sets the styles used to highlight numbers. The format used here depends on the format used to
     set the formats of numbers to highlight. If you just used an integer (bitmask) for numbers, you have to either
     specify one key with the respective constant, and\or include a key 0 as a default style. If you used an
-    array below, copy the keys used there and assign the styles accordingly.
+    array for the number markup, copy the keys used there and assign the styles accordingly.
 *   **'SYMBOLS':** This provides one key for each symbol group you defined above. If you used the flat usage
     make sure you include a key for symbols group 0.
 *   **'REGEXPS':** This is an array with a style for each matching regex. Also, since 1.0.7.21, you can specify the
@@ -1848,6 +1848,46 @@ marks where the name of the function is substituted in. So for the example above
 "echo", then the keyword will be a URL pointing to `http://www.php.net/echo`. Because some languages (Java!) don't
 keep a uniform URL for functions/classes, you may have trouble in creating a URL for that language (though look in the
 java language file for a novel solution to it's problem)
+
+#### Number Highlighting Support {#language-file-numbers-support}
+
+If your language supports different formats of numbers (e.g. integers and float representations) and you want
+GeSHi to handle them differently you can select from a set of predefined formats.
+
+<blockphp>
+    'NUMBERS' =>
+        GESHI_NUMBER_INT_BASIC | GESHI_NUMBER_INT_CSTYLE | GESHI_NUMBER_BIN_PREFIX_0B |
+        GESHI_NUMBER_OCT_PREFIX | GESHI_NUMBER_HEX_PREFIX | GESHI_NUMBER_FLT_NONSCI |
+        GESHI_NUMBER_FLT_NONSCI_F | GESHI_NUMBER_FLT_SCI_SHORT | GESHI_NUMBER_FLT_SCI_ZERO,
+</blockphp>
+
+All the formats you want GeSHi to recognize are selected via a bitmask that is built by bitwise OR-ing the format constants.
+When styling you use these constants to assign the proper styles. A style not assigned will automatically fallback to style group 0.
+
+<note>
+  For a complete list of formats supported by GeSHi have a look into the sources of geshi.php.
+</note>
+
+If you want to define your own formats for numbers or when you want to group the style for two or more formats you can use the array syntax.
+
+<blockphp>
+    'NUMBERS' => array(
+        1 => GESHI_NUMBER_INT_BASIC | GESHI_NUMBER_INT_CSTYLE,
+        2 => GESHI_NUMBER_BIN_PREFIX_0B,
+        3 => GESHI_NUMBER_OCT_PREFIX,
+        4 => GESHI_NUMBER_HEX_PREFIX,
+        5 => GESHI_NUMBER_FLT_NONSCI | GESHI_NUMBER_FLT_NONSCI_F | GESHI_NUMBER_FLT_SCI_SHORT | GESHI_NUMBER_FLT_SCI_ZERO
+        ),
+</blockphp>
+
+This creates 5 style groups 1..5 that will highlight each of the formats specified for each group.
+Styling of these groups doesn't use the constants but uses the indices you just defined.
+
+Instead of using those predefined constants you also can assign a PCRE that matches a number when using this advanced format.
+
+<note>
+  The extended format hasn't been exhaustively been tested. So beware of bugs there.
+</note>
 
 #### Object Orientation Support {#language-file-oo-support}
 
