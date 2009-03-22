@@ -2043,6 +2043,114 @@ to fix some issues that have been there for about 3 years.
   that would cause loads of warning messages otherwise.
 </caution>
 
+#### Special Parser Settings (Experimental) {#language-file-parser-control}
+
+Sometimes it is necessary for a language to render correctly to tweak some of the assumptions GeSHi usually makes to match the behaviour your language expects.
+To achieve this there is an experimental section called <php>'PARSER_CONTROL'</php> which is optional and should be used only if necessary.
+With the help of this section some internal parameters of GeSHi can be set which are not overrideable by the API and thus their use should be limited as much as possible.
+
+The syntax of the **PARSER_CONTROL** basically resembles an array structure simular to the one found in the rest of the language file. All subsections of the **PARSER_CONTROL** are optional.
+If a given setting isn't present the usual default values of GeSHi are used.
+No validation of settings is performed for these settings. Also note that unknown settings are silently ignored.
+
+<caution>
+  All **PARSER_CONTROL** settings are experimental and subject to change.
+  So if you need a special setting in a public language file you should consider requesting it upstream.
+  This is also the reason why documentation on these settings will only cover broad usage information as the underlying implementation might change without further notice.
+</caution>
+
+One of the most common reasons why you might want to use the **PARSER_CONTROL** settings is to tweak what characters are allowed to surround a keyword.
+Usually GeSHi checks for a fixed set of characters like brackets and common symbols that denote the word boundary for a keyword.
+If this set conflicts with your language (e.g. - is allowed inside a keyword) or you want to limit the usage of a keyword to certain areas (e.g. for HTML tag names only match after <) you can change those conditions here.
+
+Keyword boundary rules can either be set globally (directly within the PARSER_CONTROL's KEYWORDS section or on a per-group basis.
+E.g. the following sample from the HTML language file sets different settings for keyword matching only for Keyword Group 2 and leaves the other groups alone.
+
+<blockphp>
+    'PARSER_CONTROL' => array(
+        'KEYWORDS' => array(
+            2 => array(
+                'DISALLOWED_BEFORE' => '(?<=&lt;|&lt;\/)',
+                'DISALLOWED_AFTER' => '(?=\s|\/|&gt;)',
+            )
+        )
+    )
+</blockphp>
+
+<note>
+  The name <php>'DISALLOWED_BEFORE'</php> and <php>'DISALLOWED_AFTER'</php> might sound confusing at first, since they don't define what to prevent, but what to match in order to find a keyword.
+  The reason for this strange naming is based in the original implementation of this feature when Nigel implemented this in the old parser statically.
+  When this implementation was brought out via the **PARSER_CONTROL** settings the original naming wasn't altered since at that time this really was a blacklist of characters.
+  Later on this implementation was changed from a blacklist of characters to a part of a PCRE regexp, but leaving the name.
+  The naming might be subject to change though.
+</note>
+
+Another option you can change since GeSHi 1.0.8.3 is whether to treat spaces within keywords as literals (only a single space as given) or if the space should match any whitespace at that location.
+The following code will enable this behaviour for the whole keyword set. As said above you can choose to enable this for single keyword groups only though.
+
+<blockphp>
+    'PARSER_CONTROL' => array(
+        'KEYWORDS' => array(
+            'SPACE_AS_WHITESPACE' => true
+        )
+    ),
+</blockphp>
+
+Another option of interest might be disabling certain features for a given language.
+This might come in handy if the language file you are working on doesn't support a given function or highlighting certain aspects won't work properly or would interfere with custom implementations using regular expressions.
+
+<blockphp>
+    'PARSER_CONTROL' => array(
+        'ENABLE_FLAGS' => array(
+            'ALL' => GESHI_NEVER,
+            'NUMBERS' => GESHI_NEVER,
+            'METHODS' => GESHI_NEVER,
+            'SCRIPT' => GESHI_NEVER,
+            'SYMBOLS' => GESHI_NEVER,
+            'ESCAPE_CHAR' => GESHI_NEVER,
+            'BRACKETS' => GESHI_NEVER,
+            'STRINGS' => GESHI_NEVER,
+        )
+    )
+</blockphp>
+
+Inside the <php>'ENABLE_FLAGS'</php> section follows an array of <php>'name'=>value</php> pairs.
+Valid names are the sections below the <php>'STYLES'</php> section (well, not exactly, but you can look there for what the features are called inside GeSHi).
+Valid values are the GeSHi constants <php>GESHI_NEVER</php> (don't process this feature), <php>GESHI_ALWAYS</php> (always process this feature, ignore the user) and <php>GESHI_MAYBE</php> (listen to the user if he want's this highlighted).
+The value <php>GESHI_MAYBE</php> is the default one and thus needs not to be set explicitely.
+
+Another setting available through the **PARSER_CONTROL** settings is the possibility to limit the allowed characters before an single line comment.
+
+<blockphp>
+    'PARSER_CONTROL' => array(
+        'COMMENTS' => array(
+            'DISALLOWED_BEFORE' => '$'
+        )
+    )
+</blockphp>
+
+With the current implementation the DISALLOWED_BEFORE COMMENT-specific setting is a list of characters. But this is subject to change.
+
+<note>
+  There is no <php>'DISALLOWED_AFTER'</php> setting with the <php>'COMMENTS'</php>-**PARSER_CONTROL**.
+</note>
+
+Another **PARSER_CONTROL** setting for the environment around certain syntactic constructs refers to the handling of object-oriented languages.
+
+<blockphp>
+    'PARSER_CONTROL' => array(
+        'OOLANG' => array(
+            'MATCH_BEFORE' => '',
+            'MATCH_AFTER' => '[a-zA-Z_][a-zA-Z0-9_]*',
+            'MATCH_SPACES' => '[\s]*'
+        )
+    )
+</blockphp>
+
+<caution>
+  Please note that the settings discussed in this section are experimental and might be changed, removed or altered in their meaning at any time.
+</caution>
+
 #### Tidying Up {#language-file-tidying-up}
 
 All language files should end with:
