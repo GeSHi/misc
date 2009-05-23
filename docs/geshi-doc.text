@@ -2060,7 +2060,7 @@ the example above that highlighting will only occur if the source is inside <php
         (most languages, like C, Java etc. use this because anything in a C file should be highlighted).
     *   `GESHI_MAYBE`: Strict mode \*sometimes\* applies. It defaults to "off". Users can turn strict mode on if
         they please. If strict mode is off then everything in the source will be highlighted, even things outside
-        the strict block markers. If strict mode is on the nothing outside strict block markers will be highlighted.
+        the strict block markers. If strict mode is on then nothing outside strict block markers will be highlighted.
 *   **'SCRIPT_DELIMITERS':** This is an array of script delimiters, in the format of the above. The indices are use in the
     'SCRIPT' part of the styles section for highlighting everything in a strict block in a certain way.
     For example, you could set up your language file to make the background yellow of any code inside a strict
