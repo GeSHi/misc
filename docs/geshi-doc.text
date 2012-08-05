@@ -7,7 +7,7 @@ Version <version />
 
 Authors:
 :   &copy; 2004 - 2007 [Nigel McNie][]
-:   &copy; 2007 - 2009 [Benny Baumann][]
+:   &copy; 2007 - 2012 [Benny Baumann][]
 :   &copy; 2008 - 2009 [Milian Wolff][]
 
 GeSHi Website:
@@ -59,12 +59,12 @@ XHTML compliant output:
 
 Highly customisable:
 :   GeSHi allows you to change the style of the output on the fly, use CSS classes or not, use an external
-	stylesheet or not, use line numbering, change the case of output keywords... the list goes on and on!
+    stylesheet or not, use line numbering, change the case of output keywords... the list goes on and on!
 
 Flexible:
 :   Unfortunately, GeSHi is quite load/time intensive for large blocks of code. However, you want speed?
-	Turn off any features you don't like, pre-make a stylesheet and use CSS classes to reduce the amount of output and more -
-	it's easy to strike a balance that suits you.
+    Turn off any features you don't like, pre-make a stylesheet and use CSS classes to reduce the amount of output and more -
+    it's easy to strike a balance that suits you.
 
 This is just a taste of what you get with GeSHi - the best syntax highlighter for the web in the world!
 
@@ -2257,8 +2257,8 @@ Anyway, enough blather from me. Get GeSHi working for you already! :D
 <div class="header" markdown="1">
 Authors:
 :   &copy; 2004 - 2007 [Nigel McNie][]
-:   &copy; 2007 - 2008 [Benny Baumann][]
-:   &copy; 2008 [Milian Wolff][]
+:   &copy; 2007 - 2012 [Benny Baumann][]
+:   &copy; 2008 - 2009 [Milian Wolff][]
 
 GeSHi Website:
 :   <http://qbnz.com/highlighter>
